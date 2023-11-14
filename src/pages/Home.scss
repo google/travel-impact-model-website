@@ -1,0 +1,107 @@
+/*
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@use 'src/pages/styles';
+
+html,
+body,
+#root,
+.tim-home-page {
+  height: 100%;
+}
+
+.tim-home-page {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.35);
+
+  .background-image {
+      position: fixed;
+      height: 100%;
+      min-width: 100%;
+      z-index: -1;
+  }
+
+  // Prevent <picture> and <source> from influencing layout.
+  .background-image-wrapper {
+    display: contents;
+
+    source {
+      display: none;
+    }
+  }
+
+  .MuiAppBar-root {
+    position: absolute;
+  }
+}
+
+.tim-main-content-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .tim-main-content {
+    @include styles.content-container;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding-bottom: 50px;
+
+    @media only screen and (max-width: styles.$screen-max-width) {
+      // Override padding in styles.content-container for smaller screens
+      padding-bottom: 50px;
+    }
+
+    .tim-title {
+      @include styles.title;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 100px;
+
+      @media only screen and (max-width: styles.$screen-max-width) {
+        margin-bottom: 20px;
+      }
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      opacity: 0.7;
+
+      @media only screen and (max-width: styles.$screen-max-width) {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .MuiTypography-subtitle1 {
+        line-height: 1.5;
+      }
+    }
+  }
+
+  .footer {
+    padding: 8px;
+    box-sizing: border-box;
+
+    .MuiLink-root {
+      color: white;
+      text-decoration-color: white;
+    }
+  }
+}

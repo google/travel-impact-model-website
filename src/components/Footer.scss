@@ -1,0 +1,59 @@
+/*
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@use 'src/pages/styles';
+
+.footer.MuiTypography-root {
+  border-top: 1px solid rgba(0, 0, 0, 0.23);
+  margin-top: 20px;
+  padding-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .left-column {
+    flex-grow: 1;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .powered-by {
+    margin-right: 12px;
+  }
+
+  .right-column {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    white-space: nowrap;
+  }
+
+  .MuiLink-root:not(:first-child) {
+    margin-left: 4px;
+  }
+
+  @media only screen and (max-width: styles.$screen-max-width) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .right-column {
+      align-items: center;
+    }
+  }
+}

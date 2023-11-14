@@ -1,0 +1,44 @@
+{
+  "flightEmissions": [
+    {
+      "flight": {
+        "origin": "ZRH",
+        "destination": "BOS",
+        "operatingCarrierCode": "LX",
+        "flightNumber": 54,
+        "departureDate": {
+          "year": 2023,
+          "month": 7,
+          "day": 1
+        }
+      },
+      "emissionsGramsPerPax": {
+        "first": 1745475,
+        "business": 1396380,
+        "premiumEconomy": 523642,
+        "economy": 349095
+      },
+      "emissionsInputs": {
+        "emissionsInputEntries": {
+          "totalFuelBurnEstimatedKg": {
+            "dataSource": "EEA",
+            "dataStrategy": "PIANO_X_DERIVED_CORRECTION_FACTOR"
+          },
+          "loadFactor": {
+            "dataSource": "T100",
+            "dataStrategy": "CARRIER_ROUTE_MONTH"
+          },
+          "seatsPerClass": {
+            "dataSource": "OAG_SEATS_EQUIPMENT_CONFIG"
+          }
+        }
+      }
+    }
+  ],
+  "modelVersion": {
+    "major": 1,
+    "minor": 5,
+    "patch": 0,
+    "dated": "20220914"
+  }
+}

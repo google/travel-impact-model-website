@@ -1,0 +1,134 @@
+// Copyright 2023 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package google.travel.sustainability.travelimpactmodel.v1;
+
+// Creating fake google.type.Date
+message Date {
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+}
+
+message ComputeFlightEmissionsRequest {
+  // Direct flights to return emission estimates for.
+  repeated Flight flights = 1;
+
+  // If true, the response will contain the details about the inputs used to
+  // calculate the emissions data.
+  bool include_emissions_inputs = 2;
+}
+
+// All details related to a single request item for a direct flight emission
+// estimates.
+message Flight {
+  // IATA airport code for flight origin, e.g. "LHR".
+  string origin = 1;
+  // IATA airport code for flight destination, e.g. "JFK".
+  string destination = 2;
+  // IATA carrier code, e.g. "AA".
+  string operating_carrier_code = 3;
+  // Flight number, e.g. 324.
+  int32 flight_number = 4;
+  // Date of the flight in the time zone of the origin airport. Must be a date
+  // in the present or future.
+  Date departure_date = 5;
+}
+
+message ComputeFlightEmissionsResponse {
+  // List of flight legs with emission estimates.
+  repeated FlightWithEmissions flight_emissions = 1;
+
+  // The model version under which emission estimates for all flights in this
+  // response were computed.
+  ModelVersion model_version = 2;
+}
+
+// Direct flight with emission estimates.
+message FlightWithEmissions {
+  // Matches the flight identifiers in the request.
+  // Note: all IATA codes are capitalized.
+  Flight flight = 1;
+
+  // Per-passenger emission estimate numbers. Will not be present if emissions
+  // could not be computed.
+  optional EmissionsGramsPerPax emissions_grams_per_pax = 2;
+
+  // Details about the inputs used to calculate the emissions data, including
+  // the contributing factors with their data sources.
+  // Populated when `include_emissions_inputs` in the request is set.
+  optional EmissionsInputs emissions_inputs = 4;
+
+  reserved 3;
+}
+
+// Travel Impact Model version. For more information about the model
+// versioning see
+// https://github.com/google/travel-impact-model/#versioning.
+message ModelVersion {
+  // Major versions: Major changes to methodology (e.g. adding new data sources
+  // to the model that lead to major output changes). Such changes will be
+  // infrequent and announced well in advance.
+  optional int32 major = 1;
+  // Minor versions: Changes to the model that, while being consistent across
+  // schema versions, change the model parameters or implementation.
+  optional int32 minor = 2;
+  // Patch versions: Implementation changes meant to address bugs or
+  // inaccuracies in the model implementation.
+  optional int32 patch = 3;
+  // Dated versions: Model datasets are recreated with refreshed input data
+  // but no change to the algorithms regularly.
+  optional string dated = 4;
+}
+
+// Grouped emissions per seating class results.
+message EmissionsGramsPerPax {
+  // Emissions for one passenger in first class in grams.
+  // This field is always computed and populated, regardless of whether the
+  // aircraft has first class seats or not.
+  optional int32 first = 1;
+
+  // Emissions for one passenger in business class in grams.
+  // This field is always computed and populated, regardless of whether the
+  // aircraft has business class seats or not.
+  optional int32 business = 2;
+
+  // Emissions for one passenger in premium economy class in grams.
+  // This field is always computed and populated, regardless of whether the
+  // aircraft has premium economy class seats or not.
+  optional int32 premium_economy = 3;
+
+  // Emissions for one passenger in economy class in grams.
+  // This field is always computed and populated, regardless of whether the
+  // aircraft has economy class seats or not.
+  optional int32 economy = 4;
+}
+
+// Details about the inputs used to calculate the emissions data, specifically
+// the contributing factors along with their data sources.
+message EmissionsInputs {
+  // Details about a single contributing factor to compute the flight emissions.
+  message EmissionsInputEntry {
+    // The source this data came from.
+    optional string data_source = 1;
+    // The data strategy used to compute the value.
+    optional string data_strategy = 2;
+  }
+
+  // All contributing factors to compute the flight emissions, mapped by the
+  // alphanumeric name of the contributing factor.
+  map<string, EmissionsInputEntry> emissions_input_entries = 1;
+}
