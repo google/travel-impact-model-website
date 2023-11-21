@@ -4,9 +4,11 @@ This is the code behind the domain [www.travelimpactmodel.org](https://www.trave
 
 ## How To Contribute
 
-Clone the repository and then run:
+Clone the repository, install [nvm](https://github.com/nvm-sh/nvm), and then run:
 
 ```
+nvm install
+nvm use
 npm install
 ```
 
