@@ -10,6 +10,7 @@ Clone the repository, install [nvm](https://github.com/nvm-sh/nvm), and then run
 nvm install
 nvm use
 npm install
+npx playwright install
 ```
 
 ```
