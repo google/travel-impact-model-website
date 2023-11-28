@@ -30,6 +30,10 @@ message ComputeFlightEmissionsRequest {
   // If true, the response will contain the details about the inputs used to
   // calculate the emissions data.
   bool include_emissions_inputs = 2;
+
+  // If true, the response will contain the details about the breakdown of the
+  // emissions data.
+  bool include_emissions_breakdown = 3;
 }
 
 // All details related to a single request item for a direct flight emission
@@ -71,6 +75,13 @@ message FlightWithEmissions {
   // the contributing factors with their data sources.
   // Populated when `include_emissions_inputs` in the request is set.
   optional EmissionsInputs emissions_inputs = 4;
+
+  // Details about the various emissions portions of the total
+  // emissions_grams_per_pax value. The value of the summed breakdowns should
+  // always equal emissions_grams_per_pax. Populated when
+  // 'include_emissions_breakdown' in the request is set to true and applies to
+  // all flights returned.
+  optional EmissionsBreakdown emissions_breakdown = 5;
 
   reserved 3;
 }
@@ -131,4 +142,21 @@ message EmissionsInputs {
   // All contributing factors to compute the flight emissions, mapped by the
   // alphanumeric name of the contributing factor.
   map<string, EmissionsInputEntry> emissions_input_entries = 1;
+}
+
+// Details about the various emissions portions of the total
+// emissions_grams_per_pax value. The value of the summed breakdowns should
+// always equal emissions_grams_per_pax.
+message EmissionsBreakdown {
+  // Per-passenger well-to-tank emission estimate numbers. Will not be present
+  // if emissions could not be computed. For the list of reasons why emissions
+  // could not be computed, see
+  // [ComputeFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeFlightEmissions].
+  EmissionsGramsPerPax wtt_emissions_grams_per_pax = 1;
+
+  // Per-passenger tank-to-wake emission estimate numbers. Will not be present
+  // if emissions could not be computed. For the list of reasons why emissions
+  // could not be computed, see
+  // [ComputeFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeFlightEmissions].
+  EmissionsGramsPerPax ttw_emissions_grams_per_pax = 2;
 }

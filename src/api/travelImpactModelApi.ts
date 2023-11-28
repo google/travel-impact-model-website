@@ -15,6 +15,7 @@
 import {
   ComputeFlightEmissionsRequest,
   ComputeFlightEmissionsResponse,
+  EmissionsGramsPerPax,
 } from "./proto/generated/travelImpactModelProto";
 import { FirebaseApp } from "firebase/app";
 import getFlightEmissionsData from "./getFlightEmissionsData";
@@ -26,6 +27,19 @@ function convertGramsToKilograms(value: number | undefined) {
   return value / 1000;
 }
 
+function emissionsGramsToKilograms(emissionsGramsPerPax: EmissionsGramsPerPax | undefined) {
+  if (emissionsGramsPerPax !== undefined) {
+    emissionsGramsPerPax.economy = convertGramsToKilograms(emissionsGramsPerPax.economy);
+    emissionsGramsPerPax.premiumEconomy = convertGramsToKilograms(
+      emissionsGramsPerPax.premiumEconomy
+    );
+    emissionsGramsPerPax.business = convertGramsToKilograms(emissionsGramsPerPax.business);
+    emissionsGramsPerPax.first = convertGramsToKilograms(emissionsGramsPerPax.first);
+  }
+
+  return emissionsGramsPerPax;
+}
+
 const travelImpactModelApi = {
   async getComputeFlightEmissions(
     request: ComputeFlightEmissionsRequest,
@@ -34,17 +48,17 @@ const travelImpactModelApi = {
     const response = await getFlightEmissionsData(request, app);
     const data = ComputeFlightEmissionsResponse.fromJSON(response);
 
-    // Convert emissions grams to kilograms
+    // Convert emissions values from grams to kilograms
     if (data.flightEmissions !== undefined) {
       data.flightEmissions.forEach((emissions) => {
-        const emissionsGramsPerPax = emissions.emissionsGramsPerPax;
-        if (emissionsGramsPerPax !== undefined) {
-          emissionsGramsPerPax.economy = convertGramsToKilograms(emissionsGramsPerPax.economy);
-          emissionsGramsPerPax.premiumEconomy = convertGramsToKilograms(
-            emissionsGramsPerPax.premiumEconomy
+        emissions.emissionsGramsPerPax = emissionsGramsToKilograms(emissions.emissionsGramsPerPax);
+        if (emissions.emissionsBreakdown !== undefined) {
+          emissions.emissionsBreakdown.ttwEmissionsGramsPerPax = emissionsGramsToKilograms(
+            emissions.emissionsBreakdown?.ttwEmissionsGramsPerPax
           );
-          emissionsGramsPerPax.business = convertGramsToKilograms(emissionsGramsPerPax.business);
-          emissionsGramsPerPax.first = convertGramsToKilograms(emissionsGramsPerPax.first);
+          emissions.emissionsBreakdown.wttEmissionsGramsPerPax = emissionsGramsToKilograms(
+            emissions.emissionsBreakdown?.wttEmissionsGramsPerPax
+          );
         }
       });
     }

@@ -32,6 +32,20 @@
             "dataSource": "OAG_SEATS_EQUIPMENT_CONFIG"
           }
         }
+      },
+      "emissionsBreakdown": {
+        "wttEmissionsGramsPerPax": {
+          "first": 4004,
+          "business": 3003,
+          "premiumEconomy": 2002,
+          "economy": 1001
+        },
+        "ttwEmissionsGramsPerPax": {
+          "first": 1745479,
+          "business": 1396383,
+          "premiumEconomy": 523644,
+          "economy": 349096
+        }
       }
     }
   ],

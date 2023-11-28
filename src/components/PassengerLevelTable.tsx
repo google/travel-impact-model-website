@@ -15,25 +15,91 @@
 import { Typography } from "@mui/material";
 import {
   ComputeFlightEmissionsResponse,
+  EmissionsBreakdown,
   EmissionsGramsPerPax,
 } from "../api/proto/generated/travelImpactModelProto";
 import Table, { RowData, TableData } from "./Table";
+import Link from "./Link";
 
-function createCo2RowData(emissionsPerPassenger: EmissionsGramsPerPax | undefined): RowData {
-  const formatValue = (value: number | undefined) => `${value ? Math.round(value) : "XX"} kg`;
+const ONE_KILOGRAM = 1;
+
+function roundValue(value: number | undefined) {
+  if (value) {
+    if (value >= ONE_KILOGRAM) {
+      return Math.round(value);
+    } else {
+      return value;
+    }
+  }
+
+  return "XX";
+}
+
+export function createCo2RowData(
+  name: string | JSX.Element,
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined
+): RowData {
+  const formatValue = (value: number | undefined) => `${roundValue(value)} kg`;
 
   const economy = formatValue(emissionsPerPassenger?.economy);
   const premiumEconomy = formatValue(emissionsPerPassenger?.premiumEconomy);
   const business = formatValue(emissionsPerPassenger?.business);
   const first = formatValue(emissionsPerPassenger?.first);
 
-  return { cells: ["Carbon Dioxide (CO2)", economy, premiumEconomy, business, first] };
+  return { cells: [name, economy, premiumEconomy, business, first] };
 }
 
-function createTableData(emissionsPerPassenger: EmissionsGramsPerPax | undefined): TableData {
+function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): TableData {
+  const addValues = (valueOne: number | undefined, valueTwo: number | undefined) =>
+    valueOne && valueTwo ? valueOne + valueTwo : undefined;
+
+  // New emissions per passenger value is a sum of TTW and WWT.
+  const emissionsPerPassenger: EmissionsGramsPerPax = {
+    economy: addValues(
+      emissionsBreakdown?.ttwEmissionsGramsPerPax?.economy,
+      emissionsBreakdown?.wttEmissionsGramsPerPax?.economy
+    ),
+    premiumEconomy: addValues(
+      emissionsBreakdown?.ttwEmissionsGramsPerPax?.premiumEconomy,
+      emissionsBreakdown?.wttEmissionsGramsPerPax?.premiumEconomy
+    ),
+    business: addValues(
+      emissionsBreakdown?.ttwEmissionsGramsPerPax?.premiumEconomy,
+      emissionsBreakdown?.wttEmissionsGramsPerPax?.premiumEconomy
+    ),
+    first: addValues(
+      emissionsBreakdown?.ttwEmissionsGramsPerPax?.first,
+      emissionsBreakdown?.wttEmissionsGramsPerPax?.first
+    ),
+  };
+
+  const wtwName = (
+    <>
+      Well-to-Wake CO2e (
+      <Link text="WTW" href="https://github.com/google/travel-impact-model#glossary" />)
+    </>
+  );
+
+  const wttName = (
+    <>
+      Well-to-Tank (
+      <Link text="WTT" href="https://github.com/google/travel-impact-model#glossary" />)
+    </>
+  );
+  const ttwName = (
+    <>
+      Tank-to-Wake (
+      <Link text="TTW" href="https://github.com/google/travel-impact-model#glossary" />)
+    </>
+  );
+
   return {
     headers: ["Emissions Type", "Economy", "Premium", "Business", "First"],
-    rows: [createCo2RowData(emissionsPerPassenger)],
+    rows: [
+      createCo2RowData(wtwName, emissionsPerPassenger),
+      createCo2RowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
+      createCo2RowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
+    ],
   };
 }
 
@@ -42,9 +108,9 @@ type Props = {
 };
 
 function PassengerLevelTable({ apiData }: Props) {
-  const emissionsData = apiData.flightEmissions[0].emissionsGramsPerPax;
+  const emissionsBreakdown = apiData.flightEmissions[0].emissionsBreakdown;
 
-  if (emissionsData && Object.keys(emissionsData).length !== 0) {
+  if (emissionsBreakdown && Object.keys(emissionsBreakdown).length !== 0) {
     return (
       <>
         <Typography variant="h4" component="h2">
@@ -52,7 +118,7 @@ function PassengerLevelTable({ apiData }: Props) {
         </Typography>
         <Table
           ariaLabel="Estimated Emissions Per Passenger table"
-          data={createTableData(emissionsData)}
+          data={createTableData(emissionsBreakdown)}
         />
       </>
     );

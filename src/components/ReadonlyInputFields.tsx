@@ -15,7 +15,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import dayjs from "dayjs";
-import { ComputeFlightEmissionsRequest, Flight } from "../data/travelImpactModelProtoMessageParser";
+import {
+  ComputeFlightEmissionsRequest,
+  Flight,
+} from "../api/proto/generated/travelImpactModelProto";
 import { convertDateMessageToString } from "../data/flightDate";
 import "./ReadonlyInputFields.scss";
 import {

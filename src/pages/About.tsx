@@ -63,9 +63,9 @@ function About() {
         </Typography>
         <Typography className="section" variant="body1">
           The model combines flight origin and destination, aircraft type, cabin class and seat
-          configuration, load factors and average aircraft utilization to estimate CO2 emissions for
-          each flight (per seat/passenger). The methodology output is free and available publicly
-          via an API.
+          configuration, load factors and average aircraft utilization to estimate CO2e emissions
+          for each flight (per seat/passenger). The methodology output is free and available
+          publicly via an API.
         </Typography>
         <Button
           variant="outlined"

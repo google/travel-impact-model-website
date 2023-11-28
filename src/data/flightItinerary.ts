@@ -41,6 +41,7 @@ export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFligh
         })
       : [],
     includeEmissionsInputs: true,
+    includeEmissionsBreakdown: true,
   };
 }
 

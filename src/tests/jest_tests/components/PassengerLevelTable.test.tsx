@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import PassengerLevelTable from "../../../components/PassengerLevelTable";
-import { ComputeFlightEmissionsResponse } from "../../../api/proto/generated/travelImpactModelProto";
+import PassengerLevelTable, { createCo2RowData } from "../../../components/PassengerLevelTable";
+import {
+  ComputeFlightEmissionsResponse,
+  EmissionsGramsPerPax,
+} from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
@@ -30,13 +33,27 @@ describe("PassengerLevelTable", () => {
             flightNumber: 54,
           },
           emissionsGramsPerPax: {
-            first: 1745.475,
-            business: 1396.38,
-            premiumEconomy: 523.642,
-            economy: 349.095,
+            first: 1745475,
+            business: 139638,
+            premiumEconomy: 523642,
+            economy: 349095,
           },
           emissionsInputs: {
             emissionsInputEntries: {},
+          },
+          emissionsBreakdown: {
+            wttEmissionsGramsPerPax: {
+              first: 4004,
+              business: 3003,
+              premiumEconomy: 2002,
+              economy: 1001,
+            },
+            ttwEmissionsGramsPerPax: {
+              first: 1745475,
+              business: 139638,
+              premiumEconomy: 523642,
+              economy: 349095,
+            },
           },
         },
       ],
@@ -107,5 +124,35 @@ describe("PassengerLevelTable", () => {
 
     const response = PassengerLevelTable({ apiData: apiData });
     expect(response).toEqual(undefined);
+  });
+
+  it("createCo2RowData: should not round emissions values", async () => {
+    const name = "Emissions";
+    const emissionsPerPassenger: EmissionsGramsPerPax = {
+      economy: 0.1,
+      premiumEconomy: 0.2,
+      business: 0.3,
+      first: 0.4,
+    };
+
+    const co2RowData = createCo2RowData(name, emissionsPerPassenger);
+    expect(co2RowData).toEqual({
+      cells: [name, "0.1 kg", "0.2 kg", "0.3 kg", "0.4 kg"],
+    });
+  });
+
+  it("createCo2RowData: should round emissions values", async () => {
+    const name = "Emissions";
+    const emissionsPerPassenger: EmissionsGramsPerPax = {
+      economy: 1.6,
+      premiumEconomy: 2.8,
+      business: 4.4,
+      first: 5.1,
+    };
+
+    const co2RowData = createCo2RowData(name, emissionsPerPassenger);
+    expect(co2RowData).toEqual({
+      cells: [name, "2 kg", "3 kg", "4 kg", "5 kg"],
+    });
   });
 });
