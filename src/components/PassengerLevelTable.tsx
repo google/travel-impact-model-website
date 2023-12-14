@@ -35,10 +35,10 @@ function roundValue(value: number | undefined) {
   return "XX";
 }
 
-export function createCo2RowData(
+function formatEmissionsPerPassenger(
   name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined
-): RowData {
+): (string | JSX.Element)[] {
   const formatValue = (value: number | undefined) => `${roundValue(value)} kg`;
 
   const economy = formatValue(emissionsPerPassenger?.economy);
@@ -46,10 +46,12 @@ export function createCo2RowData(
   const business = formatValue(emissionsPerPassenger?.business);
   const first = formatValue(emissionsPerPassenger?.first);
 
-  return { cells: [name, economy, premiumEconomy, business, first] };
+  return [name, economy, premiumEconomy, business, first];
 }
 
-function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): TableData {
+export function calculateEmissionsPerPassenger(
+  emissionsBreakdown: EmissionsBreakdown | undefined
+): EmissionsGramsPerPax {
   const addValues = (valueOne: number | undefined, valueTwo: number | undefined) =>
     valueOne && valueTwo ? valueOne + valueTwo : undefined;
 
@@ -64,8 +66,8 @@ function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): Ta
       emissionsBreakdown?.wttEmissionsGramsPerPax?.premiumEconomy
     ),
     business: addValues(
-      emissionsBreakdown?.ttwEmissionsGramsPerPax?.premiumEconomy,
-      emissionsBreakdown?.wttEmissionsGramsPerPax?.premiumEconomy
+      emissionsBreakdown?.ttwEmissionsGramsPerPax?.business,
+      emissionsBreakdown?.wttEmissionsGramsPerPax?.business
     ),
     first: addValues(
       emissionsBreakdown?.ttwEmissionsGramsPerPax?.first,
@@ -73,13 +75,29 @@ function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): Ta
     ),
   };
 
+  return emissionsPerPassenger;
+}
+
+export function createCo2CollapsableRowData(
+  name: string | JSX.Element,
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined
+): RowData {
+  return {
+    cells: formatEmissionsPerPassenger(name, emissionsPerPassenger),
+    collapsableRows: null,
+  };
+}
+
+function createCo2RowData(
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined,
+  emissionsBreakdown: EmissionsBreakdown | undefined
+): RowData {
   const wtwName = (
     <>
       Well-to-Wake CO2e (
       <Link text="WTW" href="https://github.com/google/travel-impact-model#glossary" />)
     </>
   );
-
   const wttName = (
     <>
       Well-to-Tank (
@@ -94,12 +112,20 @@ function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): Ta
   );
 
   return {
-    headers: ["Emissions Type", "Economy", "Premium", "Business", "First"],
-    rows: [
-      createCo2RowData(wtwName, emissionsPerPassenger),
-      createCo2RowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
-      createCo2RowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
+    cells: formatEmissionsPerPassenger(wtwName, emissionsPerPassenger),
+    collapsableRows: [
+      createCo2CollapsableRowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
+      createCo2CollapsableRowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
     ],
+  };
+}
+
+function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): TableData {
+  const emissionsPerPassenger = calculateEmissionsPerPassenger(emissionsBreakdown);
+
+  return {
+    headers: ["Emissions Type", "Economy", "Premium", "Business", "First"],
+    rows: [createCo2RowData(emissionsPerPassenger, emissionsBreakdown)],
   };
 }
 
@@ -124,4 +150,5 @@ function PassengerLevelTable({ apiData }: Props) {
     );
   }
 }
+
 export default PassengerLevelTable;

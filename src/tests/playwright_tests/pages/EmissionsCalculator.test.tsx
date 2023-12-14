@@ -40,6 +40,12 @@ test("render single flight", async ({ page }) => {
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
+test("open emissions breakdown", async ({ page }) => {
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821");
+  await page.getByLabel("expand/collapse row").click();
+  await expect(page).toHaveScreenshot({ fullPage: true });
+});
+
 test("render single flight with model version", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821&v=1.2.3");
   await expect(page).toHaveScreenshot({ fullPage: true });
