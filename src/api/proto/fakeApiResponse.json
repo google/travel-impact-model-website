@@ -13,10 +13,10 @@
         }
       },
       "emissionsGramsPerPax": {
-        "first": 1745475,
-        "business": 1396380,
-        "premiumEconomy": 523642,
-        "economy": 349095
+        "first": 2049740,
+        "business": 1639792,
+        "premiumEconomy": 614922,
+        "economy": 409948
       },
       "emissionsInputs": {
         "emissionsInputEntries": {
@@ -35,16 +35,16 @@
       },
       "emissionsBreakdown": {
         "wttEmissionsGramsPerPax": {
-          "first": 4004,
-          "business": 3003,
-          "premiumEconomy": 2002,
-          "economy": 1001
+          "first": 415485,
+          "business": 332388,
+          "premiumEconomy": 124645,
+          "economy": 83097
         },
         "ttwEmissionsGramsPerPax": {
-          "first": 1745479,
-          "business": 1396383,
-          "premiumEconomy": 523644,
-          "economy": 349096
+          "first": 2049740,
+          "business": 1639792,
+          "premiumEconomy": 614922,
+          "economy": 409948
         }
       }
     }

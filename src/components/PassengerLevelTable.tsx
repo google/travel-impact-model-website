@@ -21,24 +21,11 @@ import {
 import Table, { RowData, TableData } from "./Table";
 import Link from "./Link";
 
-const ONE_KILOGRAM = 1;
-
-function roundValue(value: number | undefined) {
-  if (value) {
-    if (value >= ONE_KILOGRAM) {
-      return Math.round(value);
-    } else {
-      return value;
-    }
-  }
-
-  return "XX";
-}
-
-function formatEmissionsPerPassenger(
+export function formatEmissionsPerPassenger(
   name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined
 ): (string | JSX.Element)[] {
+  const roundValue = (value: number | undefined) => (value ? Math.round(value) : "XX");
   const formatValue = (value: number | undefined) => `${roundValue(value)} kg`;
 
   const economy = formatValue(emissionsPerPassenger?.economy);
@@ -78,7 +65,7 @@ export function calculateEmissionsPerPassenger(
   return emissionsPerPassenger;
 }
 
-export function createCo2CollapsableRowData(
+function createCo2CollapsableRowData(
   name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined
 ): RowData {

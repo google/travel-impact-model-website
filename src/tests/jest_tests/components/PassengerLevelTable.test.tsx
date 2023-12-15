@@ -14,7 +14,7 @@
 
 import PassengerLevelTable, {
   calculateEmissionsPerPassenger,
-  createCo2CollapsableRowData,
+  formatEmissionsPerPassenger,
 } from "../../../components/PassengerLevelTable";
 import {
   ComputeFlightEmissionsResponse,
@@ -133,10 +133,10 @@ describe("PassengerLevelTable", () => {
   it("calculateEmissionsGramsPerPassenger", async () => {
     const emissionsBreakdown: EmissionsBreakdown = {
       wttEmissionsGramsPerPax: {
-        economy: 0.1,
-        premiumEconomy: 0.6,
-        business: 3,
-        first: 4,
+        economy: 10,
+        premiumEconomy: 20,
+        business: 30,
+        first: 40,
       },
       ttwEmissionsGramsPerPax: {
         economy: 100,
@@ -147,45 +147,39 @@ describe("PassengerLevelTable", () => {
     };
 
     const expectedEmissionsPerPassenger: EmissionsGramsPerPax = {
-      economy: 100.1,
-      premiumEconomy: 200.6,
-      business: 303,
-      first: 404,
+      economy: 110,
+      premiumEconomy: 220,
+      business: 330,
+      first: 440,
     };
 
     const emissionsPerPassenger = calculateEmissionsPerPassenger(emissionsBreakdown);
     expect(emissionsPerPassenger).toEqual(expectedEmissionsPerPassenger);
   });
 
-  it("createCo2CollapsableRowData: should not round emissions values", async () => {
+  it("formatEmissionsPerPassenger: round and format value as expected", async () => {
     const name = "Emissions";
     const emissionsPerPassenger: EmissionsGramsPerPax = {
-      economy: 0.1,
-      premiumEconomy: 0.2,
-      business: 0.3,
-      first: 0.4,
+      economy: 192.3,
+      premiumEconomy: 255.6,
+      business: 832.9,
+      first: 991.1,
     };
 
-    const co2RowData = createCo2CollapsableRowData(name, emissionsPerPassenger);
-    expect(co2RowData).toEqual({
-      cells: [name, "0.1 kg", "0.2 kg", "0.3 kg", "0.4 kg"],
-      collapsableRows: null,
-    });
+    const formattedEmissionsPerPassenger = formatEmissionsPerPassenger(name, emissionsPerPassenger);
+    expect(formattedEmissionsPerPassenger).toEqual([name, "192 kg", "256 kg", "833 kg", "991 kg"]);
   });
 
-  it("createCo2CollapsableRowData: should round emissions values", async () => {
+  it("formatEmissionsPerPassenger: return XX when value is undefined", async () => {
     const name = "Emissions";
     const emissionsPerPassenger: EmissionsGramsPerPax = {
-      economy: 1.6,
-      premiumEconomy: 2.8,
-      business: 4.4,
-      first: 5.1,
+      economy: undefined,
+      premiumEconomy: undefined,
+      business: undefined,
+      first: undefined,
     };
 
-    const co2RowData = createCo2CollapsableRowData(name, emissionsPerPassenger);
-    expect(co2RowData).toEqual({
-      cells: [name, "2 kg", "3 kg", "4 kg", "5 kg"],
-      collapsableRows: null,
-    });
+    const formattedEmissionsPerPassenger = formatEmissionsPerPassenger(name, emissionsPerPassenger);
+    expect(formattedEmissionsPerPassenger).toEqual([name, "XX kg", "XX kg", "XX kg", "XX kg"]);
   });
 });
