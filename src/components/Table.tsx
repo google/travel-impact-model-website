@@ -50,7 +50,11 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
           <TableCell key={cellIndex}>{cell}</TableCell>
         ))}
         <TableCell>
-          <IconButton aria-label="expand/collapse row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand/collapse row"
+            size="small"
+            onClick={() => setOpen(!open)}
+            sx={{ margin: "-8px 0", padding: "16px" }}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>

@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Typography } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { ClickAwayListener, IconButton, Tooltip, Typography } from "@mui/material";
 import {
   ComputeFlightEmissionsResponse,
   EmissionsBreakdown,
@@ -20,6 +21,7 @@ import {
 } from "../api/proto/generated/travelImpactModelProto";
 import Table, { RowData, TableData } from "./Table";
 import Link from "./Link";
+import { useState } from "react";
 
 export function formatEmissionsPerPassenger(
   name: string | JSX.Element,
@@ -124,10 +126,26 @@ function PassengerLevelTable({ apiData }: Props) {
   const emissionsBreakdown = apiData.flightEmissions[0].emissionsBreakdown;
 
   if (emissionsBreakdown && Object.keys(emissionsBreakdown).length !== 0) {
+    const [toolTipOpen, setToolTipOpen] = useState(false);
     return (
       <>
         <Typography variant="h4" component="h2">
           Estimated Emissions Per Passenger
+          <ClickAwayListener
+            onClickAway={() => {
+              setToolTipOpen(false);
+            }}>
+            <Tooltip
+              title="Small inconsistencies expected due to rounding."
+              onClose={() => setToolTipOpen(false)}
+              open={toolTipOpen}>
+              <IconButton
+                onClick={() => setToolTipOpen(!toolTipOpen)}
+                sx={{ margin: "-8px 0", padding: "16px" }}>
+                <InfoOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+          </ClickAwayListener>
         </Typography>
         <Table
           ariaLabel="Estimated Emissions Per Passenger table"
