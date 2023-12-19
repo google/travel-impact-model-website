@@ -21,8 +21,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import "./Table.scss";
 import React from "react";
 
@@ -47,15 +46,16 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
       {/* Create row with the arrow icon that when clicked will collapse/uncollapse the rows below */}
       <TableRow>
         {row.cells.map((cell, cellIndex) => (
-          <TableCell key={cellIndex}>{cell}</TableCell>
+          <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
+            {cell}
+          </TableCell>
         ))}
-        <TableCell>
+        <TableCell className="collapse-row-end-cell" align="right">
           <IconButton
             aria-label="expand/collapse row"
-            size="small"
             onClick={() => setOpen(!open)}
             sx={{ margin: "-8px 0", padding: "16px" }}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
       </TableRow>
@@ -64,9 +64,17 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
         row.collapsableRows.map((rowc, rowcIndex) => (
           <TableRow key={rowcIndex} sx={{ visibility: open ? "visible" : "collapse" }}>
             {rowc.cells.map((cell, cellIndex) => (
-              <TableCell key={cellIndex}>{cell}</TableCell>
+              <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
+                {cell}
+              </TableCell>
             ))}
-            <TableCell />
+            <TableCell
+              className={
+                row.collapsableRows !== null && rowcIndex === row.collapsableRows?.length - 1
+                  ? "collapse-row-end-cell-bottom"
+                  : "collapse-row-end-cell"
+              }
+            />
           </TableRow>
         ))}
     </>

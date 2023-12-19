@@ -28,4 +28,17 @@
       padding-left: 0;
     }
   }
+
+  .data-cell {
+    text-align: right;
+    padding: 16px 16px;
+  }
+
+  .collapse-row-end-cell {
+    border: none;
+  }
+
+  .collapse-row-end-cell-bottom {
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+  }
 }

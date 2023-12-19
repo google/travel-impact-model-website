@@ -160,14 +160,14 @@ describe("PassengerLevelTable", () => {
   it("formatEmissionsPerPassenger: round and format value as expected", async () => {
     const name = "Emissions";
     const emissionsPerPassenger: EmissionsGramsPerPax = {
-      economy: 192.3,
-      premiumEconomy: 255.6,
-      business: 832.9,
-      first: 991.1,
+      economy: 192.352,
+      premiumEconomy: 255.641,
+      business: 832.909,
+      first: 991.995,
     };
 
     const formattedEmissionsPerPassenger = formatEmissionsPerPassenger(name, emissionsPerPassenger);
-    expect(formattedEmissionsPerPassenger).toEqual([name, "192 kg", "256 kg", "833 kg", "991 kg"]);
+    expect(formattedEmissionsPerPassenger).toEqual([name, "192.4", "255.6", "832.9", "992.0"]);
   });
 
   it("formatEmissionsPerPassenger: return XX when value is undefined", async () => {
@@ -180,6 +180,6 @@ describe("PassengerLevelTable", () => {
     };
 
     const formattedEmissionsPerPassenger = formatEmissionsPerPassenger(name, emissionsPerPassenger);
-    expect(formattedEmissionsPerPassenger).toEqual([name, "XX kg", "XX kg", "XX kg", "XX kg"]);
+    expect(formattedEmissionsPerPassenger).toEqual([name, "XX", "XX", "XX", "XX"]);
   });
 });

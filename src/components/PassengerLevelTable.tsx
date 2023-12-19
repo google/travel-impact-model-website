@@ -27,13 +27,13 @@ export function formatEmissionsPerPassenger(
   name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined
 ): (string | JSX.Element)[] {
-  const roundValue = (value: number | undefined) => (value ? Math.round(value) : "XX");
-  const formatValue = (value: number | undefined) => `${roundValue(value)} kg`;
+  const roundValue = (value: number | undefined) =>
+    value ? (Math.round(value * 10) / 10).toFixed(1) : "XX";
 
-  const economy = formatValue(emissionsPerPassenger?.economy);
-  const premiumEconomy = formatValue(emissionsPerPassenger?.premiumEconomy);
-  const business = formatValue(emissionsPerPassenger?.business);
-  const first = formatValue(emissionsPerPassenger?.first);
+  const economy = roundValue(emissionsPerPassenger?.economy);
+  const premiumEconomy = roundValue(emissionsPerPassenger?.premiumEconomy);
+  const business = roundValue(emissionsPerPassenger?.business);
+  const first = roundValue(emissionsPerPassenger?.first);
 
   return [name, economy, premiumEconomy, business, first];
 }
@@ -130,7 +130,7 @@ function PassengerLevelTable({ apiData }: Props) {
     return (
       <>
         <Typography variant="h4" component="h2">
-          Estimated Emissions Per Passenger
+          Estimated emissions in kg per passenger
           <ClickAwayListener
             onClickAway={() => {
               setToolTipOpen(false);
