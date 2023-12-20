@@ -26,6 +26,7 @@
 
     &:first-child {
       padding-left: 0;
+      width: 280px;
     }
   }
 
@@ -36,6 +37,7 @@
 
   .collapse-row-end-cell {
     border: none;
+    padding: 8px 0px;
   }
 
   .collapse-row-end-cell-bottom {
