@@ -17,11 +17,16 @@ import CardTitle from "../components/CardTitle";
 import Footer from "../components/Footer";
 import TIMAppBar from "../components/TIMAppBar";
 import "./Home.scss";
+import { useEffect } from "react";
 
 function Home() {
+  useEffect(() => {
+    document.title = "TIM Home Page";
+  }, []);
+
   const variant = "background-image";
   return (
-    <div className="tim-home-page">
+    <div className="tim-home-page" role="main">
       <TIMAppBar variant={variant} />
 
       {/* Background image from: https://www.pexels.com/photo/photo-of-people-on-top-of-mountain-2161920/ */}

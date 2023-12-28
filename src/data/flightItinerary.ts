@@ -35,7 +35,7 @@ export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFligh
             origin: legBits[0] || "",
             destination: legBits[1] || "",
             operatingCarrierCode: legBits[2] || "",
-            flightNumber: Number(legBits[3]) || "",
+            flightNumber: legBits[3] || "",
             departureDate: convertStringToDateMessage(legBits[4]) || "",
           } as Flight;
         })

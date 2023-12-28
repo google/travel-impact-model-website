@@ -55,7 +55,10 @@ function FlightInput(props: FlightInputFieldsProps) {
   }
 
   function getFlightNumberHelperText(value: string | undefined) {
-    if (value && !FLIGHT_NUMBER_REGEX.test(value)) {
+    if (
+      (value && !FLIGHT_NUMBER_REGEX.test(value)) ||
+      (value !== undefined && !FLIGHT_NUMBER_REGEX.test(value))
+    ) {
       return "Numbers only";
     }
   }
@@ -76,6 +79,10 @@ function FlightInput(props: FlightInputFieldsProps) {
 
   function isCarrierCodeTextErrorMessage(value: string | undefined) {
     return value !== undefined && !CARRIER_CODE_REGEX.test(value);
+  }
+
+  function isFlightNumberTextErrorMessage(value: string | undefined) {
+    return value !== undefined && !FLIGHT_NUMBER_REGEX.test(value);
   }
 
   // Data used to render the inputs fields and the corresponding error messages.
@@ -103,6 +110,7 @@ function FlightInput(props: FlightInputFieldsProps) {
       value: props.flightLeg?.flightNumber,
       helperText: getFlightNumberHelperText(props.flightLeg?.flightNumber.toString()),
       helperTextKey: 0,
+      isError: isFlightNumberTextErrorMessage(props.flightLeg?.flightNumber.toString()),
     },
     date: {
       value: props.flightLeg?.departureDate
@@ -235,13 +243,14 @@ function FlightInput(props: FlightInputFieldsProps) {
           setInputs((prev) => ({
             ...prev,
             flightNumber: {
-              value: Number(e.target.value),
+              value: e.target.value,
               helperText: getFlightNumberHelperText(e.target.value),
               helperTextKey: Math.random(),
+              isError: isFlightNumberTextErrorMessage(e.target.value),
             },
           }))
         }
-        error={!!inputs.flightNumber.helperText}
+        error={!!inputs.flightNumber.isError}
         helperText={inputs.flightNumber.helperText}
         FormHelperTextProps={{
           "aria-live": "assertive",

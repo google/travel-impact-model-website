@@ -18,12 +18,14 @@ import Link from "../components/Link";
 import TIMAppBar from "../components/TIMAppBar";
 import BellyCargoPdf from "../docs/belly_cargo_apportionment_rationale_vf.pdf";
 import "./About.scss";
+import { useEffect } from "react";
 
 type CardProps = {
   name: string;
   title: string;
   institution: string;
   institutionLink: string;
+  nonVotingStar: boolean;
 };
 
 function EntityCard(props: CardProps) {
@@ -31,6 +33,7 @@ function EntityCard(props: CardProps) {
     <Paper className="card" elevation={3}>
       <Typography variant="body1" sx={{ fontWeight: 500 }} component="div">
         {props.name}
+        <div aria-label={props.nonVotingStar ? "* means non-voting observer" : ""} />
       </Typography>
       <Typography variant="body1" component="div">
         {props.title}
@@ -43,9 +46,13 @@ function EntityCard(props: CardProps) {
 }
 
 function About() {
+  useEffect(() => {
+    document.title = "TIM and Governance Page";
+  }, []);
+
   const variant = "background-none";
   return (
-    <div>
+    <div role="main">
       <TIMAppBar variant={variant} />
       <div className="about-container">
         <Typography className="title" variant="h2" component="h1">
@@ -127,6 +134,7 @@ function About() {
             title="Aviation Program Director"
             institution="International Council on Clean Transportation"
             institutionLink="https://www.theicct.org/"
+            nonVotingStar={false}
           />
         </div>
 
@@ -139,60 +147,70 @@ function About() {
             title="Vice President, Sustainability"
             institution="American Airlines"
             institutionLink="https://www.aa.com/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Tim Johnson"
             title="Director"
             institution="Aviation Environment Federation"
             institutionLink="https://www.aef.org.uk/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Jane Ashton"
             title="Sustainability Director"
             institution="easyJet"
             institutionLink="https://www.easyjet.com/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Achilleas Achilleos *"
             title="Strategic Programme Officer"
             institution="European Union Aviation Safety Agency"
             institutionLink="https://www.easa.europa.eu/"
+            nonVotingStar={true}
           />
           <EntityCard
             name="Kevin Welsh *"
             title="Executive Director, Environment & Energy"
             institution="Federal Aviation Administration"
             institutionLink="https://www.faa.gov/"
+            nonVotingStar={true}
           />
           <EntityCard
             name="Dr. Marc Stettler"
             title="Reader in Transport and Environment"
             institution="Imperial College London"
             institutionLink="https://www.imperial.ac.uk/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Caroline Drischel"
             title="Head of Corporate Responsibility"
             institution="Lufthansa Group"
             institutionLink="http://www.dlh.de/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Prof. Steven Barrett"
             title="Professor of Aeronautics and Astronautics"
             institution="Massachusetts Institute of Technology"
             institutionLink="https://www.mit.edu/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Andrew Chen"
             title="Principal, Aviation Decarbonization"
             institution="Rocky Mountain Institute"
             institutionLink="https://www.rmi.org/"
+            nonVotingStar={false}
           />
           <EntityCard
             name="Sally Davey"
             title="Chief Executive Officer"
             institution="Travalyst"
             institutionLink="https://www.travalyst.org/"
+            nonVotingStar={false}
           />
         </div>
 
