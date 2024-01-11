@@ -17,7 +17,7 @@ import { ClickAwayListener, Typography } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FirebaseApp } from "firebase/app";
 import EditableInputFields from "../components/EditableInputFields";
@@ -49,6 +49,10 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const [apiDataValid, setApiDataValid] = useState<ComputeFlightEmissionsResponse>();
   const modelVersion = searchParams.get("v");
   const request = parseFlightItineraryUrlParam(searchParams.get(FLIGHT_ITINERARY_URL_PARAM) ?? "");
+
+  useEffect(() => {
+    document.title = "Emissions Calculator Page";
+  }, []);
 
   /** Redirects to the details page for this specific leg. */
   function redirectToItineraryPage(flights: Flight[]) {
@@ -86,7 +90,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const variant = "background-none";
 
   return (
-    <div>
+    <div role="main">
       <TIMAppBar variant={variant} />
       <div className="emissionscalculator-container">
         <Typography variant="h2" component="h1">

@@ -14,10 +14,15 @@
 
 import { Typography } from "@mui/material";
 import TIMAppBar from "../components/TIMAppBar";
+import { useEffect } from "react";
 
 function NoPage() {
+  useEffect(() => {
+    document.title = "Page Load Error - 404";
+  }, []);
+
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center" }} role="main">
       <TIMAppBar variant="background-none" />
       <Typography variant="h1" component="h1" color="primary">
         404

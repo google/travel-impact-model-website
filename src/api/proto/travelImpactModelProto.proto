@@ -46,7 +46,7 @@ message Flight {
   // IATA carrier code, e.g. "AA".
   string operating_carrier_code = 3;
   // Flight number, e.g. 324.
-  int32 flight_number = 4;
+  string flight_number = 4;
   // Date of the flight in the time zone of the origin airport. Must be a date
   // in the present or future.
   Date departure_date = 5;

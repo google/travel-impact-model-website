@@ -52,7 +52,9 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
         ))}
         <TableCell className="collapse-row-end-cell" align="right">
           <IconButton
-            aria-label="expand/collapse row"
+            aria-label={open ? "Hide more rows expanded button" : "Show more rows Collapse button"}
+            aria-pressed={open}
+            aria-live="assertive"
             onClick={() => setOpen(!open)}
             sx={{ margin: "-8px 0", padding: "16px" }}>
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -95,7 +97,11 @@ function Table(props: TableProps) {
             {props.data.headers.map((header, headerIndex) => (
               <TableCell key={headerIndex}>{header}</TableCell>
             ))}
-            {props.data.rows.some((row) => row.collapsableRows !== null) && <TableCell />}
+            {props.data.rows.some((row) => row.collapsableRows !== null) && (
+              <TableCell key={props.data.headers.length + 1} aria-label="collapse/expand buttons">
+                {""}
+              </TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
