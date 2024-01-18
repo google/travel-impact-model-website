@@ -83,7 +83,7 @@ function createCo2RowData(
 ): RowData {
   const wtwName = (
     <>
-      Well-to-Wake CO2e (
+      Well-to-Wake (
       <Link text="WTW" href="https://github.com/google/travel-impact-model#glossary" />)
     </>
   );
@@ -130,7 +130,7 @@ function PassengerLevelTable({ apiData }: Props) {
     return (
       <>
         <Typography variant="h4" component="h2">
-          Estimated emissions in kg per passenger
+          Estimated emissions in kg CO2e per passenger
           <ClickAwayListener
             onClickAway={() => {
               setToolTipOpen(false);
