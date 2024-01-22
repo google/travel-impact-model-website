@@ -83,20 +83,17 @@ function createCo2RowData(
 ): RowData {
   const wtwName = (
     <>
-      Well-to-Wake (
-      <Link text="WTW" href="https://github.com/google/travel-impact-model#glossary" />)
+      <Link text="Well-to-Wake" href="https://github.com/google/travel-impact-model#glossary" />
     </>
   );
   const wttName = (
     <>
-      Well-to-Tank (
-      <Link text="WTT" href="https://github.com/google/travel-impact-model#glossary" />)
+      <Link text="Well-to-Tank" href="https://github.com/google/travel-impact-model#glossary" />
     </>
   );
   const ttwName = (
     <>
-      Tank-to-Wake (
-      <Link text="TTW" href="https://github.com/google/travel-impact-model#glossary" />)
+      <Link text="Tank-to-Wake" href="https://github.com/google/travel-impact-model#glossary" />
     </>
   );
 
