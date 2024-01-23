@@ -45,11 +45,6 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
     <>
       {/* Create row with the arrow icon that when clicked will collapse/uncollapse the rows below */}
       <TableRow>
-        {row.cells.map((cell, cellIndex) => (
-          <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
-            {cell}
-          </TableCell>
-        ))}
         <TableCell className="collapse-row-end-cell" align="right">
           <IconButton
             aria-label={open ? "Hide more rows expanded button" : "Show more rows Collapse button"}
@@ -60,16 +55,16 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
+        {row.cells.map((cell, cellIndex) => (
+          <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
+            {cell}
+          </TableCell>
+        ))}
       </TableRow>
       {/* Create collapsable rows */}
       {row.collapsableRows !== null &&
         row.collapsableRows.map((rowc, rowcIndex) => (
           <TableRow key={rowcIndex} sx={{ visibility: open ? "visible" : "collapse" }}>
-            {rowc.cells.map((cell, cellIndex) => (
-              <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
-                {cell}
-              </TableCell>
-            ))}
             <TableCell
               className={
                 row.collapsableRows !== null && rowcIndex === row.collapsableRows?.length - 1
@@ -77,6 +72,11 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
                   : "collapse-row-end-cell"
               }
             />
+            {rowc.cells.map((cell, cellIndex) => (
+              <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
+                {cell}
+              </TableCell>
+            ))}
           </TableRow>
         ))}
     </>
@@ -94,14 +94,14 @@ function Table(props: TableProps) {
       <MuiTable aria-label={props.ariaLabel}>
         <TableHead>
           <TableRow>
-            {props.data.headers.map((header, headerIndex) => (
-              <TableCell key={headerIndex}>{header}</TableCell>
-            ))}
             {props.data.rows.some((row) => row.collapsableRows !== null) && (
               <TableCell key={props.data.headers.length + 1} aria-label="collapse/expand buttons">
                 {""}
               </TableCell>
             )}
+            {props.data.headers.map((header, headerIndex) => (
+              <TableCell key={headerIndex}>{header}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>

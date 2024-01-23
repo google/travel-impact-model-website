@@ -18,3 +18,8 @@
   margin: 0;
   padding-left: inherit;
 }
+
+.data-attribution-table .MuiTableCell-root:first-child {
+  padding-left: 0;
+  width: 280px;
+}
