@@ -47,7 +47,7 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
       <TableRow>
         <TableCell className="collapse-row-end-cell" align="right">
           <IconButton
-            aria-label={open ? "Hide more rows expanded button" : "Show more rows Collapse button"}
+            aria-label={open ? "Hide more rows" : "Show more rows"}
             aria-pressed={open}
             aria-live="assertive"
             onClick={() => setOpen(!open)}

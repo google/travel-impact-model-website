@@ -33,8 +33,8 @@ function EntityCard(props: CardProps) {
     <Paper className="card" elevation={3}>
       <Typography variant="body1" sx={{ fontWeight: 500 }} component="div">
         {props.name}
-        <div aria-label={props.nonVotingStar ? "* means non-voting observer" : ""} />
       </Typography>
+      <Typography aria-label={props.nonVotingStar ? "* means non-voting observer" : ""} />
       <Typography variant="body1" component="div">
         {props.title}
       </Typography>
