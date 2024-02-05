@@ -42,7 +42,7 @@ test("render single flight", async ({ page }) => {
 
 test("open emissions breakdown", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821");
-  await page.getByLabel("Show more rows Collapse button").click();
+  await page.getByLabel("Show more rows").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
