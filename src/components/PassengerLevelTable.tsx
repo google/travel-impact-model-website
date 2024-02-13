@@ -20,7 +20,7 @@ import {
   EmissionsGramsPerPax,
 } from "../api/proto/generated/travelImpactModelProto";
 import Table, { RowData, TableData } from "./Table";
-import Link from "./Link";
+import "./PassengerLevelTable.scss";
 import { useState } from "react";
 
 export function formatEmissionsPerPassenger(
@@ -81,22 +81,67 @@ function createCo2RowData(
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
   emissionsBreakdown: EmissionsBreakdown | undefined
 ): RowData {
+  const [wtwToolTipOpen, wtwSetToolTipOpen] = useState(false);
+  const [wttToolTipOpen, wttSetToolTipOpen] = useState(false);
+  const [ttwToolTipOpen, ttwSetToolTipOpen] = useState(false);
+
   const wtwName = (
     <>
-      <Link text="Well-to-Wake" href="https://github.com/google/travel-impact-model#glossary" />
+      Well-to-Wake
+      <ClickAwayListener
+        onClickAway={() => {
+          wtwSetToolTipOpen(false);
+        }}>
+        <Tooltip
+          className="breakdown-info-icon"
+          title="The sum of Well-to-Tank (WTT) and Tank-to-Wake (TTW) emissions."
+          onClose={() => wtwSetToolTipOpen(false)}
+          open={wtwToolTipOpen}>
+          <IconButton onClick={() => wtwSetToolTipOpen(!wtwToolTipOpen)} sx={{ padding: "16px" }}>
+            <InfoOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      </ClickAwayListener>
     </>
   );
   const wttName = (
     <>
-      <Link text="Well-to-Tank" href="https://github.com/google/travel-impact-model#glossary" />
+      Well-to-Tank
+      <ClickAwayListener
+        onClickAway={() => {
+          wttSetToolTipOpen(false);
+        }}>
+        <Tooltip
+          className="breakdown-info-icon"
+          title="Emissions generated during the production, processing, handling, and delivery of jet fuel."
+          onClose={() => wttSetToolTipOpen(false)}
+          open={wttToolTipOpen}>
+          <IconButton onClick={() => wttSetToolTipOpen(!wttToolTipOpen)} sx={{ padding: "16px" }}>
+            <InfoOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      </ClickAwayListener>
     </>
   );
   const ttwName = (
     <>
-      <Link text="Tank-to-Wake" href="https://github.com/google/travel-impact-model#glossary" />
+      Tank-to-Wake
+      <ClickAwayListener
+        onClickAway={() => {
+          ttwSetToolTipOpen(false);
+        }}>
+        <Tooltip
+          className="breakdown-info-icon"
+          title="Emissions produced by burning jet fuel during takeoff, flight, and landing of an aircraft."
+          onClose={() => ttwSetToolTipOpen(false)}
+          open={ttwToolTipOpen}>
+          <IconButton onClick={() => ttwSetToolTipOpen(!ttwToolTipOpen)} sx={{ padding: "16px" }}>
+            <InfoOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      </ClickAwayListener>
     </>
   );
-
   return {
     cells: formatEmissionsPerPassenger(wtwName, emissionsPerPassenger),
     collapsableRows: [
@@ -125,7 +170,7 @@ function PassengerLevelTable({ apiData }: Props) {
   if (emissionsBreakdown && Object.keys(emissionsBreakdown).length !== 0) {
     const [toolTipOpen, setToolTipOpen] = useState(false);
     return (
-      <>
+      <div className="passenger-level-table-container">
         <Typography variant="h4" component="h2">
           Estimated emissions in kg CO2e per passenger
           <ClickAwayListener
@@ -148,7 +193,7 @@ function PassengerLevelTable({ apiData }: Props) {
           ariaLabel="Estimated Emissions Per Passenger table"
           data={createTableData(emissionsBreakdown)}
         />
-      </>
+      </div>
     );
   }
 }
