@@ -92,6 +92,7 @@ function createCo2RowData(
         onClickAway={() => {
           wtwSetToolTipOpen(false);
         }}>
+        {/*If you change the definition for WTW, make sure to also change it on the Travel Impact Model github spec page as well.*/}
         <Tooltip
           className="breakdown-info-icon"
           title="The sum of Well-to-Tank (WTT) and Tank-to-Wake (TTW) emissions."
@@ -111,6 +112,7 @@ function createCo2RowData(
         onClickAway={() => {
           wttSetToolTipOpen(false);
         }}>
+        {/*If you change the definition for WTT, make sure to also change it on the Travel Impact Model github spec page as well.*/}
         <Tooltip
           className="breakdown-info-icon"
           title="Emissions generated during the production, processing, handling, and delivery of jet fuel."
@@ -130,6 +132,7 @@ function createCo2RowData(
         onClickAway={() => {
           ttwSetToolTipOpen(false);
         }}>
+        {/*If you change the definition for TTW, make sure to also change it on the Travel Impact Model github spec page as well.*/}
         <Tooltip
           className="breakdown-info-icon"
           title="Emissions produced by burning jet fuel during takeoff, flight, and landing of an aircraft."
