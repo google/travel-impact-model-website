@@ -107,6 +107,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
                 setToolTipOpen(false);
               }}>
               <Tooltip
+                className="info-icon"
                 title="Emissions data is only available for future flights."
                 onClose={() => setToolTipOpen(false)}
                 open={toolTipOpen}>
@@ -118,7 +119,10 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
               </Tooltip>
             </ClickAwayListener>
             {modelVersion && apiDataValid && (
-              <Alert severity="warning" aria-label={`Warning: ${modelVersionWarning}`}>
+              <Alert
+                className="alert-icon"
+                severity="warning"
+                aria-label={`Warning: ${modelVersionWarning}`}>
                 <span className="screen-reader-only">Warning:</span>
                 <span>{modelVersionWarning}</span>
               </Alert>

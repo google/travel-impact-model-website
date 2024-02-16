@@ -18,8 +18,14 @@
 
  .passenger-level-table-container {
    .breakdown-info-icon .MuiSvgIcon-root {
+     font-size: 18px;
+
      @media only screen and (max-width: styles.$screen-max-width) {
       margin: -8px -8px;
      }
+   }
+
+   .info-icon .MuiSvgIcon-root {
+     font-size: 18px;
    }
  }

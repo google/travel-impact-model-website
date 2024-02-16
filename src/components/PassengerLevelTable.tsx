@@ -181,6 +181,7 @@ function PassengerLevelTable({ apiData }: Props) {
               setToolTipOpen(false);
             }}>
             <Tooltip
+              className="info-icon"
               title="Small inconsistencies expected due to rounding."
               onClose={() => setToolTipOpen(false)}
               open={toolTipOpen}>

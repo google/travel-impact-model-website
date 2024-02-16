@@ -51,8 +51,18 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
             aria-pressed={open}
             aria-live="assertive"
             onClick={() => setOpen(!open)}
-            sx={{ margin: "-8px 0", padding: "16px" }}>
-            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            sx={{ margin: "-8px 0" }}>
+            {open ? (
+              <KeyboardArrowUp
+                className="row-with-subrows-icon"
+                sx={{ border: 1, borderRadius: 1 }}
+              />
+            ) : (
+              <KeyboardArrowDown
+                className="row-with-subrows-icon"
+                sx={{ border: 1, borderRadius: 1 }}
+              />
+            )}
           </IconButton>
         </TableCell>
         {row.cells.map((cell, cellIndex) => (

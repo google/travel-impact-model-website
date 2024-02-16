@@ -27,7 +27,11 @@
     margin-top: 8px;
   }
 
-  .MuiSvgIcon-root {
+  .info-icon .MuiSvgIcon-root {
+    font-size: 18px;
+  }
+
+  .alert-icon .MuiSvgIcon-root {
     font-size: 18px;
   }
 }
