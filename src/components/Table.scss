@@ -18,7 +18,16 @@
 
 .table-container {
   @include styles.section;
-  border-top: 1px solid rgba(224, 224, 224, 1);
+  border-top: 1px solid rgb(224, 224, 224);
+  border-bottom: 1px solid rgb(224, 224, 224);
+
+  .MuiTable-root {
+    height: fit-content;
+  }
+
+  .MuiTableRow-root {
+    height: 100%;
+  }
 
   .MuiTableCell-root {
     font-size: medium;
@@ -30,23 +39,67 @@
     }
   }
 
-  .data-cell {
-    text-align: left;
-    padding: 16px 16px;
-  }
+  .row-with-subrows {
+    .MuiTableCell-root {
+      padding: 0px 8px;
+      border: none;
+    }
 
-  .collapse-row-end-cell {
-    border: none;
-    padding: 8px 0px;
-  }
-
-  .collapse-row-end-cell-bottom {
-    border-bottom: 1px solid rgba(224, 224, 224, 1);
-  }
-
-  .row-with-subrows-icon {
-      font-size: 30px;
+    .row-with-subrows-data-cell {
       text-align: left;
-      padding: 0px 0px;
+      padding: 0px 16px;
+    }
+
+    .row-with-subrows-icon-cell {
+      &.MuiButtonBase-root {
+        padding: 8px 0px;
+      }
+
+      .row-with-subrows-icon {
+        font-size: 22px;
+
+        &.MuiSvgIcon-root {
+          border: 1px solid;
+          border-radius: 4px;
+          border-color: rgb(224, 224, 224);
+        }
+      }
+    }
+
+    .row-with-subrows-name-cell {
+      white-space: nowrap;
+      padding: 8px 0px 0px 16px;
+      min-width: 150px;
+    }
+  }
+
+  .subrow {
+    .MuiTableCell-root {
+      padding: 0px;
+      border: none;
+      height: inherit;
+    }
+
+    .subrow-data-cell {
+      padding: 0px 16px;
+    }
+
+    .subrow-icon-cell {
+      .subrow-divider {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+
+        .MuiDivider-root {
+          border-color:rgb(224, 224, 224);
+        }
+      }
+    }
+
+    .subrow-name-cell {
+      padding: 0px 0px 0px 32px;
+      white-space: nowrap;
+    }
   }
 }

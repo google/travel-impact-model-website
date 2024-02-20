@@ -98,7 +98,7 @@ function createCo2RowData(
           title="The sum of Well-to-Tank (WTT) and Tank-to-Wake (TTW) emissions."
           onClose={() => wtwSetToolTipOpen(false)}
           open={wtwToolTipOpen}>
-          <IconButton onClick={() => wtwSetToolTipOpen(!wtwToolTipOpen)} sx={{ padding: "16px" }}>
+          <IconButton onClick={() => wtwSetToolTipOpen(!wtwToolTipOpen)}>
             <InfoOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -118,7 +118,7 @@ function createCo2RowData(
           title="Emissions generated during the production, processing, handling, and delivery of jet fuel."
           onClose={() => wttSetToolTipOpen(false)}
           open={wttToolTipOpen}>
-          <IconButton onClick={() => wttSetToolTipOpen(!wttToolTipOpen)} sx={{ padding: "16px" }}>
+          <IconButton onClick={() => wttSetToolTipOpen(!wttToolTipOpen)}>
             <InfoOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -138,7 +138,7 @@ function createCo2RowData(
           title="Emissions produced by burning jet fuel during takeoff, flight, and landing of an aircraft."
           onClose={() => ttwSetToolTipOpen(false)}
           open={ttwToolTipOpen}>
-          <IconButton onClick={() => ttwSetToolTipOpen(!ttwToolTipOpen)} sx={{ padding: "16px" }}>
+          <IconButton onClick={() => ttwSetToolTipOpen(!ttwToolTipOpen)}>
             <InfoOutlinedIcon />
           </IconButton>
         </Tooltip>
@@ -185,9 +185,7 @@ function PassengerLevelTable({ apiData }: Props) {
               title="Small inconsistencies expected due to rounding."
               onClose={() => setToolTipOpen(false)}
               open={toolTipOpen}>
-              <IconButton
-                onClick={() => setToolTipOpen(!toolTipOpen)}
-                sx={{ margin: "-8px 0", padding: "16px" }}>
+              <IconButton onClick={() => setToolTipOpen(!toolTipOpen)}>
                 <InfoOutlinedIcon />
               </IconButton>
             </Tooltip>

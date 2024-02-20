@@ -17,15 +17,25 @@
  @use 'src/pages/styles';
 
  .passenger-level-table-container {
-   .breakdown-info-icon .MuiSvgIcon-root {
-     font-size: 18px;
+  .breakdown-info-icon {
+    &.MuiButtonBase-root {
+      padding: 8px;
+    }
 
-     @media only screen and (max-width: styles.$screen-max-width) {
-      margin: -8px -8px;
-     }
-   }
+    .MuiSvgIcon-root {
+      font-size: 18px;
+    }
+  }
 
-   .info-icon .MuiSvgIcon-root {
-     font-size: 18px;
-   }
+
+  .info-icon {
+    &.MuiButtonBase-root {
+      padding: 16px;
+      margin: -8px 0px;
+    }
+
+    .MuiSvgIcon-root {
+      font-size: 18px;
+    }
+  }
  }

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import {
+  Divider,
   IconButton,
   Table as MuiTable,
   TableBody,
@@ -44,29 +45,26 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
   return (
     <>
       {/* Create row with the arrow icon that when clicked will collapse/uncollapse the rows below */}
-      <TableRow>
-        <TableCell className="collapse-row-end-cell" align="right">
+      <TableRow className="row-with-subrows">
+        <TableCell className="row-with-subrows-icon-cell" align="center">
           <IconButton
             aria-label={open ? "Hide more rows" : "Show more rows"}
             aria-pressed={open}
             aria-live="assertive"
-            onClick={() => setOpen(!open)}
-            sx={{ margin: "-8px 0" }}>
+            onClick={() => setOpen(!open)}>
             {open ? (
-              <KeyboardArrowUp
-                className="row-with-subrows-icon"
-                sx={{ border: 1, borderRadius: 1 }}
-              />
+              <KeyboardArrowUp className="row-with-subrows-icon" />
             ) : (
-              <KeyboardArrowDown
-                className="row-with-subrows-icon"
-                sx={{ border: 1, borderRadius: 1 }}
-              />
+              <KeyboardArrowDown className="row-with-subrows-icon" />
             )}
           </IconButton>
         </TableCell>
         {row.cells.map((cell, cellIndex) => (
-          <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
+          <TableCell
+            className={
+              cellIndex === 0 ? "row-with-subrows-name-cell" : "row-with-subrows-data-cell"
+            }
+            key={cellIndex}>
             {cell}
           </TableCell>
         ))}
@@ -74,16 +72,19 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
       {/* Create collapsable rows */}
       {row.collapsableRows !== null &&
         row.collapsableRows.map((rowc, rowcIndex) => (
-          <TableRow key={rowcIndex} sx={{ visibility: open ? "visible" : "collapse" }}>
-            <TableCell
-              className={
-                row.collapsableRows !== null && rowcIndex === row.collapsableRows?.length - 1
-                  ? "collapse-row-end-cell-bottom"
-                  : "collapse-row-end-cell"
-              }
-            />
+          <TableRow
+            className="subrow"
+            key={rowcIndex}
+            sx={{ display: open ? "table-row" : "none" }}>
+            <TableCell className="subrow-icon-cell">
+              <div className="subrow-divider">
+                <Divider orientation="vertical" />
+              </div>
+            </TableCell>
             {rowc.cells.map((cell, cellIndex) => (
-              <TableCell className={cellIndex != 0 ? "data-cell" : undefined} key={cellIndex}>
+              <TableCell
+                className={cellIndex === 0 ? "subrow-name-cell" : "subrow-data-cell"}
+                key={cellIndex}>
                 {cell}
               </TableCell>
             ))}
