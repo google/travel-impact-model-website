@@ -19,32 +19,46 @@ import {
 import { FirebaseApp } from "firebase/app";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import fakeApiResponse from "./proto/fakeApiResponse.json";
+import axios from "axios";
 
 async function getFlightEmissionsData(
   request: ComputeFlightEmissionsRequest,
   app: FirebaseApp
 ): Promise<ComputeFlightEmissionsResponse> {
-  if (process.env.REACT_APP_FAKE_API_DATA) {
+  if (process.env.REACT_APP_API_URL && process.env.REACT_APP_API_KEY) {
+    // Get data from user input API URL. Set `REACT_APP_API_URL=<url> REACT_APP_API_KEY=<api key> npm start`.
+    const response = await axios.post(process.env.REACT_APP_API_URL, request, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params: {
+        key: process.env.REACT_APP_API_KEY,
+      },
+    });
+    if (response?.data) {
+      return response.data;
+    }
+  } else if (process.env.REACT_APP_FAKE_API_DATA) {
     // Get data from fake data. Set `REACT_APP_FAKE_API_DATA=true npm start`.
     return ComputeFlightEmissionsResponse.fromJSON(fakeApiResponse);
-  }
+  } else {
+    const functions = getFunctions(app);
+    const computeFlightEmissions = httpsCallable(functions, "computeFlightEmissions");
+    const apiResponse: ComputeFlightEmissionsResponse = await computeFlightEmissions({
+      data: request,
+    })
+      .then((response) => ComputeFlightEmissionsResponse.fromJSON(response.data))
+      .catch((error) => {
+        console.warn(error);
+        return { flightEmissions: [], modelVersion: undefined };
+      });
 
-  const functions = getFunctions(app);
-  const computeFlightEmissions = httpsCallable(functions, "computeFlightEmissions");
-  const apiResponse: ComputeFlightEmissionsResponse = await computeFlightEmissions({
-    data: request,
-  })
-    .then((response) => ComputeFlightEmissionsResponse.fromJSON(response.data))
-    .catch((error) => {
-      console.warn(error);
-      return { flightEmissions: [], modelVersion: undefined };
-    });
-
-  if (
-    apiResponse?.flightEmissions?.length != 0 &&
-    apiResponse?.flightEmissions?.[0].emissionsGramsPerPax !== undefined
-  ) {
-    return apiResponse;
+    if (
+      apiResponse?.flightEmissions?.length != 0 &&
+      apiResponse?.flightEmissions?.[0].emissionsGramsPerPax !== undefined
+    ) {
+      return apiResponse;
+    }
   }
   return { flightEmissions: [], modelVersion: undefined };
 }
