@@ -16,26 +16,12 @@
 
  @use 'src/pages/styles';
 
- .passenger-level-table-container {
-  .breakdown-info-icon {
-    &.MuiButtonBase-root {
-      padding: 8px;
-    }
-
-    .MuiSvgIcon-root {
-      font-size: 18px;
-    }
+ .passenger-level-table-container .breakdown-info-icon {
+  &.MuiButtonBase-root {
+    padding: 8px;
   }
 
-
-  .info-icon {
-    &.MuiButtonBase-root {
-      padding: 16px;
-      margin: -8px 0px;
-    }
-
-    .MuiSvgIcon-root {
-      font-size: 18px;
-    }
+  .MuiSvgIcon-root {
+    font-size: 18px;
   }
  }

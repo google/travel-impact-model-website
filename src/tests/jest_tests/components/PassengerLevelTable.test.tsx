@@ -13,12 +13,10 @@
 // limitations under the License.
 
 import PassengerLevelTable, {
-  calculateEmissionsPerPassenger,
   formatEmissionsPerPassenger,
 } from "../../../components/PassengerLevelTable";
 import {
   ComputeFlightEmissionsResponse,
-  EmissionsBreakdown,
   EmissionsGramsPerPax,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
@@ -128,33 +126,6 @@ describe("PassengerLevelTable", () => {
 
     const response = PassengerLevelTable({ apiData: apiData });
     expect(response).toEqual(undefined);
-  });
-
-  it("calculateEmissionsGramsPerPassenger", async () => {
-    const emissionsBreakdown: EmissionsBreakdown = {
-      wttEmissionsGramsPerPax: {
-        economy: 10,
-        premiumEconomy: 20,
-        business: 30,
-        first: 40,
-      },
-      ttwEmissionsGramsPerPax: {
-        economy: 100,
-        premiumEconomy: 200,
-        business: 300,
-        first: 400,
-      },
-    };
-
-    const expectedEmissionsPerPassenger: EmissionsGramsPerPax = {
-      economy: 110,
-      premiumEconomy: 220,
-      business: 330,
-      first: 440,
-    };
-
-    const emissionsPerPassenger = calculateEmissionsPerPassenger(emissionsBreakdown);
-    expect(emissionsPerPassenger).toEqual(expectedEmissionsPerPassenger);
   });
 
   it("formatEmissionsPerPassenger: round and format value as expected", async () => {

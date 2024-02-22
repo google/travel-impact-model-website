@@ -38,35 +38,6 @@ export function formatEmissionsPerPassenger(
   return [name, economy, premiumEconomy, business, first];
 }
 
-export function calculateEmissionsPerPassenger(
-  emissionsBreakdown: EmissionsBreakdown | undefined
-): EmissionsGramsPerPax {
-  const addValues = (valueOne: number | undefined, valueTwo: number | undefined) =>
-    valueOne && valueTwo ? valueOne + valueTwo : undefined;
-
-  // New emissions per passenger value is a sum of TTW and WWT.
-  const emissionsPerPassenger: EmissionsGramsPerPax = {
-    economy: addValues(
-      emissionsBreakdown?.ttwEmissionsGramsPerPax?.economy,
-      emissionsBreakdown?.wttEmissionsGramsPerPax?.economy
-    ),
-    premiumEconomy: addValues(
-      emissionsBreakdown?.ttwEmissionsGramsPerPax?.premiumEconomy,
-      emissionsBreakdown?.wttEmissionsGramsPerPax?.premiumEconomy
-    ),
-    business: addValues(
-      emissionsBreakdown?.ttwEmissionsGramsPerPax?.business,
-      emissionsBreakdown?.wttEmissionsGramsPerPax?.business
-    ),
-    first: addValues(
-      emissionsBreakdown?.ttwEmissionsGramsPerPax?.first,
-      emissionsBreakdown?.wttEmissionsGramsPerPax?.first
-    ),
-  };
-
-  return emissionsPerPassenger;
-}
-
 function createCo2CollapsableRowData(
   name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined
@@ -154,9 +125,10 @@ function createCo2RowData(
   };
 }
 
-function createTableData(emissionsBreakdown: EmissionsBreakdown | undefined): TableData {
-  const emissionsPerPassenger = calculateEmissionsPerPassenger(emissionsBreakdown);
-
+function createTableData(
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined,
+  emissionsBreakdown: EmissionsBreakdown | undefined
+): TableData {
   return {
     headers: ["Emissions Type", "Economy", "Premium", "Business", "First"],
     rows: [createCo2RowData(emissionsPerPassenger, emissionsBreakdown)],
@@ -168,32 +140,23 @@ type Props = {
 };
 
 function PassengerLevelTable({ apiData }: Props) {
+  const emissionsPerPassenger = apiData.flightEmissions[0].emissionsGramsPerPax;
   const emissionsBreakdown = apiData.flightEmissions[0].emissionsBreakdown;
 
-  if (emissionsBreakdown && Object.keys(emissionsBreakdown).length !== 0) {
-    const [toolTipOpen, setToolTipOpen] = useState(false);
+  if (
+    emissionsPerPassenger &&
+    Object.keys(emissionsPerPassenger).length !== 0 &&
+    emissionsBreakdown &&
+    Object.keys(emissionsBreakdown).length !== 0
+  ) {
     return (
       <div className="passenger-level-table-container">
         <Typography variant="h4" component="h2">
           Estimated emissions in kg CO2e per passenger
-          <ClickAwayListener
-            onClickAway={() => {
-              setToolTipOpen(false);
-            }}>
-            <Tooltip
-              className="info-icon"
-              title="Small inconsistencies expected due to rounding."
-              onClose={() => setToolTipOpen(false)}
-              open={toolTipOpen}>
-              <IconButton onClick={() => setToolTipOpen(!toolTipOpen)}>
-                <InfoOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          </ClickAwayListener>
         </Typography>
         <Table
           ariaLabel="Estimated Emissions Per Passenger table"
-          data={createTableData(emissionsBreakdown)}
+          data={createTableData(emissionsPerPassenger, emissionsBreakdown)}
         />
       </div>
     );
