@@ -2,7 +2,16 @@
 set -e
 . "$(dirname -- "$0")/_/husky.sh"
 
+number_of_uncommmitted_files=$(git status -u --porcelain | wc -l)
+
 npm run format
 npm run lint
+if [ $number_of_uncommmitted_files -ne 0 ]; then
+  echo ""
+  echo "Error! Detected uncommitted changes..."
+  echo "Please commit your changes and try again."
+  echo ""
+  exit -1
+fi
 npm run build
 npm test

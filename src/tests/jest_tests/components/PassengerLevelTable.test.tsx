@@ -32,7 +32,7 @@ describe("PassengerLevelTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
           emissionsGramsPerPax: {
             first: 1745475,
@@ -83,7 +83,7 @@ describe("PassengerLevelTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
           emissionsGramsPerPax: {},
           emissionsInputs: {
@@ -112,7 +112,7 @@ describe("PassengerLevelTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
         },
       ],
