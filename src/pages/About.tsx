@@ -171,8 +171,8 @@ function About() {
             nonVotingStar={true}
           />
           <EntityCard
-            name="Kevin Welsh *"
-            title="Executive Director, Environment & Energy"
+            name="To Be Announced *"
+            title="Environment & Energy"
             institution="Federal Aviation Administration"
             institutionLink="https://www.faa.gov/"
             nonVotingStar={true}
