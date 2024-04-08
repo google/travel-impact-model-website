@@ -171,8 +171,8 @@ function About() {
             nonVotingStar={true}
           />
           <EntityCard
-            name="To Be Announced *"
-            title="Environment & Energy"
+            name="Fabio Grandi *"
+            title="Special Assistant to the Chief Scientific & Technical Advisor for Environment and Energy"
             institution="Federal Aviation Administration"
             institutionLink="https://www.faa.gov/"
             nonVotingStar={true}
