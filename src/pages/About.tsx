@@ -193,9 +193,9 @@ function About() {
           />
           <EntityCard
             name="Prof. Steven Barrett"
-            title="Professor of Aeronautics and Astronautics"
-            institution="Massachusetts Institute of Technology"
-            institutionLink="https://www.mit.edu/"
+            title="Regius Professor of Engineering"
+            institution="University of Cambridge"
+            institutionLink="https://www.cam.ac.uk/"
             nonVotingStar={false}
           />
           <EntityCard
