@@ -36,9 +36,13 @@ export function FuelBurnSource({ value }: SourceProps): JSX.Element | undefined 
           />{" "}
           No 13/2019 1.A.3.a Aviation 1 Master emissions calculator 2019
         </li>
-        {value.dataStrategy === "PIANO_X_DERIVED_CORRECTION_FACTOR" && (
+        {value.dataStrategy === "EEA2023_CORRECTION_FACTOR" && (
           <li>
-            <Link text="Piano-X" href="https://www.lissys.uk/PianoX.html" /> aircraft database
+            <Link
+              text="EMEP/EEA air pollutant emission inventory guidebook"
+              href="https://www.eea.europa.eu/publications/emep-eea-guidebook-2023/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-a-aviation.3/view"
+            />{" "}
+            2023 Annex 1
           </li>
         )}
         <li>
