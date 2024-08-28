@@ -36,52 +36,52 @@ test("render default", async ({ page }) => {
 });
 
 test("render single flight", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821");
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("open emissions breakdown", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821");
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await page.getByLabel("Show more rows").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("render single flight with model version", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821&v=1.2.3");
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827&v=1.2.3");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("render invalid fields", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZR-BO-L-12BA-20200821");
+  await page.goto("/lookup/flight?itinerary=ZR-BO-L-12BA-20200827");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("transition to invalid state", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821");
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await page.getByLabel("Origin").fill("INVALID ORIGIN");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("transition to valid state", async ({ page }) => {
   // Incorrect origin value.
-  await page.goto("/lookup/flight?itinerary=Z-BOS-LX-54-20240821");
+  await page.goto("/lookup/flight?itinerary=Z-BOS-LX-54-20250827");
   await page.getByLabel("Origin").fill("NEW");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("show past dates tooltip", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20240821");
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await page.getByLabel("Emissions data is only available for future flights.").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("show 1 plus year future dates tooltip", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20500821");
+  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20500827");
   await page.getByLabel("Emissions data is only available for future flights.").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("render multiple flights", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-NYC-LH-123-20300821,NYC-MUC-BA-456-20300821");
+  await page.goto("/lookup/flight?itinerary=ZRH-NYC-LH-123-20300827,NYC-MUC-BA-456-20300827");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
