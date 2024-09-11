@@ -179,7 +179,7 @@ function About() {
           />
           <EntityCard
             name="Dr. Marc Stettler"
-            title="Reader in Transport and Environment"
+            title="Professor in Transport and Environment"
             institution="Imperial College London"
             institutionLink="https://www.imperial.ac.uk/"
             nonVotingStar={false}
