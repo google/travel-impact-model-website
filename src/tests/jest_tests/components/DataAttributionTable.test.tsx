@@ -46,15 +46,17 @@ describe("FuelBurnSource", () => {
     expect(screen.getByText("EEA Report")).not.toBeEmptyDOMElement();
   });
 
-  it("should return response for EEA and Piano-X data", async () => {
+  it("should return response for EEA and EEA correction factor data", async () => {
     const data: EmissionsInputs_EmissionsInputEntry = {
       dataSource: "EEA",
-      dataStrategy: "PIANO_X_DERIVED_CORRECTION_FACTOR",
+      dataStrategy: "EEA2023_CORRECTION_FACTOR",
     };
     render(<FuelBurnSource value={data} />);
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EEA Report")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Piano-X")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("EMEP/EEA air pollutant emission inventory guidebook")
+    ).not.toBeEmptyDOMElement();
   });
 });
 
@@ -156,7 +158,7 @@ describe("DataAttributionTable", () => {
             emissionsInputEntries: {
               totalFuelBurnEstimatedKg: {
                 dataSource: "EEA",
-                dataStrategy: "PIANO_X_DERIVED_CORRECTION_FACTOR",
+                dataStrategy: "EEA2023_CORRECTION_FACTOR",
               },
               loadFactor: {
                 dataSource: "T100",
@@ -182,7 +184,9 @@ describe("DataAttributionTable", () => {
     // Fuel Burn Source
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EEA Report")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Piano-X")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("EMEP/EEA air pollutant emission inventory guidebook")
+    ).not.toBeEmptyDOMElement();
 
     // Load Factor Source
     expect(

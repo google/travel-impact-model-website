@@ -22,7 +22,7 @@
         "emissionsInputEntries": {
           "totalFuelBurnEstimatedKg": {
             "dataSource": "EEA",
-            "dataStrategy": "PIANO_X_DERIVED_CORRECTION_FACTOR"
+            "dataStrategy": "EEA2023_CORRECTION_FACTOR"
           },
           "loadFactor": {
             "dataSource": "T100",
