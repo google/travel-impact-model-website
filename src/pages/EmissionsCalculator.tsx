@@ -132,7 +132,9 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
           </>
         ) : (
           <>
-            <Typography variant="h5">All flights</Typography>
+            <Typography component="h2" variant="h5">
+              All flights
+            </Typography>
             <ReadonlyInputFields request={request} />
           </>
         )}

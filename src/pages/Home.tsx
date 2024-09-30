@@ -38,10 +38,10 @@ function Home() {
       <div className="tim-main-content-container">
         <div className="tim-main-content">
           <div className="tim-title">
-            <Typography className="title" variant="h1" component="h1" color="text.secondary">
+            <Typography className="title" variant="h1" component="h1">
               Travel Impact Model
             </Typography>
-            <Typography className="subtitle" variant="h4" component="h2" color="text.secondary">
+            <Typography className="subtitle" variant="h4" component="h2">
               Estimating the Impact of Air Travel
             </Typography>
           </div>
