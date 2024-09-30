@@ -23,6 +23,7 @@ import EmissionsCalculator from "./pages/EmissionsCalculator";
 import FAQ from "./pages/FAQ";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
+import Governance from "./pages/Governance";
 
 // Setting theme colors for the website.
 const theme = createTheme({
@@ -76,6 +77,7 @@ function App({ app }: AppProps) {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/about-tim" element={<About />} />
+            <Route path="/governance" element={<Governance />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/lookup/flight" element={<EmissionsCalculator app={app} />} />
             <Route path="/404" element={<NoPage />} />
