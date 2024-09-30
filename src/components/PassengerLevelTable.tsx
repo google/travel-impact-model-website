@@ -44,7 +44,7 @@ function createCo2CollapsableRowData(
 ): RowData {
   return {
     cells: formatEmissionsPerPassenger(name, emissionsPerPassenger),
-    collapsableRows: null,
+    collapsibleRows: null,
   };
 }
 
@@ -118,7 +118,7 @@ function createCo2RowData(
   );
   return {
     cells: formatEmissionsPerPassenger(wtwName, emissionsPerPassenger),
-    collapsableRows: [
+    collapsibleRows: [
       createCo2CollapsableRowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
       createCo2CollapsableRowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
     ],

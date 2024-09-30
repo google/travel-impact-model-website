@@ -24,9 +24,10 @@ type FooterProps = {
 
 function Footer(props: FooterProps) {
   const color = props.variant === "background-none" ? "primary" : "secondary";
+  const className = props.variant === "background-image" ? "solid-bg" : "";
 
   return (
-    <Typography component="div" className="footer" variant="body2" color={color}>
+    <Typography component="div" className={`footer ${className}`} variant="body2" color={color}>
       <span className="left-column">
         <span className="powered-by">Powered by Google</span>
         {props.prefixInfo}

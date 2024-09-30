@@ -158,7 +158,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
       case "totalFuelBurnEstimatedKg": {
         const fuelBurnSources = FuelBurnSource({ value: value });
         if (fuelBurnSources) {
-          rowsData.push({ cells: ["Fuel Burn Estimates", fuelBurnSources], collapsableRows: null });
+          rowsData.push({ cells: ["Fuel Burn Estimates", fuelBurnSources], collapsibleRows: null });
         }
         break;
       }
@@ -167,7 +167,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
         if (loadFactorSources) {
           rowsData.push({
             cells: ["Passenger Load Factor", loadFactorSources],
-            collapsableRows: null,
+            collapsibleRows: null,
           });
         }
         break;
@@ -177,7 +177,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
         if (passengerSeatSources) {
           rowsData.push({
             cells: ["Passenger Seat Configuration", passengerSeatSources],
-            collapsableRows: null,
+            collapsibleRows: null,
           });
         }
         break;
@@ -186,7 +186,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
   });
 
   const seatAreaRatioSource = SeatAreaRatioSource();
-  rowsData.push({ cells: ["Seat Area Ratios", seatAreaRatioSource], collapsableRows: null });
+  rowsData.push({ cells: ["Seat Area Ratios", seatAreaRatioSource], collapsibleRows: null });
 
   const tableData = { headers: ["Data Type", "Source"], rows: rowsData };
 

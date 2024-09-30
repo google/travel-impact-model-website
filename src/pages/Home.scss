@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@use 'src/pages/styles';
+@use "src/pages/styles";
 
 html,
 body,
@@ -26,13 +26,14 @@ body,
 .tim-home-page {
   display: flex;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.35);
+  background: rgb(255, 255, 255, 0.5);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 33%);
 
   .background-image {
-      position: fixed;
-      height: 100%;
-      min-width: 100%;
-      z-index: -1;
+    position: fixed;
+    height: 100%;
+    min-width: 100%;
+    z-index: -1;
   }
 
   // Prevent <picture> and <source> from influencing layout.

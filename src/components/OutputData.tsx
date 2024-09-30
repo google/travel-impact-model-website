@@ -26,7 +26,7 @@ interface OutputDataProps {
 function OutputData({ apiData }: OutputDataProps) {
   if (apiData.flightEmissions.length == 0) {
     return (
-      <div className="output-data-container">
+      <div className="output-data-container" aria-live="polite" aria-atomic="true">
         <div className="output-field-error">
           <div className="output-field-error-text">
             <Typography variant="body1" component="div">
@@ -49,7 +49,7 @@ function OutputData({ apiData }: OutputDataProps) {
     );
   } else {
     return (
-      <div className="output-data-container">
+      <div className="output-data-container" aria-live="polite" aria-atomic="true">
         <div className="output-field-section">
           <PassengerLevelTable apiData={apiData} />
         </div>

@@ -28,7 +28,7 @@ import React from "react";
 
 export interface RowData {
   cells: (string | JSX.Element)[];
-  collapsableRows: RowData[] | null;
+  collapsibleRows: RowData[] | null;
 }
 
 export interface TableData {
@@ -36,11 +36,11 @@ export interface TableData {
   rows: RowData[];
 }
 
-interface CollapsableRowProps {
+interface CollapsibleRowProps {
   row: RowData;
 }
 
-export function CollapsableRow({ row }: CollapsableRowProps) {
+export function CollapsibleRow({ row }: CollapsibleRowProps) {
   const [open, setOpen] = React.useState(false);
   return (
     <>
@@ -50,7 +50,6 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
           <IconButton
             aria-label={open ? "Hide more rows" : "Show more rows"}
             aria-pressed={open}
-            aria-live="assertive"
             onClick={() => setOpen(!open)}>
             {open ? (
               <KeyboardArrowUp className="row-with-subrows-icon" />
@@ -69,13 +68,14 @@ export function CollapsableRow({ row }: CollapsableRowProps) {
           </TableCell>
         ))}
       </TableRow>
-      {/* Create collapsable rows */}
-      {row.collapsableRows !== null &&
-        row.collapsableRows.map((rowc, rowcIndex) => (
+      {/* Create collapsible rows */}
+      {row.collapsibleRows !== null &&
+        row.collapsibleRows.map((rowc, rowcIndex) => (
           <TableRow
             className="subrow"
             key={rowcIndex}
-            sx={{ display: open ? "table-row" : "none" }}>
+            sx={{ display: open ? "table-row" : "none" }}
+            aria-hidden={!open}>
             <TableCell className="subrow-icon-cell">
               <div className="subrow-divider">
                 <Divider orientation="vertical" />
@@ -105,10 +105,8 @@ function Table(props: TableProps) {
       <MuiTable aria-label={props.ariaLabel}>
         <TableHead>
           <TableRow>
-            {props.data.rows.some((row) => row.collapsableRows !== null) && (
-              <TableCell key={props.data.headers.length + 1} aria-label="collapse/expand buttons">
-                {""}
-              </TableCell>
+            {props.data.rows.some((row) => row.collapsibleRows !== null) && (
+              <TableCell key={props.data.headers.length + 1}></TableCell>
             )}
             {props.data.headers.map((header, headerIndex) => (
               <TableCell key={headerIndex}>{header}</TableCell>
@@ -117,7 +115,7 @@ function Table(props: TableProps) {
         </TableHead>
         <TableBody>
           {props.data.rows.map((row, rowIndex) => {
-            if (row.collapsableRows === null) {
+            if (row.collapsibleRows === null) {
               return (
                 <TableRow key={rowIndex}>
                   {row.cells.map((cell, cellIndex) => (
@@ -126,7 +124,7 @@ function Table(props: TableProps) {
                 </TableRow>
               );
             } else {
-              return <CollapsableRow key={rowIndex} row={row} />;
+              return <CollapsibleRow key={rowIndex} row={row} />;
             }
           })}
         </TableBody>

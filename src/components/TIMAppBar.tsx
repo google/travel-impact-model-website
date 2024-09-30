@@ -27,14 +27,13 @@ import {
   ListItemText,
   Typography,
   styled,
-  useScrollTrigger,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Toolbar from "@mui/material/Toolbar";
-import * as React from "react";
+import { useState } from "react";
 import "./TIMAppBar.scss";
 
 type Props = {
@@ -67,28 +66,26 @@ function DrawerList() {
   );
 }
 
-function MenuDrawer({ variant }: Props) {
-  const [drawerState, setDrawerState] = React.useState(false);
-  const trigger = useScrollTrigger();
-  const menuicon_color = variant === "background-image" && !trigger ? "secondary" : "primary";
+function MenuDrawer() {
+  const [open, setOpen] = useState(false);
 
   return (
     <Box sx={{ display: { xs: "flex", sm: "none" }, justifyContent: "flex-end", flexGrow: 1 }}>
       <IconButton
         size="large"
         edge="start"
-        color={menuicon_color}
+        color="primary"
         aria-label="menu"
         sx={{ mr: 2 }}
-        onClick={() => setDrawerState(true)}>
+        onClick={() => setOpen(true)}>
         <MenuIcon />
       </IconButton>
       <Box>
-        <Drawer anchor="right" open={drawerState} onClose={() => setDrawerState(false)}>
+        <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
           <DrawerHeader>
             <IconButton
               aria-label="close menu"
-              onClick={() => setDrawerState(false)}
+              onClick={() => setOpen(false)}
               sx={{ margin: "12px 8px" }}>
               <CloseIcon />
             </IconButton>
@@ -101,27 +98,18 @@ function MenuDrawer({ variant }: Props) {
   );
 }
 
-// If background image, set to transparent appbar at load and during scroll,
-// change to white background and black text.
-// If no background image, set to white background and black text.
 function TIMAppBar({ variant }: Props) {
-  const trigger = useScrollTrigger();
-  const appbar_color = variant === "background-image" && !trigger ? "transparent" : "#FFFFFF";
-  const appbar_textcolor =
-    variant === "background-image" && !trigger ? "text.secondary" : "text.primary";
-  const appbar_position = variant === "background-image" && trigger ? "sticky" : "static";
-
   return (
     <AppBar
-      position={appbar_position}
       color="primary"
+      position="sticky"
       sx={{
-        backgroundColor: appbar_color,
+        backgroundColor: variant === "background-image" ? "rgba(255, 255, 255, 0.8)" : "#FFFFFF",
         boxShadow: "none",
       }}>
       <Toolbar>
         <IconButton href="/">
-          <Typography variant="h6" component="div" color={appbar_textcolor}>
+          <Typography variant="h6" component="div" color="text.primary">
             TIM
           </Typography>
         </IconButton>
@@ -131,12 +119,12 @@ function TIMAppBar({ variant }: Props) {
               className="appbar-link"
               key={page.text}
               href={page.link}
-              sx={{ color: appbar_textcolor }}>
+              sx={{ color: "text.primary" }}>
               {page.text}
             </Button>
           ))}
         </Box>
-        <MenuDrawer variant={variant} />
+        <MenuDrawer />
       </Toolbar>
     </AppBar>
   );
