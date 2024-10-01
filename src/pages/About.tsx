@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import { Button, Typography } from "@mui/material";
+import ActionCard from "../components/ActionCard";
 import TIMAppBar from "../components/TIMAppBar";
 import "./About.scss";
 import { useEffect } from "react";
@@ -80,6 +81,32 @@ function About() {
             <b>Accessible</b> and free to all users
           </li>
         </Typography>
+
+        <Typography variant="h4" component="h3">
+          How to use TIM
+        </Typography>
+        <div className="action-card-container">
+          <ActionCard
+            title="Emissions Calculator"
+            description="Try it yourself with our easy to use emissions calculator!"
+            linkAriaLabel="Try emissions calculator"
+            linkValue="/lookup/flight"
+          />
+          <ActionCard
+            title="Developers API"
+            description="Are you a developer? Try our API."
+            linkAriaLabel="Try the Travel Impact Model API"
+            linkValue="https://developers.google.com/travel/impact-model"
+            externalLink={true}
+          />
+          <ActionCard
+            title="Google Sheets Extension"
+            description="Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
+            linkAriaLabel="Try Google Sheets Add-On"
+            linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
+            externalLink={true}
+          />
+        </div>
       </div>
     </div>
   );
