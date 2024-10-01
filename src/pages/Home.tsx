@@ -47,15 +47,22 @@ function Home() {
           </div>
           <div className="cards">
             <CardTitle
-              title="TIM and Governance"
+              title="About"
               description="Learn more about the Travel Impact Model (TIM) and how it works"
               linkName="Read more"
               linkAriaLabel="Read more about Travel Impact Model"
               linkValue="/about-tim"
             />
             <CardTitle
+              title="Governance"
+              description="Learn who oversees & decides on changes to the emissions model"
+              linkName="Read more"
+              linkAriaLabel="Read more about Travel Impact Model Governance"
+              linkValue="/governance"
+            />
+            <CardTitle
               title="Emissions Calculator"
-              description="Use our tool to calculate and explain emissions for specific flights"
+              description="Use our tool to calculate and understand the factors in a flight's emissions"
               linkName="Try it"
               linkAriaLabel="Try emissions calculator"
               linkValue="/lookup/flight"
