@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@use 'src/pages/styles';
+@use "src/pages/styles";
 
 .flight-input-container {
   display: flex;
@@ -40,7 +40,7 @@
   }
 
   .MuiFormHelperText-root {
-    color: gray;
+    color: #333333;
   }
 
   .MuiInputBase-root {
