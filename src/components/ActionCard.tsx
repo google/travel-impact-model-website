@@ -30,7 +30,11 @@ type ActionCardProps = {
 export default function ActionCard(props: ActionCardProps) {
   return (
     <Card className="action-card">
-      <CardActionArea href={props.linkValue} aria-label={props.linkAriaLabel}>
+      <CardActionArea
+        href={props.linkValue}
+        aria-label={props.linkAriaLabel}
+        target={props.externalLink ? "_blank" : ""}
+        rel={props.externalLink ? "noopener" : ""}>
         <CardContent>
           <div className="action-card-title">
             <Typography gutterBottom variant="h6" component="div">

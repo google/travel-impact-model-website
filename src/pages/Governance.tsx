@@ -17,7 +17,7 @@ import Footer from "../components/Footer";
 import Link from "../components/Link";
 import TIMAppBar from "../components/TIMAppBar";
 import BellyCargoPdf from "../docs/belly_cargo_apportionment_rationale_vf.pdf";
-import "./About.scss";
+import "./Governance.scss";
 import { useEffect } from "react";
 
 interface CardProps {
@@ -53,7 +53,7 @@ function Governance() {
   return (
     <div role="main">
       <TIMAppBar variant="background-none" />
-      <div className="about-container">
+      <div className="governance-container">
         <Typography className="title" variant="h2" component="h1">
           Governance
         </Typography>

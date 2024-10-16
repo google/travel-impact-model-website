@@ -15,6 +15,7 @@
 import { Button, Typography } from "@mui/material";
 import ActionCard from "../components/ActionCard";
 import TIMAppBar from "../components/TIMAppBar";
+import Link from "../components/Link";
 import "./About.scss";
 import { useEffect } from "react";
 
@@ -100,13 +101,31 @@ function About() {
             externalLink={true}
           />
           <ActionCard
-            title="Google Sheets Extension"
+            title="Google Sheets Ext."
             description="Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
             linkAriaLabel="Try Google Sheets Add-On"
             linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
             externalLink={true}
           />
         </div>
+        <Typography className="section" variant="body1">
+          The Travel Impact Model is Google&apos;s implementation of the Travalyst Shared Framework,
+          and it has been reviewed by Travalyst&apos;s Independent Advisory Group (IAG).
+        </Typography>
+        <Typography className="section" variant="body1">
+          The TIM powers the emissions estimates you see on Google Flights, as well as sites like
+          Booking.com, Skyscanner, Expedia, Trip.com, Travelport, Amadeus, Sabre, Didi, First Choice
+          and others.
+        </Typography>
+        <Typography className="end-section" variant="body1">
+          If the API or Google Sheets Add-On is not optimal for you to access the emissions data,
+          please{" "}
+          <Link
+            text="contact us"
+            href="https://support.google.com/travel/contact/tim?pcff=category:travel_Impact_model_(TIM)_API"
+          />{" "}
+          to discuss other options.
+        </Typography>
       </div>
     </div>
   );
