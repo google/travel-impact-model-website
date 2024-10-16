@@ -102,10 +102,14 @@ function About() {
           />
           <ActionCard
 <<<<<<< HEAD
+<<<<<<< HEAD
             title="Google Sheets Ext."
 =======
             title="Google Sheets Extension"
 >>>>>>> a24fbcc (b/370468344: Add how-to-use section in About page)
+=======
+            title="Google Sheets Ext."
+>>>>>>> d097985 (b/371185190: Add adoption partners, contact link)
             description="Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
             linkAriaLabel="Try Google Sheets Add-On"
             linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
@@ -113,6 +117,9 @@ function About() {
           />
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d097985 (b/371185190: Add adoption partners, contact link)
         <Typography className="section" variant="body1">
           The Travel Impact Model is Google&apos;s implementation of the Travalyst Shared Framework,
           and it has been reviewed by Travalyst&apos;s Independent Advisory Group (IAG).
@@ -131,8 +138,11 @@ function About() {
           />{" "}
           to discuss other options.
         </Typography>
+<<<<<<< HEAD
 =======
 >>>>>>> a24fbcc (b/370468344: Add how-to-use section in About page)
+=======
+>>>>>>> d097985 (b/371185190: Add adoption partners, contact link)
       </div>
     </div>
   );
