@@ -12,42 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Button, Paper, Typography } from "@mui/material";
-import Footer from "../components/Footer";
-import Link from "../components/Link";
+import { Button, Typography } from "@mui/material";
+import ActionCard from "../components/ActionCard";
 import TIMAppBar from "../components/TIMAppBar";
-import BellyCargoPdf from "../docs/belly_cargo_apportionment_rationale_vf.pdf";
+import Link from "../components/Link";
 import "./About.scss";
 import { useEffect } from "react";
 
-type CardProps = {
-  name: string;
-  title: string;
-  institution: string;
-  institutionLink: string;
-  nonVotingStar: boolean;
-};
-
-function EntityCard(props: CardProps) {
-  return (
-    <Paper className="card" elevation={3}>
-      <Typography variant="body1" sx={{ fontWeight: 500 }} component="div">
-        {props.name}
-      </Typography>
-      <Typography aria-label={props.nonVotingStar ? "* means non-voting observer" : ""} />
-      <Typography variant="body1" component="div">
-        {props.title}
-      </Typography>
-      <Typography variant="body1" component="div">
-        <Link text={props.institution} href={props.institutionLink} />
-      </Typography>
-    </Paper>
-  );
-}
-
 function About() {
   useEffect(() => {
-    document.title = "TIM and Governance Page";
+    document.title = "About the Travel Impact Model";
   }, []);
 
   const variant = "background-none";
@@ -109,125 +83,49 @@ function About() {
           </li>
         </Typography>
 
-        <Typography variant="h4" component="h2">
-          Governance
+        <Typography variant="h4" component="h3">
+          How to use TIM
+        </Typography>
+        <div className="action-card-container">
+          <ActionCard
+            title="Emissions Calculator"
+            description="Try it yourself with our easy to use emissions calculator!"
+            linkAriaLabel="Try emissions calculator"
+            linkValue="/lookup/flight"
+          />
+          <ActionCard
+            title="Developers API"
+            description="Are you a developer? Try our API."
+            linkAriaLabel="Try the Travel Impact Model API"
+            linkValue="https://developers.google.com/travel/impact-model"
+            externalLink={true}
+          />
+          <ActionCard
+            title="Google Sheets Ext."
+            description="Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
+            linkAriaLabel="Try Google Sheets Add-On"
+            linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
+            externalLink={true}
+          />
+        </div>
+        <Typography className="section" variant="body1">
+          The Travel Impact Model is Google&apos;s implementation of the Travalyst Shared Framework,
+          and it has been reviewed by Travalyst&apos;s Independent Advisory Group (IAG).
         </Typography>
         <Typography className="section" variant="body1">
-          The Travel Impact Model is administered by Google and overseen by an independent Advisory
-          Committee that consists of world-leading experts on sustainability and aviation from
-          industry, academia, policy and NGOs.
+          The TIM powers the emissions estimates you see on Google Flights, as well as sites like
+          Booking.com, Skyscanner, Expedia, Trip.com, Travelport, Amadeus, Sabre, Didi, First Choice
+          and others.
         </Typography>
-        <Typography className="section" variant="body1">
-          The Advisory Committee is accompanied by a Secretariat that provides technical expertise
-          based on scientific evidence. The Advisory Committee together with the Secretariat ensures
-          that the Travel Impact Model continues to evolve as a public good, and future development
-          of the model is executed with high rigor, integrity, speed and according to the latest
-          science.
+        <Typography className="end-section" variant="body1">
+          If the API or Google Sheets Add-On is not optimal for you to access the emissions data,
+          please{" "}
+          <Link
+            text="contact us"
+            href="https://support.google.com/travel/contact/tim?pcff=category:travel_Impact_model_(TIM)_API"
+          />{" "}
+          to discuss other options.
         </Typography>
-
-        <Typography variant="h5" component="h3">
-          Secretariat
-        </Typography>
-        <div className="secretariat-list">
-          <EntityCard
-            name="Dr. Dan Rutherford"
-            title="Aviation Program Director"
-            institution="International Council on Clean Transportation"
-            institutionLink="https://www.theicct.org/"
-            nonVotingStar={false}
-          />
-        </div>
-
-        <Typography variant="h5" component="h3">
-          Advisory Committee Members
-        </Typography>
-        <div className="advisory-list">
-          <EntityCard
-            name="Jill Blickstein"
-            title="Vice President, Sustainability"
-            institution="American Airlines"
-            institutionLink="https://www.aa.com/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Tim Johnson"
-            title="Director"
-            institution="Aviation Environment Federation"
-            institutionLink="https://www.aef.org.uk/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Jane Ashton"
-            title="Sustainability Director"
-            institution="easyJet"
-            institutionLink="https://www.easyjet.com/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Achilleas Achilleos *"
-            title="Strategic Programme Officer"
-            institution="European Union Aviation Safety Agency"
-            institutionLink="https://www.easa.europa.eu/"
-            nonVotingStar={true}
-          />
-          <EntityCard
-            name="Fabio Grandi *"
-            title="Special Assistant to the Chief Scientific & Technical Advisor for Environment and Energy"
-            institution="Federal Aviation Administration"
-            institutionLink="https://www.faa.gov/"
-            nonVotingStar={true}
-          />
-          <EntityCard
-            name="Dr. Marc Stettler"
-            title="Professor in Transport and Environment"
-            institution="Imperial College London"
-            institutionLink="https://www.imperial.ac.uk/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Caroline Drischel"
-            title="Head of Corporate Responsibility"
-            institution="Lufthansa Group"
-            institutionLink="http://www.dlh.de/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Prof. Steven Barrett"
-            title="Regius Professor of Engineering"
-            institution="University of Cambridge"
-            institutionLink="https://www.cam.ac.uk/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Andrew Chen"
-            title="Principal, Aviation Decarbonization"
-            institution="Rocky Mountain Institute"
-            institutionLink="https://www.rmi.org/"
-            nonVotingStar={false}
-          />
-          <EntityCard
-            name="Sally Davey"
-            title="Chief Executive Officer"
-            institution="Travalyst"
-            institutionLink="https://www.travalyst.org/"
-            nonVotingStar={false}
-          />
-        </div>
-
-        <Typography variant="h5" component="h3">
-          Publications
-        </Typography>
-        <div>
-          <a href={BellyCargoPdf} download="belly_cargo_apportionment_rationale_vf.pdf">
-            Technical Memo on Belly Cargo Apportionment
-          </a>
-        </div>
-
-        <Typography className="footnote" variant="body2">
-          * Non-voting observer
-        </Typography>
-
-        <Footer variant={variant} />
       </div>
     </div>
   );

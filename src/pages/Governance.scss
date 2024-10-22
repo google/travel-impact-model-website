@@ -16,7 +16,7 @@
 
 @use 'src/pages/styles';
 
-.about-container {
+.governance-container {
   @include styles.content-container;
 
   .title {
@@ -28,12 +28,8 @@
     @include styles.subheader;
   }
 
-  .section, .end-section {
+  .section {
     @include styles.section;
-  }
-
-  .end-section {
-    margin-bottom: 50px;
   }
 
   .MuiButton-outlinedPrimary {
@@ -59,14 +55,5 @@
 
   .footnote {
     @include styles.footnote;
-  }
-
-  .action-card-container {
-    display: flex;
-    margin-bottom: 30px;
-
-    @media only screen and (max-width: styles.$screen-max-width) {
-      flex-direction: column;
-    }
   }
 }

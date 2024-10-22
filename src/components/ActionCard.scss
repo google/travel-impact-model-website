@@ -13,13 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ @use 'src/pages/styles';
 
-.basic-card {
-  flex-basis: 100%;
-  max-width: 400px;
-  padding: 20px;
-
-  .card-button {
-    margin-top: 10px;
+ .action-card {
+    flex-basis: 100%;
+    display: flex;
+    max-width: 350px;
+    min-height: 140px;
+    margin: 10px;
   }
-}
+
+  .action-card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .action-icon {
+    margin-left: 8px;
+    text-align: right;
+  }
