@@ -30,21 +30,11 @@ type ActionCardProps = {
 export default function ActionCard(props: ActionCardProps) {
   return (
     <Card className="action-card">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d097985 (b/371185190: Add adoption partners, contact link)
       <CardActionArea
         href={props.linkValue}
         aria-label={props.linkAriaLabel}
         target={props.externalLink ? "_blank" : ""}
         rel={props.externalLink ? "noopener" : ""}>
-<<<<<<< HEAD
-=======
-      <CardActionArea href={props.linkValue} aria-label={props.linkAriaLabel}>
->>>>>>> a24fbcc (b/370468344: Add how-to-use section in About page)
-=======
->>>>>>> d097985 (b/371185190: Add adoption partners, contact link)
         <CardContent>
           <div className="action-card-title">
             <Typography gutterBottom variant="h6" component="div">
