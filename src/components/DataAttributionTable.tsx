@@ -95,6 +95,21 @@ export function LoadFactorSource({ value }: SourceProps): JSX.Element | undefine
   }
 }
 
+export function CargoMassFractionSource({ value }: SourceProps): JSX.Element | undefined {
+  if (value.dataSource === "T100") {
+    return (
+      <ul>
+        <li>
+          <Link
+            text="U.S. Department of Transportation Bureau of Transportation Statistics"
+            href="https://www.bts.gov/airline-data-downloads"
+          />{" "}
+        </li>
+      </ul>
+    );
+  }
+}
+
 export function PassengerSeatSource({ value }: SourceProps): JSX.Element | undefined {
   const aircraftConfigFromSchedulesSource = (
     <li key="schedulesSources">
@@ -167,6 +182,16 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
         if (loadFactorSources) {
           rowsData.push({
             cells: ["Passenger Load Factor", loadFactorSources],
+            collapsibleRows: null,
+          });
+        }
+        break;
+      }
+      case "cargoMassFraction": {
+        const cargoMassFractionSources = CargoMassFractionSource({ value: value });
+        if (cargoMassFractionSources) {
+          rowsData.push({
+            cells: ["Cargo Mass Fraction", cargoMassFractionSources],
             collapsibleRows: null,
           });
         }

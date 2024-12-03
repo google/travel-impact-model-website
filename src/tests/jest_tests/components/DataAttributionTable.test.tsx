@@ -15,6 +15,7 @@
 import DataAttributionTable, {
   FuelBurnSource,
   LoadFactorSource,
+  CargoMassFractionSource,
   PassengerSeatSource,
   SeatAreaRatioSource,
 } from "../../../components/DataAttributionTable";
@@ -91,6 +92,28 @@ describe("LoadFactorSource", () => {
   });
 });
 
+describe("CargoMassFractionSource", () => {
+  it("should return undefined", async () => {
+    const data: EmissionsInputs_EmissionsInputEntry = {
+      dataSource: undefined,
+      dataStrategy: undefined,
+    };
+    const response = CargoMassFractionSource({ value: data });
+    expect(response).toEqual(undefined);
+  });
+
+  it("should return response for T100 data", async () => {
+    const data: EmissionsInputs_EmissionsInputEntry = {
+      dataSource: "T100",
+      dataStrategy: undefined,
+    };
+    render(<CargoMassFractionSource value={data} />);
+    expect(
+      screen.getByText("U.S. Department of Transportation Bureau of Transportation Statistics")
+    ).not.toBeEmptyDOMElement();
+  });
+});
+
 describe("PassengerSeatSource", () => {
   it("should return undefined", async () => {
     const data: EmissionsInputs_EmissionsInputEntry = {
@@ -164,6 +187,10 @@ describe("DataAttributionTable", () => {
                 dataSource: "T100",
                 dataStrategy: "CARRIER_ROUTE_MONTH",
               },
+              cargoMassFraction: {
+                dataSource: "T100",
+                dataStrategy: "DISTANCE_AIRCRAFT_CLASS",
+              },
               seatsPerClass: {
                 dataSource: "OAG_SEATS_EQUIPMENT_CONFIG",
               },
@@ -190,7 +217,16 @@ describe("DataAttributionTable", () => {
 
     // Load Factor Source
     expect(
-      screen.getByText("U.S. Department of Transportation Bureau of Transportation Statistics")
+      screen.getAllByText(
+        "U.S. Department of Transportation Bureau of Transportation Statistics"
+      )[0]
+    ).not.toBeEmptyDOMElement();
+
+    // Cargo Mass Fraction Source
+    expect(
+      screen.getAllByText(
+        "U.S. Department of Transportation Bureau of Transportation Statistics"
+      )[1]
     ).not.toBeEmptyDOMElement();
 
     // Passenger Seat Source

@@ -28,6 +28,10 @@
             "dataSource": "T100",
             "dataStrategy": "CARRIER_ROUTE_MONTH"
           },
+          "cargoMassFraction": {
+            "dataSource": "T100",
+            "dataStrategy": "DISTANCE_AIRCRAFT_CLASS"
+          },
           "seatsPerClass": {
             "dataSource": "OAG_SEATS_EQUIPMENT_CONFIG"
           }
