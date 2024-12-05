@@ -53,6 +53,14 @@
     }
   }
 
+  .memo {
+    margin: 8px 0 24px;
+  }
+
+  .memo-description {
+    margin: 8px 0;
+  }
+
   .footnote {
     @include styles.footnote;
   }

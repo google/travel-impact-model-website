@@ -16,7 +16,6 @@ import { Paper, Typography } from "@mui/material";
 import Footer from "../components/Footer";
 import Link from "../components/Link";
 import TIMAppBar from "../components/TIMAppBar";
-import BellyCargoPdf from "../docs/belly_cargo_apportionment_rationale_vf.pdf";
 import "./Governance.scss";
 import { useEffect } from "react";
 
@@ -162,10 +161,54 @@ function Governance() {
         <Typography variant="h4" component="h2">
           Publications
         </Typography>
-        <div>
-          <a href={BellyCargoPdf} download="belly_cargo_apportionment_rationale_vf.pdf">
+        <div className="memo">
+          <a
+            href="/static/media/belly_cargo_apportionment_rationale_vf.b4b6262bef3038a9a91b.pdf"
+            download>
             Technical Memo on Belly Cargo Apportionment
           </a>
+          <Typography variant="body2" component="p" className="memo-description">
+            This technical memo explains the rationale for a Travel Impact Model (TIM) update that
+            apportions carbon dioxide (CO2) emissions to both passengers and belly cargo (cargo
+            carried in the belly of passenger aircraft) using a mass-based approach.
+          </Typography>
+        </div>
+        <div className="memo">
+          <a href="/static/media/model_validation_methodology.pdf" download>
+            Technical Memo on Model Validation Methodology
+          </a>
+          <Typography variant="body2" component="p" className="memo-description">
+            This technical memo outlines the validation process used to ensure the Travel Impact
+            Model (TIM) accurately estimates aircraft fuel burn. It details the methodology, which
+            leverages both public and private fuel burn data, and how it&apos;s applied to evaluate
+            model changes. This rigorous process increases transparency and ensures that TIM
+            provides reliable fuel consumption estimates.
+          </Typography>
+        </div>
+        <div className="memo">
+          <a href="/static/media/tim_roadmap.pdf" download>
+            Technical Memo on TIM Roadmap
+          </a>
+          <Typography variant="body2" component="p" className="memo-description">
+            This technical memo outlines the Travel Impact Model (TIM) Roadmap, detailing its key
+            principles, operating plan, and ongoing workstreams. The roadmap emphasizes
+            transparency, accuracy, and continuous improvement of the TIM, ensuring it remains a
+            reliable and future-proof tool for estimating flight emissions.
+          </Typography>
+        </div>
+        <div className="memo">
+          <a href="/static/media/model_selection.pdf" download>
+            Technical Memo on Model Selection
+          </a>
+          <Typography variant="body2" component="p" className="memo-description">
+            This technical memo details two improvements to the Travel Impact Model (TIM) for
+            estimating fuel burn. First, the model was updated to the latest 2023 European
+            Environment Agency data, improving accuracy and coverage. Second, a distance adjustment
+            factor now accounts for real-world flight path variations beyond the great-circle
+            distance between airports. This memo contains the latest validation results,
+            demonstrating that these model changes enhance TIM&apos;s coverage and reduce estimation
+            errors.
+          </Typography>
         </div>
 
         <Typography className="footnote" variant="body2">
