@@ -169,7 +169,7 @@ function Governance() {
             October 2023
           </Typography>
           <Typography variant="body2" component="p" className="memo-description">
-            This technical memo explains the rationale for a Travel Impact Model (TIM) update that
+            This technical brief explains the rationale for a Travel Impact Model (TIM) update that
             apportions carbon dioxide (CO2) emissions to both passengers and belly cargo (cargo
             carried in the belly of passenger aircraft) using a mass-based approach.
           </Typography>
@@ -182,7 +182,7 @@ function Governance() {
             November 2024
           </Typography>
           <Typography variant="body2" component="p" className="memo-description">
-            This technical memo outlines the validation process used to ensure the Travel Impact
+            This technical brief outlines the validation process used to ensure the Travel Impact
             Model (TIM) accurately estimates aircraft fuel burn. It details the methodology, which
             leverages both public and private fuel burn data, and how it&apos;s applied to evaluate
             model changes. This rigorous process increases transparency and ensures that TIM
@@ -197,7 +197,7 @@ function Governance() {
             November 2024
           </Typography>
           <Typography variant="body2" component="p" className="memo-description">
-            This technical memo outlines the Travel Impact Model (TIM) Roadmap, detailing its key
+            This technical brief outlines the Travel Impact Model (TIM) Roadmap, detailing its key
             principles, operating plan, and ongoing workstreams. The roadmap emphasizes
             transparency, accuracy, and continuous improvement of the TIM, ensuring it remains a
             reliable and future-proof tool for estimating flight emissions.
@@ -211,7 +211,7 @@ function Governance() {
             December 2024
           </Typography>
           <Typography variant="body2" component="p" className="memo-description">
-            This technical memo details two improvements to the Travel Impact Model (TIM) for
+            This technical brief details two improvements to the Travel Impact Model (TIM) for
             estimating fuel burn. First, the model was updated to the latest 2023 European
             Environment Agency data, improving accuracy and coverage. Second, a distance adjustment
             factor now accounts for real-world flight path variations beyond the great-circle
