@@ -101,8 +101,8 @@ function Governance() {
             nonVotingStar={false}
           />
           <EntityCard
-            name="Jane Ashton"
-            title="Sustainability Director"
+            name="Lahiru Ranasinghe"
+            title="Director of Sustainability"
             institution="easyJet"
             institutionLink="https://www.easyjet.com/"
             nonVotingStar={false}
