@@ -158,9 +158,29 @@ function Governance() {
           />
         </div>
 
+        <Typography className="footnote" variant="body2">
+          * Non-voting observer
+        </Typography>
+
         <Typography variant="h4" component="h2">
           Publications
         </Typography>
+        <div className="memo">
+          <a href="/static/media/tim_boosting_model_granularity.pdf" download>
+            Boosting Model Granularity
+          </a>
+          <Typography variant="caption" component="p" className="memo-description">
+            January 2025
+          </Typography>
+          <Typography variant="body2" component="p" className="memo-description">
+            This technical brief explores improving the Travel Impact Model&apos;s (TIM) fuel burn
+            estimates by incorporating factors beyond aircraft type and stage length (first-order
+            effects). It reviews literature and data availability for other influencing factors
+            (second-order effects) like payload and weather. A qualitative analysis identified
+            aircraft age, engine variant, and payload as the most promising second-order effects for
+            further study and development of correction factors.
+          </Typography>
+        </div>
         <div className="memo">
           <a href="/static/media/tim_contrails_impact.pdf" download>
             Contrails Impact
@@ -234,10 +254,6 @@ function Governance() {
             carried in the belly of passenger aircraft) using a mass-based approach.
           </Typography>
         </div>
-
-        <Typography className="footnote" variant="body2">
-          * Non-voting observer
-        </Typography>
 
         <Footer variant="background-none" />
       </div>
