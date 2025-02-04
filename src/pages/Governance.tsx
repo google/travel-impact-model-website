@@ -176,9 +176,9 @@ function Governance() {
             This technical brief explores improving the Travel Impact Model&apos;s (TIM) fuel burn
             estimates by incorporating factors beyond aircraft type and stage length (first-order
             effects). It reviews literature and data availability for other influencing factors
-            (second-order effects) like payload and weather. A qualitative analysis identified
-            aircraft age, engine variant, and payload as the most promising second-order effects for
-            further study and development of correction factors.
+            (second-order effects). A qualitative analysis identified aircraft age, engine variant,
+            and payload as the most promising second-order effects for further study and development
+            of correction factors.
           </Typography>
         </div>
         <div className="memo">
