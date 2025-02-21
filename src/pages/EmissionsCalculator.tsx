@@ -30,10 +30,12 @@ import {
   FLIGHT_ITINERARY_URL_PARAM,
   generateFlightItineraryUrlParam,
   parseFlightItineraryUrlParam,
+  flightEmissionsRequestToTypicalFlightEmissionsRequest,
 } from "../data/flightItinerary";
 import travelImpactModelApi from "../api/travelImpactModelApi";
 import {
   ComputeFlightEmissionsResponse,
+  ComputeTypicalFlightEmissionsResponse,
   Flight,
 } from "../api/proto/generated/travelImpactModelProto";
 import "./EmissionsCalculator.scss";
@@ -46,7 +48,9 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [toolTipOpen, setToolTipOpen] = useState(false);
-  const [apiDataValid, setApiDataValid] = useState<ComputeFlightEmissionsResponse>();
+  const [emissionsDataValid, setEmissionsDataValid] = useState<ComputeFlightEmissionsResponse>();
+  const [typicalEmissionsDataValid, setTypicalEmissionsDataValid] =
+    useState<ComputeTypicalFlightEmissionsResponse>();
   const modelVersion = searchParams.get("v");
   const request = parseFlightItineraryUrlParam(searchParams.get(FLIGHT_ITINERARY_URL_PARAM) ?? "");
 
@@ -70,9 +74,17 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
       flights: flights,
     };
 
-    const apiData = travelImpactModelApi.getComputeFlightEmissions(updatedRequest, app);
-    apiData.then((response) => {
-      setApiDataValid(response);
+    const emissionsData = travelImpactModelApi.getComputeFlightEmissions(updatedRequest, app);
+    emissionsData.then((response) => {
+      setEmissionsDataValid(response);
+    });
+
+    const typicalEmissionsData = travelImpactModelApi.getComputeTypicalFlightEmissions(
+      flightEmissionsRequestToTypicalFlightEmissionsRequest(updatedRequest),
+      app
+    );
+    typicalEmissionsData.then((response) => {
+      setTypicalEmissionsDataValid(response);
     });
   }
 
@@ -81,8 +93,8 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   );
 
   let modelVersionString = "";
-  if (apiDataValid && apiDataValid.modelVersion) {
-    const mv = apiDataValid.modelVersion;
+  if (emissionsDataValid && emissionsDataValid.modelVersion) {
+    const mv = emissionsDataValid.modelVersion;
     modelVersionString = `Model Version: ${mv.major}.${mv.minor}.${mv.patch}`;
   }
   const modelVersionWarning = "This data is using the latest model version.";
@@ -123,7 +135,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
                 </IconButton>
               </Tooltip>
             </ClickAwayListener>
-            {modelVersion && apiDataValid && (
+            {modelVersion && emissionsDataValid && (
               <Alert
                 className="alert-icon"
                 severity="warning"
@@ -133,7 +145,12 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
               </Alert>
             )}
             <EditableInputFields request={request} onSubmit={onSubmit} />
-            {request.flights.length === 1 && apiDataValid && <OutputData apiData={apiDataValid} />}
+            {request.flights.length === 1 && emissionsDataValid && (
+              <OutputData
+                emissionsData={emissionsDataValid}
+                typicalEmissionsData={typicalEmissionsDataValid}
+              />
+            )}
           </>
         ) : (
           <>

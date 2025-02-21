@@ -167,7 +167,7 @@ describe("SeatAreaRatioSource", () => {
 
 describe("DataAttributionTable", () => {
   it("should return data attribution level table with expected values", async () => {
-    const apiData: ComputeFlightEmissionsResponse = {
+    const emissionsData: ComputeFlightEmissionsResponse = {
       flightEmissions: [
         {
           flight: {
@@ -175,7 +175,7 @@ describe("DataAttributionTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
           emissionsInputs: {
             emissionsInputEntries: {
@@ -206,7 +206,7 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    render(<DataAttributionTable apiData={apiData} />);
+    render(<DataAttributionTable emissionsData={emissionsData} />);
 
     // Fuel Burn Source
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
@@ -235,7 +235,7 @@ describe("DataAttributionTable", () => {
   });
 
   it("should return invalid data", async () => {
-    const apiData: ComputeFlightEmissionsResponse = {
+    const emissionsData: ComputeFlightEmissionsResponse = {
       flightEmissions: [
         {
           flight: {
@@ -243,7 +243,7 @@ describe("DataAttributionTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
           emissionsInputs: {
             emissionsInputEntries: {},
@@ -258,12 +258,12 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    const response = DataAttributionTable({ apiData: apiData });
+    const response = DataAttributionTable({ emissionsData: emissionsData });
     expect(response).toEqual(<React.Fragment />);
   });
 
   it("should return empty JSX element", async () => {
-    const apiData: ComputeFlightEmissionsResponse = {
+    const emissionsData: ComputeFlightEmissionsResponse = {
       flightEmissions: [
         {
           flight: {
@@ -271,7 +271,7 @@ describe("DataAttributionTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
         },
       ],
@@ -283,7 +283,7 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    const response = DataAttributionTable({ apiData: apiData });
+    const response = DataAttributionTable({ emissionsData: emissionsData });
     expect(response).toEqual(<React.Fragment />);
   });
 });

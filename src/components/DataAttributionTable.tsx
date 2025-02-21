@@ -156,11 +156,11 @@ export function SeatAreaRatioSource(): JSX.Element {
  ******************************************/
 
 type Props = {
-  apiData: ComputeFlightEmissionsResponse;
+  emissionsData: ComputeFlightEmissionsResponse;
 };
 
-function DataAttributionTable({ apiData }: Props): JSX.Element {
-  const attributionData = apiData.flightEmissions[0].emissionsInputs?.emissionsInputEntries;
+function DataAttributionTable({ emissionsData }: Props): JSX.Element {
+  const attributionData = emissionsData.flightEmissions[0]?.emissionsInputs?.emissionsInputEntries;
 
   // If attribution data is undefined, return nothing.
   if (attributionData === undefined || Object.keys(attributionData).length === 0) {
@@ -173,7 +173,11 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
       case "totalFuelBurnEstimatedKg": {
         const fuelBurnSources = FuelBurnSource({ value: value });
         if (fuelBurnSources) {
-          rowsData.push({ cells: ["Fuel Burn Estimates", fuelBurnSources], collapsibleRows: null });
+          rowsData.push({
+            cells: ["Fuel Burn Estimates", fuelBurnSources],
+            collapsibleRows: null,
+            useLightGrayText: false,
+          });
         }
         break;
       }
@@ -183,6 +187,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
           rowsData.push({
             cells: ["Passenger Load Factor", loadFactorSources],
             collapsibleRows: null,
+            useLightGrayText: false,
           });
         }
         break;
@@ -193,6 +198,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
           rowsData.push({
             cells: ["Cargo Mass Fraction", cargoMassFractionSources],
             collapsibleRows: null,
+            useLightGrayText: false,
           });
         }
         break;
@@ -203,6 +209,7 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
           rowsData.push({
             cells: ["Passenger Seat Configuration", passengerSeatSources],
             collapsibleRows: null,
+            useLightGrayText: false,
           });
         }
         break;
@@ -211,7 +218,11 @@ function DataAttributionTable({ apiData }: Props): JSX.Element {
   });
 
   const seatAreaRatioSource = SeatAreaRatioSource();
-  rowsData.push({ cells: ["Seat Area Ratios", seatAreaRatioSource], collapsibleRows: null });
+  rowsData.push({
+    cells: ["Seat Area Ratios", seatAreaRatioSource],
+    collapsibleRows: null,
+    useLightGrayText: false,
+  });
 
   const tableData = { headers: ["Data Type", "Source"], rows: rowsData };
 

@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-@use 'src/pages/styles';
+@use "src/pages/styles";
 
 .table-container {
   @include styles.section;
   border-top: 1px solid rgb(224, 224, 224);
-  border-bottom: 1px solid rgb(224, 224, 224);
 
   .MuiTable-root {
     height: fit-content;
@@ -36,6 +35,13 @@
     &:first-child {
       padding-left: 0;
       width: 48px;
+    }
+  }
+
+  .row-without-subrows {
+    .MuiTableCell-root {
+      border-top: 1px solid rgba(224, 224, 224, 1);
+      padding: 8px 0px 0px 16px;
     }
   }
 
@@ -100,5 +106,9 @@
       padding: 0px 0px 0px 32px;
       white-space: nowrap;
     }
+  }
+
+  .useLightGrayText > .MuiTableCell-root {
+    color: #5c5f5e;
   }
 }
