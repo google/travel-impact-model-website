@@ -96,7 +96,7 @@ function About() {
           <ActionCard
             title="Developers API"
             description="Are you a developer? Try our API."
-            linkAriaLabel="Try the Travel Impact Model API"
+            linkAriaLabel="Try the Developer API"
             linkValue="https://developers.google.com/travel/impact-model"
             externalLink={true}
           />
