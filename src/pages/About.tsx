@@ -90,20 +90,20 @@ function About() {
           <ActionCard
             title="Emissions Calculator"
             description="Try it yourself with our easy to use emissions calculator!"
-            linkAriaLabel="Try emissions calculator"
+            linkAriaLabel="Emissions Calculator. Try it yourself with our easy to use emissions calculator!"
             linkValue="/lookup/flight"
           />
           <ActionCard
             title="Developers API"
             description="Are you a developer? Try our API."
-            linkAriaLabel="Try the Developer API"
+            linkAriaLabel="Developers API. Are you a developer? Try our API."
             linkValue="https://developers.google.com/travel/impact-model"
             externalLink={true}
           />
           <ActionCard
             title="Google Sheets Ext."
             description="Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
-            linkAriaLabel="Try Google Sheets Add-On"
+            linkAriaLabel="Google Sheets Ext. Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
             linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
             externalLink={true}
           />
