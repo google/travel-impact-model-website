@@ -16,7 +16,7 @@
 
 @use 'src/pages/styles';
 
-.output-data-container {
+.output-data-container, .output-error-container {
   .output-field-section {
     margin-top: 50px;
   }

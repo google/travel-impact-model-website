@@ -26,7 +26,7 @@ interface OutputDataProps {
 function OutputData({ apiData }: OutputDataProps) {
   if (apiData.flightEmissions.length == 0) {
     return (
-      <div className="output-data-container" aria-live="polite" aria-atomic="true">
+      <div className="output-error-container" role="alert" aria-live="polite" aria-atomic="true">
         <div className="output-field-error">
           <div className="output-field-error-text">
             <Typography variant="body1" component="div">

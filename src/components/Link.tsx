@@ -17,7 +17,7 @@ import { Link as MuiLink } from "@mui/material";
 type LinkProps = {
   text: string;
   href: string | undefined;
-  ariaLabel: string | undefined;
+  ariaLabel?: string | undefined;
 };
 
 function Link(props: LinkProps) {
