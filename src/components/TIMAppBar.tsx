@@ -91,7 +91,7 @@ function MenuDrawer() {
               <CloseIcon />
             </IconButton>
           </DrawerHeader>
-          <Divider />
+          <Divider aria-hidden="true" />
           <DrawerList />
         </Drawer>
       </Box>
