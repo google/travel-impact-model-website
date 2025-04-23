@@ -284,6 +284,9 @@ function FlightInput(props: FlightInputFieldsProps) {
             InputLabelProps: { "aria-hidden": true },
             InputProps: { "aria-label": "Departure Date" },
           },
+          openPickerButton: {
+            "aria-label": `Departure date, selected date is ${inputs.date.value.format("MMM DD, YYYY")}`,
+          },
         }}
       />
     </div>
