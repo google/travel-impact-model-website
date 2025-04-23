@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { Box, Button, TextField } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { convertDateMessageToString, convertStringToDateMessage } from "../data/flightDate";
@@ -258,7 +258,7 @@ function FlightInput(props: FlightInputFieldsProps) {
           inputProps: { "aria-label": "Flight Number" },
         }}
       />
-      <DatePicker
+      <DesktopDatePicker
         label="Departure Date"
         defaultValue={inputs.date.value}
         format="YYYY/MM/DD"
@@ -285,7 +285,9 @@ function FlightInput(props: FlightInputFieldsProps) {
             InputProps: { "aria-label": "Departure Date" },
           },
           openPickerButton: {
-            "aria-label": `Departure date, selected date is ${inputs.date.value.format("MMM DD, YYYY")}`,
+            "aria-label": `Departure date, selected date is ${inputs.date.value.format(
+              "MMM DD, YYYY"
+            )}`,
           },
         }}
       />
