@@ -35,8 +35,16 @@ function Footer(props: FooterProps) {
       <span className="right-column">
         <span className="links">
           {props.extraLink}
-          <Link text="Contact Us" href="https://support.google.com/travel/contact/tim" />
-          <Link text="Privacy Policy" href="https://policies.google.com/privacy" />
+          <Link
+            text="Contact Us"
+            ariaLabel="Contact us"
+            href="https://support.google.com/travel/contact/tim"
+          />
+          <Link
+            text="Privacy Policy"
+            ariaLabel="Privacy policy"
+            href="https://policies.google.com/privacy"
+          />
         </span>
       </span>
     </Typography>
