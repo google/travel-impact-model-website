@@ -55,7 +55,7 @@ function FlightInput(props: FlightInputFieldsProps) {
   }
 
   function getFlightNumberHelperText(value: string | undefined) {
-    if (value && !FLIGHT_NUMBER_REGEX.test(value)) {
+    if (!value || (value && !FLIGHT_NUMBER_REGEX.test(value))) {
       return "Numbers only";
     }
   }
