@@ -33,11 +33,17 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Toolbar from "@mui/material/Toolbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "./TIMAppBar.scss";
 
 type Props = {
   variant: "background-image" | "background-none";
+};
+
+type DrawerProps = {
+  selectedIndex: number;
+  setSelectedIndex: (index: number) => void;
 };
 
 const pages = [
@@ -52,22 +58,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-function DrawerList() {
-  return (
-    <List>
-      {pages.map((page, index) => {
-        return (
-          <ListItemButton href={page.link} sx={{ paddingRight: "24px" }} key={index}>
-            <ListItemIcon sx={{ minWidth: "46px" }}>{page.icon}</ListItemIcon>
-            <ListItemText primary={page.text} />
-          </ListItemButton>
-        );
-      })}
-    </List>
-  );
-}
-
-function MenuDrawer() {
+function MenuDrawer({ selectedIndex, setSelectedIndex }: DrawerProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -92,7 +83,22 @@ function MenuDrawer() {
             </IconButton>
           </DrawerHeader>
           <Divider aria-hidden="true" />
-          <DrawerList />
+          <List>
+            {pages.map((page, index) => {
+              return (
+                <ListItemButton
+                  href={page.link}
+                  sx={{ paddingRight: "24px" }}
+                  key={index}
+                  selected={selectedIndex === index}
+                  aria-current={selectedIndex === index ? "page" : undefined}
+                  onClick={() => setSelectedIndex(index)}>
+                  <ListItemIcon sx={{ minWidth: "46px" }}>{page.icon}</ListItemIcon>
+                  <ListItemText primary={page.text} />
+                </ListItemButton>
+              );
+            })}
+          </List>
         </Drawer>
       </Box>
     </Box>
@@ -100,6 +106,23 @@ function MenuDrawer() {
 }
 
 function TIMAppBar({ variant }: Props) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    // Try to find an exact match first.
+    const exactMatchIndex = pages.findIndex((page) => currentPath === page.link);
+    if (exactMatchIndex !== -1) {
+      setSelectedIndex(exactMatchIndex);
+    }
+    // If there's no exact match, we find the first match by prefix.
+    const partialMatchIndex = pages.findIndex(
+      (page) => page.link !== "/" && currentPath.startsWith(page.link)
+    );
+    setSelectedIndex(partialMatchIndex !== -1 ? partialMatchIndex : 0);
+  }, [location.pathname]);
+
   return (
     <AppBar
       color="primary"
@@ -115,17 +138,19 @@ function TIMAppBar({ variant }: Props) {
           </Typography>
         </IconButton>
         <Box sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "flex-end", flexGrow: 1 }}>
-          {pages.map((page) => (
+          {pages.map((page, index) => (
             <Button
               className="appbar-link"
               key={page.text}
               href={page.link}
-              sx={{ color: "text.primary" }}>
+              sx={{ color: "text.primary" }}
+              aria-current={selectedIndex === index ? "page" : undefined}
+              onClick={() => setSelectedIndex(index)}>
               {page.text}
             </Button>
           ))}
         </Box>
-        <MenuDrawer />
+        <MenuDrawer selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
       </Toolbar>
     </AppBar>
   );
