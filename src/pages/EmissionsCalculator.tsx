@@ -112,6 +112,11 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
                 onClose={() => setToolTipOpen(false)}
                 open={toolTipOpen}>
                 <IconButton
+                  aria-label={
+                    toolTipOpen
+                      ? "Emissions data is only available for future flights."
+                      : "Click to show tooltip."
+                  }
                   onClick={() => setToolTipOpen(!toolTipOpen)}
                   sx={{ margin: "-8px 0", padding: "16px" }}>
                   <InfoOutlinedIcon />

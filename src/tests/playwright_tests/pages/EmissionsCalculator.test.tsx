@@ -71,13 +71,13 @@ test("transition to valid state", async ({ page }) => {
 
 test("show past dates tooltip", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page.getByLabel("Emissions data is only available for future flights.").click();
+  await page.getByLabel("Click to show tooltip.").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("show 1 plus year future dates tooltip", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20500827");
-  await page.getByLabel("Emissions data is only available for future flights.").click();
+  await page.getByLabel("Click to show tooltip.").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
