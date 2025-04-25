@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import ErrorIcon from "@mui/icons-material/Error";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { convertDateMessageToString, convertStringToDateMessage } from "../data/flightDate";
@@ -171,6 +172,13 @@ function FlightInput(props: FlightInputFieldsProps) {
         InputLabelProps={{ "aria-hidden": true }}
         InputProps={{
           inputProps: { "aria-label": "Origin" },
+          endAdornment: inputs.origin.isError ? (
+            <InputAdornment position="end">
+              <ErrorIcon color="error" />
+            </InputAdornment>
+          ) : (
+            <></>
+          ),
         }}
       />
       <TextField
@@ -200,6 +208,13 @@ function FlightInput(props: FlightInputFieldsProps) {
         InputLabelProps={{ "aria-hidden": true }}
         InputProps={{
           inputProps: { "aria-label": "Destination" },
+          endAdornment: inputs.destination.isError ? (
+            <InputAdornment position="end">
+              <ErrorIcon color="error" />
+            </InputAdornment>
+          ) : (
+            <></>
+          ),
         }}
       />
       <TextField
@@ -228,6 +243,13 @@ function FlightInput(props: FlightInputFieldsProps) {
         InputLabelProps={{ "aria-hidden": true }}
         InputProps={{
           inputProps: { "aria-label": "Carrier Code" },
+          endAdornment: inputs.carrierCode.isError ? (
+            <InputAdornment position="end">
+              <ErrorIcon color="error" />
+            </InputAdornment>
+          ) : (
+            <></>
+          ),
         }}
       />
       <TextField
@@ -256,6 +278,13 @@ function FlightInput(props: FlightInputFieldsProps) {
         InputLabelProps={{ "aria-hidden": true }}
         InputProps={{
           inputProps: { "aria-label": "Flight Number" },
+          endAdornment: inputs.flightNumber.isError ? (
+            <InputAdornment position="end">
+              <ErrorIcon color="error" />
+            </InputAdornment>
+          ) : (
+            <></>
+          ),
         }}
       />
       <DesktopDatePicker
