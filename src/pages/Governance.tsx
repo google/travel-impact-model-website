@@ -246,7 +246,7 @@ function Governance() {
             Belly Cargo Apportionment
           </a>
           <Typography variant="caption" component="p" className="memo-description">
-            October 2023
+            October 2023 (revised April 2025)
           </Typography>
           <Typography variant="body2" component="p" className="memo-description">
             This technical brief explains the rationale for a Travel Impact Model (TIM) update that
