@@ -29,6 +29,7 @@ import React from "react";
 export interface RowData {
   cells: (string | JSX.Element)[];
   collapsibleRows: RowData[] | null;
+  useLightGrayText?: boolean;
 }
 
 export interface TableData {
@@ -47,17 +48,20 @@ export function CollapsibleRow({ row }: CollapsibleRowProps) {
       {/* Create row with the arrow icon that when clicked will collapse/uncollapse the rows below */}
       <TableRow className="row-with-subrows">
         <TableCell className="row-with-subrows-icon-cell" align="center">
-          <IconButton
-            aria-label={open ? "Hide more rows" : "Show more rows"}
-            aria-pressed={open}
-            onClick={() => setOpen(!open)}>
-            {open ? (
-              <KeyboardArrowUp className="row-with-subrows-icon" />
-            ) : (
-              <KeyboardArrowDown className="row-with-subrows-icon" />
-            )}
-          </IconButton>
+          {row.collapsibleRows !== null && (
+            <IconButton
+              aria-label={open ? "Hide more rows" : "Show more rows"}
+              aria-pressed={open}
+              onClick={() => setOpen(!open)}>
+              {open ? (
+                <KeyboardArrowUp className="row-with-subrows-icon" />
+              ) : (
+                <KeyboardArrowDown className="row-with-subrows-icon" />
+              )}
+            </IconButton>
+          )}
         </TableCell>
+
         {row.cells.map((cell, cellIndex) => (
           <TableCell
             className={
@@ -100,14 +104,15 @@ interface TableProps {
 }
 
 function Table(props: TableProps) {
+  // If the table has any collapsible row, create a cell on headers and each non collapsible row
+  // to match the cell for the collapse button.
+  const hasCollapsibleRows = props.data.rows.some((row) => row.collapsibleRows !== null);
   return (
     <TableContainer className="table-container">
       <MuiTable aria-label={props.ariaLabel}>
         <TableHead>
           <TableRow>
-            {props.data.rows.some((row) => row.collapsibleRows !== null) && (
-              <TableCell key={props.data.headers.length + 1}></TableCell>
-            )}
+            {hasCollapsibleRows && <TableCell key={props.data.headers.length + 1}></TableCell>}
             {props.data.headers.map((header, headerIndex) => (
               <TableCell key={headerIndex}>{header}</TableCell>
             ))}
@@ -116,8 +121,11 @@ function Table(props: TableProps) {
         <TableBody>
           {props.data.rows.map((row, rowIndex) => {
             if (row.collapsibleRows === null) {
+              const className =
+                "row-without-subrows " + (row?.useLightGrayText && "useLightGrayText");
               return (
-                <TableRow key={rowIndex}>
+                <TableRow key={rowIndex} className={className}>
+                  {hasCollapsibleRows && <TableCell></TableCell>}
                   {row.cells.map((cell, cellIndex) => (
                     <TableCell key={cellIndex}>{cell}</TableCell>
                   ))}

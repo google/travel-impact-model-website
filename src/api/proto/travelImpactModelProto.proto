@@ -160,3 +160,38 @@ message EmissionsBreakdown {
   // [ComputeFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeFlightEmissions].
   EmissionsGramsPerPax ttw_emissions_grams_per_pax = 2;
 }
+
+// A list of pair of airports (markets) to request the typical emissions for.
+message ComputeTypicalFlightEmissionsRequest {
+  // Request the typical flight emissions estimates for this market pair.
+  // A maximum of 1000 markets can be requested.
+  repeated Market markets = 1;
+}
+
+// A pair of airports.
+message Market {
+  // IATA airport code for flight origin, e.g. "LHR".
+  string origin = 1;
+  // IATA airport code for flight destination, e.g. "JFK".
+  string destination = 2;
+}
+
+// The response includes the emissions but also the model version.
+message ComputeTypicalFlightEmissionsResponse {
+  // Market's Typical Flight Emissions requested.
+  repeated TypicalFlightEmissions typical_flight_emissions = 1;
+
+  // The model version under which typical flight emission estimates for all
+  // flights in this response were computed.
+  ModelVersion model_version = 2;
+}
+
+// Typical flight emission estimates for a certain market
+message TypicalFlightEmissions {
+  // Matches the flight identifiers in the request.
+  // Note: all IATA codes are capitalized.
+  Market market = 1;
+
+  // Typical flight emissions per passenger for requested market.
+  EmissionsGramsPerPax emissions_grams_per_pax = 2;
+}

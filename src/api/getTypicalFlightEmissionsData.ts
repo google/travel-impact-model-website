@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,18 +13,18 @@
 // limitations under the License.
 
 import {
-  ComputeFlightEmissionsRequest,
-  ComputeFlightEmissionsResponse,
+  ComputeTypicalFlightEmissionsRequest,
+  ComputeTypicalFlightEmissionsResponse,
 } from "./proto/generated/travelImpactModelProto";
 import { FirebaseApp } from "firebase/app";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import fakeEmissionsApiResponse from "./proto/fakeEmissionsApiResponse.json";
+import fakeTypicalEmissionsApiResponse from "./proto/fakeTypicalEmissionsApiResponse.json";
 import axios from "axios";
 
-async function getFlightEmissionsData(
-  request: ComputeFlightEmissionsRequest,
+async function getTypicalFlightEmissionsData(
+  request: ComputeTypicalFlightEmissionsRequest,
   app: FirebaseApp
-): Promise<ComputeFlightEmissionsResponse> {
+): Promise<ComputeTypicalFlightEmissionsResponse> {
   if (process.env.REACT_APP_API_URL && process.env.REACT_APP_API_KEY) {
     // Get data from user input API URL. Set `REACT_APP_API_URL=<url> REACT_APP_API_KEY=<api key> npm start`.
     const response = await axios.post(process.env.REACT_APP_API_URL, request, {
@@ -40,27 +40,27 @@ async function getFlightEmissionsData(
     }
   } else if (process.env.REACT_APP_FAKE_API_DATA) {
     // Get data from fake data. Set `REACT_APP_FAKE_API_DATA=true npm start`.
-    return ComputeFlightEmissionsResponse.fromJSON(fakeEmissionsApiResponse);
+    return ComputeTypicalFlightEmissionsResponse.fromJSON(fakeTypicalEmissionsApiResponse);
   } else {
     const functions = getFunctions(app);
-    const computeFlightEmissions = httpsCallable(functions, "computeFlightEmissions");
-    const apiResponse: ComputeFlightEmissionsResponse = await computeFlightEmissions({
+    const computeTypicalFlightEmissions = httpsCallable(functions, "computeTypicalFlightEmissions");
+    const apiResponse: ComputeTypicalFlightEmissionsResponse = await computeTypicalFlightEmissions({
       data: request,
     })
-      .then((response) => ComputeFlightEmissionsResponse.fromJSON(response.data))
+      .then((response) => ComputeTypicalFlightEmissionsResponse.fromJSON(response.data))
       .catch((error) => {
         console.warn(error);
-        return { flightEmissions: [], modelVersion: undefined };
+        return { typicalFlightEmissions: [], modelVersion: undefined };
       });
 
     if (
-      apiResponse?.flightEmissions?.length != 0 &&
-      apiResponse?.flightEmissions?.[0].emissionsGramsPerPax !== undefined
+      apiResponse?.typicalFlightEmissions?.length != 0 &&
+      apiResponse?.typicalFlightEmissions?.[0].emissionsGramsPerPax !== undefined
     ) {
       return apiResponse;
     }
   }
-  return { flightEmissions: [], modelVersion: undefined };
+  return { typicalFlightEmissions: [], modelVersion: undefined };
 }
 
-export default getFlightEmissionsData;
+export default getTypicalFlightEmissionsData;

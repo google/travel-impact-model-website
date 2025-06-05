@@ -17,6 +17,7 @@ import PassengerLevelTable, {
 } from "../../../components/PassengerLevelTable";
 import {
   ComputeFlightEmissionsResponse,
+  ComputeTypicalFlightEmissionsResponse,
   EmissionsGramsPerPax,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
@@ -24,7 +25,7 @@ import "@testing-library/jest-dom";
 
 describe("PassengerLevelTable", () => {
   it("should return passenger level table with expected values", async () => {
-    const apiData: ComputeFlightEmissionsResponse = {
+    const emissionsData: ComputeFlightEmissionsResponse = {
       flightEmissions: [
         {
           flight: {
@@ -67,15 +68,94 @@ describe("PassengerLevelTable", () => {
       },
     };
 
-    render(<PassengerLevelTable apiData={apiData} />);
+    render(<PassengerLevelTable emissionsData={emissionsData} />);
     expect(screen.getByText("Economy")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Premium")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Business")).not.toBeEmptyDOMElement();
     expect(screen.getByText("First")).not.toBeEmptyDOMElement();
+    expect(screen.queryByText("Typical")).toBeNull();
+  });
+
+  it("should return passenger level table with typical emissions", async () => {
+    const emissionsData: ComputeFlightEmissionsResponse = {
+      flightEmissions: [
+        {
+          flight: {
+            origin: "ZRH",
+            destination: "BOS",
+            operatingCarrierCode: "LX",
+            departureDate: { year: 2024, month: 6, day: 1 },
+            flightNumber: "54",
+          },
+          emissionsGramsPerPax: {
+            first: 1745475,
+            business: 139638,
+            premiumEconomy: 523642,
+            economy: 349095,
+          },
+          emissionsInputs: {
+            emissionsInputEntries: {},
+          },
+          emissionsBreakdown: {
+            wttEmissionsGramsPerPax: {
+              first: 4004,
+              business: 3003,
+              premiumEconomy: 2002,
+              economy: 1001,
+            },
+            ttwEmissionsGramsPerPax: {
+              first: 1745475,
+              business: 139638,
+              premiumEconomy: 523642,
+              economy: 349095,
+            },
+          },
+        },
+      ],
+      modelVersion: {
+        major: 1,
+        minor: 5,
+        patch: 0,
+        dated: "20220914",
+      },
+    };
+
+    const typicalEmissionsData: ComputeTypicalFlightEmissionsResponse = {
+      typicalFlightEmissions: [
+        {
+          market: {
+            origin: "ZRH",
+            destination: "BOS",
+          },
+          emissionsGramsPerPax: {
+            first: 1721684,
+            business: 1411005,
+            premiumEconomy: 566775,
+            economy: 406535,
+          },
+        },
+      ],
+      modelVersion: {
+        major: 2,
+        minor: 0,
+        patch: 0,
+        dated: "20250131",
+      },
+    };
+
+    render(
+      <PassengerLevelTable
+        emissionsData={emissionsData}
+        typicalEmissionsData={typicalEmissionsData}
+      />
+    );
+
+    expect(screen.queryByText("Well-to-Wake")).not.toBeNull();
+    expect(screen.queryByText("Typical")).not.toBeNull();
   });
 
   it("should return passenger level table with emissionsGramsPerPax empty", async () => {
-    const apiData: ComputeFlightEmissionsResponse = {
+    const emissionsData: ComputeFlightEmissionsResponse = {
       flightEmissions: [
         {
           flight: {
@@ -99,12 +179,12 @@ describe("PassengerLevelTable", () => {
       },
     };
 
-    const response = PassengerLevelTable({ apiData: apiData });
+    const response = PassengerLevelTable({ emissionsData: emissionsData });
     expect(response).toEqual(undefined);
   });
 
   it("should return passenger level table with no emissionsGramsPerPax", async () => {
-    const apiData: ComputeFlightEmissionsResponse = {
+    const emissionsData: ComputeFlightEmissionsResponse = {
       flightEmissions: [
         {
           flight: {
@@ -124,7 +204,7 @@ describe("PassengerLevelTable", () => {
       },
     };
 
-    const response = PassengerLevelTable({ apiData: apiData });
+    const response = PassengerLevelTable({ emissionsData: emissionsData });
     expect(response).toEqual(undefined);
   });
 

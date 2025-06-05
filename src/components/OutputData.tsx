@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { ComputeFlightEmissionsResponse } from "../api/proto/generated/travelImpactModelProto";
+import {
+  ComputeFlightEmissionsResponse,
+  ComputeTypicalFlightEmissionsResponse,
+} from "../api/proto/generated/travelImpactModelProto";
 import DataAttributionTable from "./DataAttributionTable";
 import PassengerLevelTable from "./PassengerLevelTable";
 import Link from "./Link";
@@ -20,11 +23,12 @@ import "./OutputData.scss";
 import { Typography } from "@mui/material";
 
 interface OutputDataProps {
-  apiData: ComputeFlightEmissionsResponse;
+  emissionsData: ComputeFlightEmissionsResponse;
+  typicalEmissionsData?: ComputeTypicalFlightEmissionsResponse;
 }
 
-function OutputData({ apiData }: OutputDataProps) {
-  if (apiData.flightEmissions.length == 0) {
+function OutputData({ emissionsData, typicalEmissionsData }: OutputDataProps) {
+  if (emissionsData.flightEmissions.length == 0) {
     return (
       <div className="output-error-container" role="alert" aria-live="polite" aria-atomic="true">
         <div className="output-field-error">
@@ -51,11 +55,16 @@ function OutputData({ apiData }: OutputDataProps) {
     return (
       <div className="output-data-container" aria-live="polite" aria-atomic="true">
         <div className="output-field-section">
-          <PassengerLevelTable apiData={apiData} />
+          <PassengerLevelTable
+            emissionsData={emissionsData}
+            typicalEmissionsData={typicalEmissionsData}
+          />
         </div>
-        <div className="output-field-section">
-          <DataAttributionTable apiData={apiData} />
-        </div>
+        {emissionsData && (
+          <div className="output-field-section">
+            <DataAttributionTable emissionsData={emissionsData} />
+          </div>
+        )}
         <div className="output-field-section">
           <Typography component="div" variant="body2" color="black">
             Learn more about{" "}

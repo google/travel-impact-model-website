@@ -15,6 +15,7 @@
 import { convertDateMessageToString, convertStringToDateMessage } from "./flightDate";
 import {
   ComputeFlightEmissionsRequest,
+  ComputeTypicalFlightEmissionsRequest,
   Flight,
 } from "../api/proto/generated/travelImpactModelProto";
 
@@ -42,6 +43,16 @@ export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFligh
       : [],
     includeEmissionsInputs: true,
     includeEmissionsBreakdown: true,
+  };
+}
+
+export function flightEmissionsRequestToTypicalFlightEmissionsRequest(
+  flightRequest: ComputeFlightEmissionsRequest
+): ComputeTypicalFlightEmissionsRequest {
+  return {
+    markets: flightRequest?.flights.map((flight) => {
+      return { origin: flight.origin, destination: flight.destination };
+    }),
   };
 }
 

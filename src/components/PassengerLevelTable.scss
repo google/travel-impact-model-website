@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
- @use 'src/pages/styles';
+@use "src/pages/styles";
 
- .passenger-level-table-container .breakdown-info-icon {
-  &.MuiButtonBase-root {
-    padding: 8px;
+.passenger-level-table-container {
+  .MuiTypography-body1 {
+    margin: 15px 0 15px 0;
   }
 
-  .MuiSvgIcon-root {
-    font-size: 18px;
+  .breakdown-info-icon,
+  .typical-info-icon {
+    &.MuiButtonBase-root {
+      padding: 8px;
+    }
+
+    .MuiSvgIcon-root {
+      font-size: 18px;
+    }
   }
- }
+}

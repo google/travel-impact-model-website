@@ -16,6 +16,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { ClickAwayListener, IconButton, Tooltip, Typography } from "@mui/material";
 import {
   ComputeFlightEmissionsResponse,
+  ComputeTypicalFlightEmissionsResponse,
   EmissionsBreakdown,
   EmissionsGramsPerPax,
 } from "../api/proto/generated/travelImpactModelProto";
@@ -38,13 +39,14 @@ export function formatEmissionsPerPassenger(
   return [name, economy, premiumEconomy, business, first];
 }
 
-function createCo2CollapsableRowData(
+function createCo2CollapsibleRowData(
   name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined
 ): RowData {
   return {
     cells: formatEmissionsPerPassenger(name, emissionsPerPassenger),
     collapsibleRows: null,
+    useLightGrayText: false,
   };
 }
 
@@ -119,29 +121,72 @@ function createCo2RowData(
   return {
     cells: formatEmissionsPerPassenger(wtwName, emissionsPerPassenger),
     collapsibleRows: [
-      createCo2CollapsableRowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
-      createCo2CollapsableRowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
+      createCo2CollapsibleRowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
+      createCo2CollapsibleRowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
     ],
+    useLightGrayText: false,
+  };
+}
+
+function createTypicalEmissionsRowData(
+  typicalEmissionsPerPassenger: EmissionsGramsPerPax | undefined
+): RowData {
+  const [typicalToolTipOpen, typicalSetToolTipOpen] = useState(false);
+  const rowHeader = (
+    <>
+      Typical
+      <ClickAwayListener
+        onClickAway={() => {
+          typicalSetToolTipOpen(false);
+        }}>
+        <Tooltip
+          className="typical-info-icon"
+          title="Typical Well-to-Wake emissions for a flight between this origin and destination."
+          onClose={() => typicalSetToolTipOpen(false)}
+          open={typicalToolTipOpen}>
+          <IconButton onClick={() => typicalSetToolTipOpen(!typicalToolTipOpen)}>
+            <InfoOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      </ClickAwayListener>
+    </>
+  );
+  return {
+    cells: formatEmissionsPerPassenger(rowHeader, typicalEmissionsPerPassenger),
+    collapsibleRows: null,
+    useLightGrayText: true,
   };
 }
 
 function createTableData(
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
-  emissionsBreakdown: EmissionsBreakdown | undefined
+  emissionsBreakdown: EmissionsBreakdown | undefined,
+  typicalEmissionsPerPassenger: EmissionsGramsPerPax | undefined
 ): TableData {
+  const rows = [createCo2RowData(emissionsPerPassenger, emissionsBreakdown)];
+  // Always call createTypicalEmissionsRowData as its first line is creating a hook.
+  // If not we're getting "Rendered more hooks than during the previous render".
+  // We can then decide to use it or not.
+  const typicalRow = createTypicalEmissionsRowData(typicalEmissionsPerPassenger);
+  if (typicalEmissionsPerPassenger && Object.keys(typicalEmissionsPerPassenger).length !== 0) {
+    rows.push(typicalRow);
+  }
   return {
-    headers: ["Emissions Type", "Economy", "Premium", "Business", "First"],
-    rows: [createCo2RowData(emissionsPerPassenger, emissionsBreakdown)],
+    headers: ["Type", "Economy", "Premium", "Business", "First"],
+    rows: rows,
   };
 }
 
 type Props = {
-  apiData: ComputeFlightEmissionsResponse;
+  emissionsData: ComputeFlightEmissionsResponse;
+  typicalEmissionsData?: ComputeTypicalFlightEmissionsResponse;
 };
 
-function PassengerLevelTable({ apiData }: Props) {
-  const emissionsPerPassenger = apiData.flightEmissions[0].emissionsGramsPerPax;
-  const emissionsBreakdown = apiData.flightEmissions[0].emissionsBreakdown;
+function PassengerLevelTable({ emissionsData, typicalEmissionsData }: Props) {
+  const emissionsPerPassenger = emissionsData.flightEmissions[0].emissionsGramsPerPax;
+  const emissionsBreakdown = emissionsData.flightEmissions[0].emissionsBreakdown;
+  const typicalEmissionsPerPassenger =
+    typicalEmissionsData?.typicalFlightEmissions[0]?.emissionsGramsPerPax;
 
   if (
     emissionsPerPassenger &&
@@ -152,11 +197,16 @@ function PassengerLevelTable({ apiData }: Props) {
     return (
       <div className="passenger-level-table-container">
         <Typography variant="h4" component="h2">
-          Estimated emissions in kg CO2e per passenger
+          Emissions
         </Typography>
+        <Typography variant="body1">Estimated kg CO2e per passenger</Typography>
         <Table
           ariaLabel="Estimated Emissions Per Passenger table"
-          data={createTableData(emissionsPerPassenger, emissionsBreakdown)}
+          data={createTableData(
+            emissionsPerPassenger,
+            emissionsBreakdown,
+            typicalEmissionsPerPassenger
+          )}
         />
       </div>
     );

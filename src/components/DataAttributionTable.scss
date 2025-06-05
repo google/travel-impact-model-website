@@ -23,3 +23,13 @@
   padding-left: 0;
   width: 280px;
 }
+
+.data-attribution-table .row-without-subrows {
+  .MuiTableCell-root {
+    padding: 8px 16px 8px 16px;
+
+    &:first-child {
+      padding-left: 0px;
+    }
+  }
+}

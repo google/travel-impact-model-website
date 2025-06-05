@@ -1,0 +1,34 @@
+{
+  "typicalFlightEmissions": [
+    {
+      "market": {
+        "origin": "ZRH",
+        "destination": "BOS"
+      },
+      "emissionsGramsPerPax": {
+        "first": 1721684,
+        "business": 1411005,
+        "premiumEconomy": 566775,
+        "economy": 406535
+      }
+    },
+    {
+      "market": {
+        "origin": "BOS",
+        "destination": "ZRH"
+      },
+      "emissionsGramsPerPax": {
+        "first": 2149656,
+        "business": 1737021,
+        "premiumEconomy": 688646,
+        "economy": 488115
+      }
+    }
+  ],
+  "modelVersion": {
+    "major": 2,
+    "minor": 0,
+    "patch": 0,
+    "dated": "20250131"
+  }
+}
