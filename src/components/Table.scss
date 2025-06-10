@@ -18,7 +18,33 @@
 
 .table-container {
   @include styles.section;
+  margin-top: 16px;
+  border-radius: 12px;
+  border: 1px solid rgb(224, 224, 224);
   border-top: 1px solid rgb(224, 224, 224);
+
+  .MuiTableHead-root.hidden-header {
+    display: none;
+  }
+
+  &.totals {
+
+    .MuiTableRow-root:last-child .MuiTableCell-root.data-cell {
+      color: #414549;
+      padding-top: 16px;
+    }
+  }
+
+  &.contrails {
+    .MuiTableCell-root:first-child {
+      width: 80%;
+    }
+    .MuiTableCell-root:last-child {
+      text-align: right;
+      vertical-align: top;
+      padding-right: 34px;
+    }
+  }
 
   .MuiTable-root {
     height: fit-content;
@@ -26,6 +52,22 @@
 
   .MuiTableRow-root {
     height: 100%;
+
+    &.highlight-row .data-cell, &.highlight-row .emission-name {
+      font-weight: 700;
+    }
+
+    &:first-child .MuiTableCell-root {
+      padding-top: 16px;
+    }
+
+    &:last-child .MuiTableCell-root {
+      padding-bottom: 16px;
+
+      &.data-cell {
+        border-bottom: none;
+      }
+    }
   }
 
   .MuiTableCell-root {
@@ -33,82 +75,29 @@
     padding: 8px 16px;
 
     &:first-child {
-      padding-left: 0;
-      width: 48px;
+      color: #414549;
+      width: 50%;
+      min-width: 170px;
+      padding: 8px 16px 8px 24px;
+    }
+
+    &:first-child.indented-cell {
+      padding: 8px 8px 8px 48px;
     }
   }
 
-  .row-without-subrows {
-    .MuiTableCell-root {
-      border-top: 1px solid rgba(224, 224, 224, 1);
-      padding: 8px 0px 0px 16px;
-    }
+  .table-header {
+    color: var(--Grey-800, #3C4043);
   }
 
-  .row-with-subrows {
-    .MuiTableCell-root {
-      padding: 0px 8px;
-      border: none;
-    }
-
-    .row-with-subrows-data-cell {
-      text-align: left;
-      padding: 0px 16px;
-    }
-
-    .row-with-subrows-icon-cell {
-      &.MuiButtonBase-root {
-        padding: 8px 0px;
-      }
-
-      .row-with-subrows-icon {
-        font-size: 22px;
-
-        &.MuiSvgIcon-root {
-          border: 1px solid #757575;
-          border-radius: 4px;
-        }
-      }
-    }
-
-    .row-with-subrows-name-cell {
-      white-space: nowrap;
-      padding: 8px 0px 0px 16px;
-      min-width: 150px;
-    }
-  }
-
-  .subrow {
-    .MuiTableCell-root {
-      padding: 0px;
-      border: none;
-      height: inherit;
-    }
-
-    .subrow-data-cell {
-      padding: 0px 16px;
-    }
-
-    .subrow-icon-cell {
-      .subrow-divider {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100%;
-
-        .MuiDivider-root {
-          border-color: rgb(224, 224, 224);
-        }
-      }
-    }
-
-    .subrow-name-cell {
-      padding: 0px 0px 0px 32px;
-      white-space: nowrap;
-    }
-  }
-
-  .useLightGrayText > .MuiTableCell-root {
-    color: #5c5f5e;
+  .data-cell {
+    padding: 8px 16px;
+    vertical-align: top;
+    color: var(--Grey-800, #3C4043);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.2px;
   }
 }

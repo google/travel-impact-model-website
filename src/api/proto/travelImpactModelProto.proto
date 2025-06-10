@@ -23,6 +23,29 @@ message Date {
   int32 day = 3;
 }
 
+// The source of the emissions data.
+enum Source {
+  // The source of the emissions data is unspecified.
+  SOURCE_UNSPECIFIED = 0;
+  // The emissions data is from the Travel Impact Model.
+  TIM = 1;
+  // The emissions data is from the EASA environmental labels.
+  EASA = 2;
+}
+
+// The significance of contrails warming impact compared to the total CO2e
+// emissions impact.
+enum ContrailsImpactBucket {
+  // The contrails impact is unspecified.
+  CONTRAILS_IMPACT_UNSPECIFIED = 0;
+  // The contrails impact is negligible compared to the total CO2e emissions.
+  CONTRAILS_IMPACT_NEGLIGIBLE = 1;
+  // The contrails impact is comparable to the total CO2e emissions.
+  CONTRAILS_IMPACT_MODERATE = 2;
+  // The contrails impact is higher than the total CO2e emissions impact.
+  CONTRAILS_IMPACT_HIGH = 3;
+}
+
 message ComputeFlightEmissionsRequest {
   // Direct flights to return emission estimates for.
   repeated Flight flights = 1;
@@ -67,6 +90,9 @@ message FlightWithEmissions {
   // Note: all IATA codes are capitalized.
   Flight flight = 1;
 
+  // The source of the emissions data.
+  Source source = 6;
+
   // Per-passenger emission estimate numbers. Will not be present if emissions
   // could not be computed.
   optional EmissionsGramsPerPax emissions_grams_per_pax = 2;
@@ -82,6 +108,10 @@ message FlightWithEmissions {
   // 'include_emissions_breakdown' in the request is set to true and applies to
   // all flights returned.
   optional EmissionsBreakdown emissions_breakdown = 5;
+
+  // The significance of contrails warming impact compared to the total CO2e
+  // emissions impact.
+  optional ContrailsImpactBucket contrails_impact_bucket = 7;
 
   reserved 3;
 }
@@ -142,6 +172,19 @@ message EmissionsInputs {
   // All contributing factors to compute the flight emissions, mapped by the
   // alphanumeric name of the contributing factor.
   map<string, EmissionsInputEntry> emissions_input_entries = 1;
+
+  // Details about the EASA label data.
+  message EasaLabelData {
+    // Sustainable Aviation Fuel (SAF) emissions discount percentage for the
+    // label. It is a percentage as a decimal. The values are in the interval
+    // [0,1]. For example, 0.0021 means 0.21%.
+    // This discount is currently not applied to the emissions_grams_per_pax.
+    double saf_discount_percentage = 1;
+  }
+
+  // Details about the EASA label data. Only set if the flight has an EASA
+  // label.
+  optional EasaLabelData easa_label_data = 2;
 }
 
 // Details about the various emissions portions of the total

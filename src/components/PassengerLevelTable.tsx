@@ -12,169 +12,230 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { ClickAwayListener, IconButton, Tooltip, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import {
   ComputeFlightEmissionsResponse,
+  ContrailsImpactBucket,
   ComputeTypicalFlightEmissionsResponse,
   EmissionsBreakdown,
   EmissionsGramsPerPax,
 } from "../api/proto/generated/travelImpactModelProto";
-import Table, { RowData, TableData } from "./Table";
+import Table, { TableData } from "./Table";
 import "./PassengerLevelTable.scss";
-import { useState } from "react";
 
-export function formatEmissionsPerPassenger(
-  name: string | JSX.Element,
-  emissionsPerPassenger: EmissionsGramsPerPax | undefined
-): (string | JSX.Element)[] {
-  const roundValue = (value: number | undefined) =>
-    value ? (Math.round(value * 10) / 10).toFixed(1) : "XX";
-
-  const economy = roundValue(emissionsPerPassenger?.economy);
-  const premiumEconomy = roundValue(emissionsPerPassenger?.premiumEconomy);
-  const business = roundValue(emissionsPerPassenger?.business);
-  const first = roundValue(emissionsPerPassenger?.first);
-
-  return [name, economy, premiumEconomy, business, first];
+function multiplyAndRoundValue(value: number | undefined, multiplier: number) {
+  return value ? (Math.round(value * 10 * multiplier) / 10).toFixed(1) : "XX";
 }
 
-function createCo2CollapsibleRowData(
-  name: string | JSX.Element,
-  emissionsPerPassenger: EmissionsGramsPerPax | undefined
-): RowData {
-  return {
-    cells: formatEmissionsPerPassenger(name, emissionsPerPassenger),
-    collapsibleRows: null,
-    useLightGrayText: false,
-  };
+function formatContrailsImpactBucket(contrailsImpactBucket: ContrailsImpactBucket | undefined) {
+  switch (contrailsImpactBucket) {
+    case ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE:
+      return "Low";
+    case ContrailsImpactBucket.CONTRAILS_IMPACT_MODERATE:
+      return "Medium";
+    case ContrailsImpactBucket.CONTRAILS_IMPACT_HIGH:
+      return "High";
+    case ContrailsImpactBucket.UNRECOGNIZED:
+    case ContrailsImpactBucket.CONTRAILS_IMPACT_UNSPECIFIED:
+    case undefined:
+      return "Unknown";
+  }
 }
 
-function createCo2RowData(
+export function formatEmissionsPerPassengerRow(
+  name: string | JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
-  emissionsBreakdown: EmissionsBreakdown | undefined
-): RowData {
-  const [wtwToolTipOpen, wtwSetToolTipOpen] = useState(false);
-  const [wttToolTipOpen, wttSetToolTipOpen] = useState(false);
-  const [ttwToolTipOpen, ttwSetToolTipOpen] = useState(false);
+  description: string | JSX.Element,
+  emissionsMultiplier = 1,
+  isTotalRow = false
+): (string | JSX.Element)[] {
+  const info = (
+    <div className="passenger-level-table-container">
+      <Typography
+        className={isTotalRow ? "total emission-name" : "emission-name"}
+        variant="subtitle1"
+        component="div">
+        {name}
+      </Typography>
+      {description && (
+        <Typography className="emission-description" variant="caption" component="div">
+          {description}
+        </Typography>
+      )}
+    </div>
+  );
 
-  const wtwName = (
-    <>
-      Well-to-Wake
-      <ClickAwayListener
-        onClickAway={() => {
-          wtwSetToolTipOpen(false);
-        }}>
-        {/*If you change the definition for WTW, make sure to also change it on the Travel Impact Model github spec page as well.*/}
-        <Tooltip
-          className="breakdown-info-icon"
-          title="The sum of Well-to-Tank (WTT) and Tank-to-Wake (TTW) emissions."
-          onClose={() => wtwSetToolTipOpen(false)}
-          open={wtwToolTipOpen}>
-          <IconButton onClick={() => wtwSetToolTipOpen(!wtwToolTipOpen)}>
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-      </ClickAwayListener>
-    </>
+  const economy = multiplyAndRoundValue(emissionsPerPassenger?.economy, emissionsMultiplier);
+  const premiumEconomy = multiplyAndRoundValue(
+    emissionsPerPassenger?.premiumEconomy,
+    emissionsMultiplier
   );
-  const wttName = (
-    <>
-      Well-to-Tank
-      <ClickAwayListener
-        onClickAway={() => {
-          wttSetToolTipOpen(false);
-        }}>
-        {/*If you change the definition for WTT, make sure to also change it on the Travel Impact Model github spec page as well.*/}
-        <Tooltip
-          className="breakdown-info-icon"
-          title="Emissions generated during the production, processing, handling, and delivery of jet fuel."
-          onClose={() => wttSetToolTipOpen(false)}
-          open={wttToolTipOpen}>
-          <IconButton onClick={() => wttSetToolTipOpen(!wttToolTipOpen)}>
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-      </ClickAwayListener>
-    </>
-  );
-  const ttwName = (
-    <>
-      Tank-to-Wake
-      <ClickAwayListener
-        onClickAway={() => {
-          ttwSetToolTipOpen(false);
-        }}>
-        {/*If you change the definition for TTW, make sure to also change it on the Travel Impact Model github spec page as well.*/}
-        <Tooltip
-          className="breakdown-info-icon"
-          title="Emissions produced by burning jet fuel during takeoff, flight, and landing of an aircraft."
-          onClose={() => ttwSetToolTipOpen(false)}
-          open={ttwToolTipOpen}>
-          <IconButton onClick={() => ttwSetToolTipOpen(!ttwToolTipOpen)}>
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-      </ClickAwayListener>
-    </>
-  );
-  return {
-    cells: formatEmissionsPerPassenger(wtwName, emissionsPerPassenger),
-    collapsibleRows: [
-      createCo2CollapsibleRowData(ttwName, emissionsBreakdown?.ttwEmissionsGramsPerPax),
-      createCo2CollapsibleRowData(wttName, emissionsBreakdown?.wttEmissionsGramsPerPax),
-    ],
-    useLightGrayText: false,
-  };
+  const business = multiplyAndRoundValue(emissionsPerPassenger?.business, emissionsMultiplier);
+  const first = multiplyAndRoundValue(emissionsPerPassenger?.first, emissionsMultiplier);
+
+  return [info, economy, premiumEconomy, business, first];
 }
 
-function createTypicalEmissionsRowData(
-  typicalEmissionsPerPassenger: EmissionsGramsPerPax | undefined
-): RowData {
-  const [typicalToolTipOpen, typicalSetToolTipOpen] = useState(false);
-  const rowHeader = (
-    <>
-      Typical
-      <ClickAwayListener
-        onClickAway={() => {
-          typicalSetToolTipOpen(false);
-        }}>
-        <Tooltip
-          className="typical-info-icon"
-          title="Typical Well-to-Wake emissions for a flight between this origin and destination."
-          onClose={() => typicalSetToolTipOpen(false)}
-          open={typicalToolTipOpen}>
-          <IconButton onClick={() => typicalSetToolTipOpen(!typicalToolTipOpen)}>
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-      </ClickAwayListener>
-    </>
+function formatEmissionsRow(
+  name: string | JSX.Element,
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined,
+  description: string | JSX.Element
+): (string | JSX.Element)[] {
+  return formatEmissionsPerPassengerRow(name, emissionsPerPassenger, description);
+}
+
+function formatSafDiscountRow(
+  name: string | JSX.Element,
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined,
+  description: string | JSX.Element,
+  safDiscountPercentage: number
+): (string | JSX.Element)[] {
+  // For SAF rows, multiply emissions by the negative SAF percentage to render emissions reduction
+  // (e.g. 20% SAF of 200kg total emissions = -40kg)
+  const safMultiplier = safDiscountPercentage * -1;
+  return formatEmissionsPerPassengerRow(name, emissionsPerPassenger, description, safMultiplier);
+}
+
+function formatTotalsRow(
+  name: string | JSX.Element,
+  emissionsPerPassenger: EmissionsGramsPerPax | undefined,
+  safDiscountPercentage: number
+): (string | JSX.Element)[] {
+  // For Total Rows, multiply by (1 - SAF discount percentage) to render net emissions
+  const totalMultiplier = 1 - safDiscountPercentage;
+  return formatEmissionsPerPassengerRow(
+    name,
+    emissionsPerPassenger,
+    "" /* description */,
+    totalMultiplier,
+    true /* isTotalRow */
   );
-  return {
-    cells: formatEmissionsPerPassenger(rowHeader, typicalEmissionsPerPassenger),
-    collapsibleRows: null,
-    useLightGrayText: true,
+}
+
+function formatContrailsSection(
+  contrailsImpactBucket: ContrailsImpactBucket | undefined
+): string | JSX.Element {
+  const info = (
+    <div className="passenger-level-table-container">
+      <Typography className={"emission-name"} variant="subtitle1" component="div">
+        Contrails impact bucket
+      </Typography>
+      <Typography className="emission-description" variant="caption" component="div">
+        The relative impact bucket of contrails compared to fuel burn for this flight.
+      </Typography>
+    </div>
+  );
+  const tableData = {
+    headers: [],
+    rows: [
+      {
+        cells: [info, formatContrailsImpactBucket(contrailsImpactBucket)],
+        indented: false,
+      },
+    ],
   };
+  return (
+    <div className="contrails">
+      <Typography variant="subtitle1" component="h3" className="subheader">
+        Contrails
+      </Typography>
+      <Table
+        ariaLabel="Estimated Contrails impact table"
+        data={tableData}
+        className={"contrails"}
+        includesTotal={false}
+      />
+    </div>
+  );
+}
+
+function formatTypicalEmissionsSection(
+  typicalEmissionsPerPassenger: EmissionsGramsPerPax
+): string | JSX.Element {
+  const tableData = {
+    headers: ["Emission Type", "Economy", "Premium", "Business", "First"],
+    rows: [
+      {
+        cells: formatEmissionsRow(
+          "Typical",
+          typicalEmissionsPerPassenger,
+          "Typical Well-to-Wake emissions for a flight between this origin and destinaion." /* description */
+        ),
+        indented: false,
+      },
+    ],
+  };
+  return (
+    <div>
+      <Typography variant="subtitle1" component="h3" className="subheader">
+        Typical Emissions
+      </Typography>
+      <Table
+        ariaLabel="Typical Well-to-Wake emissions for a flight between this origin and destination"
+        data={tableData}
+        includesTotal={false}
+      />
+    </div>
+  );
 }
 
 function createTableData(
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
   emissionsBreakdown: EmissionsBreakdown | undefined,
-  typicalEmissionsPerPassenger: EmissionsGramsPerPax | undefined
+  safDiscountPercentage: number
 ): TableData {
-  const rows = [createCo2RowData(emissionsPerPassenger, emissionsBreakdown)];
-  // Always call createTypicalEmissionsRowData as its first line is creating a hook.
-  // If not we're getting "Rendered more hooks than during the previous render".
-  // We can then decide to use it or not.
-  const typicalRow = createTypicalEmissionsRowData(typicalEmissionsPerPassenger);
-  if (typicalEmissionsPerPassenger && Object.keys(typicalEmissionsPerPassenger).length !== 0) {
-    rows.push(typicalRow);
-  }
-  return {
-    headers: ["Type", "Economy", "Premium", "Business", "First"],
-    rows: rows,
+  const tableData = {
+    headers: ["Emission Type", "Economy", "Premium", "Business", "First"],
+    rows: [
+      {
+        cells: formatEmissionsRow(
+          "Well-to-Wake",
+          emissionsPerPassenger,
+          "The sum of Well-to-Tank and Tank-to-Wake emissions."
+        ),
+        indented: false,
+      },
+      {
+        cells: formatEmissionsRow(
+          "Tank-to-Wake",
+          emissionsBreakdown?.ttwEmissionsGramsPerPax,
+          "Emissions produced by burning jet fuel during takeoff, flight, and landing of an aircraft."
+        ),
+        indented: true,
+      },
+      {
+        cells: formatEmissionsRow(
+          "Well-to-Tank",
+          emissionsBreakdown?.wttEmissionsGramsPerPax,
+          "Emissions generated during the production, processing, handling, and delivery of jet fuel."
+        ),
+        indented: true,
+      },
+    ],
   };
+
+  if (safDiscountPercentage) {
+    tableData.rows.push({
+      cells: formatSafDiscountRow(
+        "Sustainable Aviation Fuel (SAF)",
+        emissionsPerPassenger,
+        `Accounts for -${safDiscountPercentage * 100}% of the jet fuel`,
+        safDiscountPercentage
+      ),
+      indented: false,
+    });
+    tableData.rows.push({
+      cells: formatTotalsRow(
+        "Total emissions including SAF",
+        emissionsPerPassenger,
+        safDiscountPercentage
+      ),
+      indented: false,
+      emphasize: true,
+    });
+  }
+
+  return tableData;
 }
 
 type Props = {
@@ -185,6 +246,9 @@ type Props = {
 function PassengerLevelTable({ emissionsData, typicalEmissionsData }: Props) {
   const emissionsPerPassenger = emissionsData.flightEmissions[0].emissionsGramsPerPax;
   const emissionsBreakdown = emissionsData.flightEmissions[0].emissionsBreakdown;
+  const emissionsSafDiscount =
+    emissionsData.flightEmissions[0].emissionsInputs?.easaLabelData?.safDiscountPercentage ?? 0;
+  const emissionsContrailImpact = emissionsData.flightEmissions[0].contrailsImpactBucket ?? 0;
   const typicalEmissionsPerPassenger =
     typicalEmissionsData?.typicalFlightEmissions[0]?.emissionsGramsPerPax;
 
@@ -197,17 +261,20 @@ function PassengerLevelTable({ emissionsData, typicalEmissionsData }: Props) {
     return (
       <div className="passenger-level-table-container">
         <Typography variant="h4" component="h2">
-          Emissions
+          Emissions estimates
         </Typography>
-        <Typography variant="body1">Estimated kg CO2e per passenger</Typography>
+        <Typography variant="subtitle1" component="h3" className="subheader">
+          Fuel burn impact in kg CO2e per passenger
+        </Typography>
         <Table
           ariaLabel="Estimated Emissions Per Passenger table"
-          data={createTableData(
-            emissionsPerPassenger,
-            emissionsBreakdown,
-            typicalEmissionsPerPassenger
-          )}
+          data={createTableData(emissionsPerPassenger, emissionsBreakdown, emissionsSafDiscount)}
+          includesTotal={emissionsSafDiscount > 0}
         />
+        {typicalEmissionsPerPassenger &&
+          Object.keys(typicalEmissionsPerPassenger).length !== 0 &&
+          formatTypicalEmissionsSection(typicalEmissionsPerPassenger)}
+        {emissionsContrailImpact > 0 && formatContrailsSection(emissionsContrailImpact)}
       </div>
     );
   }

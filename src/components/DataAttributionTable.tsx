@@ -16,6 +16,7 @@ import { Typography } from "@mui/material";
 import {
   ComputeFlightEmissionsResponse,
   EmissionsInputs_EmissionsInputEntry,
+  Source,
 } from "../api/proto/generated/travelImpactModelProto";
 import Link from "./Link";
 import Table, { RowData } from "./Table";
@@ -151,6 +152,16 @@ export function SeatAreaRatioSource(): JSX.Element {
   );
 }
 
+export function EasaLabelSource(): JSX.Element {
+  return (
+    <ul>
+      <li>
+        <Link text="EASA Environmental Label" href="https://www.flightemissions.eu/" />
+      </li>
+    </ul>
+  );
+}
+
 /******************************************
  * Data attribution table
  ******************************************/
@@ -159,12 +170,33 @@ type Props = {
   emissionsData: ComputeFlightEmissionsResponse;
 };
 
-function DataAttributionTable({ emissionsData }: Props): JSX.Element {
-  const attributionData = emissionsData.flightEmissions[0]?.emissionsInputs?.emissionsInputEntries;
+function formatAttributionName(name: string): string | JSX.Element {
+  return (
+    <Typography variant="subtitle1" component="div">
+      {name}
+    </Typography>
+  );
+}
 
+function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
+  const easaData = emissionsData.flightEmissions[0].emissionsInputs?.easaLabelData;
+
+  if (easaData === undefined || easaData.safDiscountPercentage === undefined) {
+    return [];
+  }
+
+  const easaSource = EasaLabelSource();
+  const rowsData: RowData[] = [
+    { cells: [formatAttributionName("Fuel Burn Estimates"), easaSource] },
+  ];
+  return rowsData;
+}
+
+function getAttributionRowData({ emissionsData }: Props): RowData[] {
+  const attributionData = emissionsData.flightEmissions[0].emissionsInputs?.emissionsInputEntries;
   // If attribution data is undefined, return nothing.
   if (attributionData === undefined || Object.keys(attributionData).length === 0) {
-    return <></>;
+    return [];
   }
 
   const rowsData: RowData[] = [];
@@ -173,11 +205,7 @@ function DataAttributionTable({ emissionsData }: Props): JSX.Element {
       case "totalFuelBurnEstimatedKg": {
         const fuelBurnSources = FuelBurnSource({ value: value });
         if (fuelBurnSources) {
-          rowsData.push({
-            cells: ["Fuel Burn Estimates", fuelBurnSources],
-            collapsibleRows: null,
-            useLightGrayText: false,
-          });
+          rowsData.push({ cells: [formatAttributionName("Fuel Burn Estimates"), fuelBurnSources] });
         }
         break;
       }
@@ -185,9 +213,7 @@ function DataAttributionTable({ emissionsData }: Props): JSX.Element {
         const loadFactorSources = LoadFactorSource({ value: value });
         if (loadFactorSources) {
           rowsData.push({
-            cells: ["Passenger Load Factor", loadFactorSources],
-            collapsibleRows: null,
-            useLightGrayText: false,
+            cells: [formatAttributionName("Passenger Load Factor"), loadFactorSources],
           });
         }
         break;
@@ -196,9 +222,7 @@ function DataAttributionTable({ emissionsData }: Props): JSX.Element {
         const cargoMassFractionSources = CargoMassFractionSource({ value: value });
         if (cargoMassFractionSources) {
           rowsData.push({
-            cells: ["Cargo Mass Fraction", cargoMassFractionSources],
-            collapsibleRows: null,
-            useLightGrayText: false,
+            cells: [formatAttributionName("Cargo Mass Fraction"), cargoMassFractionSources],
           });
         }
         break;
@@ -207,9 +231,7 @@ function DataAttributionTable({ emissionsData }: Props): JSX.Element {
         const passengerSeatSources = PassengerSeatSource({ value: value });
         if (passengerSeatSources) {
           rowsData.push({
-            cells: ["Passenger Seat Configuration", passengerSeatSources],
-            collapsibleRows: null,
-            useLightGrayText: false,
+            cells: [formatAttributionName("Passenger Seat Configuration"), passengerSeatSources],
           });
         }
         break;
@@ -218,16 +240,25 @@ function DataAttributionTable({ emissionsData }: Props): JSX.Element {
   });
 
   const seatAreaRatioSource = SeatAreaRatioSource();
-  rowsData.push({
-    cells: ["Seat Area Ratios", seatAreaRatioSource],
-    collapsibleRows: null,
-    useLightGrayText: false,
-  });
+  rowsData.push({ cells: [formatAttributionName("Seat Area Ratios"), seatAreaRatioSource] });
+  return rowsData;
+}
+
+function DataAttributionTable({ emissionsData }: Props): JSX.Element {
+  const isEasaLabel = emissionsData.flightEmissions[0].source == Source.EASA;
+
+  const rowsData = isEasaLabel
+    ? getEasaLabelRowData({ emissionsData })
+    : getAttributionRowData({ emissionsData });
+
+  if (rowsData.length == 0) {
+    return <></>;
+  }
 
   const tableData = { headers: ["Data Type", "Source"], rows: rowsData };
 
   return (
-    <div className="data-attribution-table">
+    <div className={isEasaLabel ? "data-attribution-table easa" : "data-attribution-table"}>
       <Typography variant="h4" component="h2">
         Data Attribution
       </Typography>

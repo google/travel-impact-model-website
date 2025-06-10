@@ -38,7 +38,7 @@ async function getTypicalFlightEmissionsData(
     if (response?.data) {
       return response.data;
     }
-  } else if (process.env.REACT_APP_FAKE_API_DATA) {
+  } else if (process.env.REACT_APP_FAKE_API_DATA || process.env.REACT_APP_FAKE_API_EASA_DATA) {
     // Get data from fake data. Set `REACT_APP_FAKE_API_DATA=true npm start`.
     return ComputeTypicalFlightEmissionsResponse.fromJSON(fakeTypicalEmissionsApiResponse);
   } else {

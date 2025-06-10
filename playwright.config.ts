@@ -52,6 +52,16 @@ export default defineConfig({
     },
 
     {
+      /* Configure project for testing EASA labels on desktop */
+      name: 'chromium-easa',
+      testMatch: '*EmissionsCalculator.test.*',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://127.0.0.1:3001',
+      },
+    },
+
+    {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
     },
@@ -66,12 +76,30 @@ export default defineConfig({
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
     },
+
+    {
+      /* Configure project for testing EASA labels on mobile */
+      name: 'mobile-easa',
+      testMatch: '*EmissionsCalculator.test.*',
+      use: {
+        ...devices['Pixel 5'],
+        baseURL: 'http://127.0.0.1:3001',
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'REACT_APP_FAKE_API_DATA=true npm run start',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: false,
-  },
+  webServer: [
+    {
+      command: 'REACT_APP_FAKE_API_DATA=true PORT=3000 npm run start',
+      url: 'http://127.0.0.1:3000',
+      reuseExistingServer: false,
+    },
+    {
+      /* Configure web server for testing EASA labels */
+      command: 'REACT_APP_FAKE_API_EASA_DATA=true PORT=3001 npm run start',
+      url: 'http://127.0.0.1:3001',
+      reuseExistingServer: false,
+    }
+  ],
 });

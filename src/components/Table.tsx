@@ -13,8 +13,6 @@
 // limitations under the License.
 
 import {
-  Divider,
-  IconButton,
   Table as MuiTable,
   TableBody,
   TableCell,
@@ -22,14 +20,13 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
+import { Typography } from "@mui/material";
 import "./Table.scss";
-import React from "react";
 
 export interface RowData {
   cells: (string | JSX.Element)[];
-  collapsibleRows: RowData[] | null;
-  useLightGrayText?: boolean;
+  indented?: boolean;
+  emphasize?: boolean;
 }
 
 export interface TableData {
@@ -37,103 +34,46 @@ export interface TableData {
   rows: RowData[];
 }
 
-interface CollapsibleRowProps {
-  row: RowData;
-}
-
-export function CollapsibleRow({ row }: CollapsibleRowProps) {
-  const [open, setOpen] = React.useState(false);
-  return (
-    <>
-      {/* Create row with the arrow icon that when clicked will collapse/uncollapse the rows below */}
-      <TableRow className="row-with-subrows">
-        <TableCell className="row-with-subrows-icon-cell" align="center">
-          {row.collapsibleRows !== null && (
-            <IconButton
-              aria-label={open ? "Hide more rows" : "Show more rows"}
-              aria-pressed={open}
-              onClick={() => setOpen(!open)}>
-              {open ? (
-                <KeyboardArrowUp className="row-with-subrows-icon" />
-              ) : (
-                <KeyboardArrowDown className="row-with-subrows-icon" />
-              )}
-            </IconButton>
-          )}
-        </TableCell>
-
-        {row.cells.map((cell, cellIndex) => (
-          <TableCell
-            className={
-              cellIndex === 0 ? "row-with-subrows-name-cell" : "row-with-subrows-data-cell"
-            }
-            key={cellIndex}>
-            {cell}
-          </TableCell>
-        ))}
-      </TableRow>
-      {/* Create collapsible rows */}
-      {row.collapsibleRows !== null &&
-        row.collapsibleRows.map((rowc, rowcIndex) => (
-          <TableRow
-            className="subrow"
-            key={rowcIndex}
-            sx={{ display: open ? "table-row" : "none" }}
-            aria-hidden={!open}>
-            <TableCell className="subrow-icon-cell">
-              <div className="subrow-divider">
-                <Divider orientation="vertical" />
-              </div>
-            </TableCell>
-            {rowc.cells.map((cell, cellIndex) => (
-              <TableCell
-                className={cellIndex === 0 ? "subrow-name-cell" : "subrow-data-cell"}
-                key={cellIndex}>
-                {cell}
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-    </>
-  );
-}
-
 interface TableProps {
   data: TableData;
   ariaLabel: string;
+  includesTotal?: boolean | undefined;
+  className?: string;
 }
 
 function Table(props: TableProps) {
-  // If the table has any collapsible row, create a cell on headers and each non collapsible row
-  // to match the cell for the collapse button.
-  const hasCollapsibleRows = props.data.rows.some((row) => row.collapsibleRows !== null);
   return (
-    <TableContainer className="table-container">
+    <TableContainer
+      className={(props.includesTotal ? "totals" : "") + " table-container " + props.className}>
       <MuiTable aria-label={props.ariaLabel}>
-        <TableHead>
-          <TableRow>
-            {hasCollapsibleRows && <TableCell key={props.data.headers.length + 1}></TableCell>}
-            {props.data.headers.map((header, headerIndex) => (
-              <TableCell key={headerIndex}>{header}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        {props.data.headers.length > 0 && (
+          <TableHead>
+            <TableRow>
+              {props.data.headers.map((header, headerIndex) => (
+                <TableCell key={headerIndex} className="table-header">
+                  <Typography variant="subtitle2" component="div">
+                    {header}
+                  </Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+        )}
         <TableBody>
           {props.data.rows.map((row, rowIndex) => {
-            if (row.collapsibleRows === null) {
-              const className =
-                "row-without-subrows " + (row?.useLightGrayText && "useLightGrayText");
-              return (
-                <TableRow key={rowIndex} className={className}>
-                  {hasCollapsibleRows && <TableCell></TableCell>}
-                  {row.cells.map((cell, cellIndex) => (
-                    <TableCell key={cellIndex}>{cell}</TableCell>
-                  ))}
-                </TableRow>
-              );
-            } else {
-              return <CollapsibleRow key={rowIndex} row={row} />;
-            }
+            return (
+              <TableRow key={rowIndex} className={row.emphasize ? "highlight-row" : ""}>
+                {row.cells.map((cell, cellIndex) => (
+                  <TableCell
+                    key={cellIndex}
+                    className={
+                      row.indented && cellIndex == 0 ? "indented-cell data-cell" : "data-cell"
+                    }>
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
           })}
         </TableBody>
       </MuiTable>

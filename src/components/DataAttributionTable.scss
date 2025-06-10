@@ -14,10 +14,27 @@
  * limitations under the License.
  */
 
-.data-attribution-table ul {
-  margin: 0;
-  padding-left: inherit;
-}
+.data-attribution-table {
+  ul {
+    margin: 0;
+    padding-left: inherit;
+  }
+
+  &.easa {
+    ul {
+      padding-left: 0;
+    }
+
+    li {
+      list-style-type: none;
+    }
+  }
+
+  .MuiTableCell-root {
+    &:first-child {
+      min-width: 100px;
+    }
+  }
 
 .data-attribution-table .MuiTableCell-root:first-child {
   padding-left: 0;
@@ -32,4 +49,5 @@
       padding-left: 0px;
     }
   }
+}
 }

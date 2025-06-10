@@ -17,6 +17,24 @@
 @use "src/pages/styles";
 
 .passenger-level-table-container {
+  .emission-name {
+      color: #414549;
+      line-height: 1.5;  
+  }
+
+  &.total {
+    font-weight: 700;
+  }
+  
+  .emission-description {
+      color: var(--grey-700, #5F6368);
+  }
+
+  .subheader {
+      margin-top: 24px;
+      margin-bottom: 0;
+  }
+
   .MuiTypography-body1 {
     margin: 15px 0 15px 0;
   }

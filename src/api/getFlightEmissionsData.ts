@@ -18,6 +18,7 @@ import {
 } from "./proto/generated/travelImpactModelProto";
 import { FirebaseApp } from "firebase/app";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import fakeApiEasaLabelResponse from "./proto/fakeApiEasaLabelResponse.json";
 import fakeEmissionsApiResponse from "./proto/fakeEmissionsApiResponse.json";
 import axios from "axios";
 
@@ -41,6 +42,9 @@ async function getFlightEmissionsData(
   } else if (process.env.REACT_APP_FAKE_API_DATA) {
     // Get data from fake data. Set `REACT_APP_FAKE_API_DATA=true npm start`.
     return ComputeFlightEmissionsResponse.fromJSON(fakeEmissionsApiResponse);
+  } else if (process.env.REACT_APP_FAKE_API_EASA_DATA) {
+    // Get data from fake data. Set `REACT_APP_FAKE_API_EASA_DATA=true npm start`.
+    return ComputeFlightEmissionsResponse.fromJSON(fakeApiEasaLabelResponse);
   } else {
     const functions = getFunctions(app);
     const computeFlightEmissions = httpsCallable(functions, "computeFlightEmissions");

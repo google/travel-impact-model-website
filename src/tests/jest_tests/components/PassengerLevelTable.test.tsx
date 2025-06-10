@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import PassengerLevelTable, {
-  formatEmissionsPerPassenger,
+  formatEmissionsPerPassengerRow,
 } from "../../../components/PassengerLevelTable";
 import {
   ComputeFlightEmissionsResponse,
@@ -208,8 +208,9 @@ describe("PassengerLevelTable", () => {
     expect(response).toEqual(undefined);
   });
 
-  it("formatEmissionsPerPassenger: round and format value as expected", async () => {
+  it("formatEmissionsPerPassengerRow: round and format value as expected", async () => {
     const name = "Emissions";
+    const description = "Emissions description";
     const emissionsPerPassenger: EmissionsGramsPerPax = {
       economy: 192.352,
       premiumEconomy: 255.641,
@@ -217,12 +218,76 @@ describe("PassengerLevelTable", () => {
       first: 991.995,
     };
 
-    const formattedEmissionsPerPassenger = formatEmissionsPerPassenger(name, emissionsPerPassenger);
-    expect(formattedEmissionsPerPassenger).toEqual([name, "192.4", "255.6", "832.9", "992.0"]);
+    const formattedEmissionsPerPassenger = formatEmissionsPerPassengerRow(
+      name,
+      emissionsPerPassenger,
+      description
+    );
+    expect(formattedEmissionsPerPassenger).toEqual([
+      expect.anything(),
+      "192.4",
+      "255.6",
+      "832.9",
+      "992.0",
+    ]);
   });
 
-  it("formatEmissionsPerPassenger: return XX when value is undefined", async () => {
+  it("formatEmissionsPerPassengerRow: round and format SAF value as expected", async () => {
     const name = "Emissions";
+    const description = "Emissions description";
+    const safDiscount = 0.2;
+    const emissionsPerPassenger: EmissionsGramsPerPax = {
+      economy: 192.352,
+      premiumEconomy: 255.641,
+      business: 832.909,
+      first: 991.995,
+    };
+
+    const formattedEmissionsPerPassenger = formatEmissionsPerPassengerRow(
+      name,
+      emissionsPerPassenger,
+      description,
+      -1 * safDiscount /* emissionsMultiplier */
+    );
+    expect(formattedEmissionsPerPassenger).toEqual([
+      expect.anything(),
+      "-38.5",
+      "-51.1",
+      "-166.6",
+      "-198.4",
+    ]);
+  });
+
+  it("formatEmissionsPerPassengerRow: round and format Total Emissions value as expected", async () => {
+    const name = "Emissions";
+    const description = "Emissions description";
+    const safDiscount = 0.2;
+    const emissionsPerPassenger: EmissionsGramsPerPax = {
+      economy: 192.352,
+      premiumEconomy: 255.641,
+      business: 832.909,
+      first: 991.995,
+    };
+
+    const formattedEmissionsPerPassenger = formatEmissionsPerPassengerRow(
+      name,
+      emissionsPerPassenger,
+      description,
+      1 - safDiscount /* emissionsMultiplier */,
+      true /* isTotal */
+    );
+    expect(formattedEmissionsPerPassenger).toEqual([
+      expect.anything(),
+      "153.9",
+      "204.5",
+      "666.3",
+      "793.6",
+    ]);
+  });
+
+  it("formatEmissionsPerPassengerRow: return XX when value is undefined", async () => {
+    const name = "Emissions";
+    const description = "Emissions description";
     const emissionsPerPassenger: EmissionsGramsPerPax = {
       economy: undefined,
       premiumEconomy: undefined,
@@ -230,7 +295,64 @@ describe("PassengerLevelTable", () => {
       first: undefined,
     };
 
-    const formattedEmissionsPerPassenger = formatEmissionsPerPassenger(name, emissionsPerPassenger);
-    expect(formattedEmissionsPerPassenger).toEqual([name, "XX", "XX", "XX", "XX"]);
+    const formattedEmissionsPerPassenger = formatEmissionsPerPassengerRow(
+      name,
+      emissionsPerPassenger,
+      description
+    );
+    expect(formattedEmissionsPerPassenger).toEqual([expect.anything(), "XX", "XX", "XX", "XX"]);
+  });
+
+  it("should return passenger level table with SAF discount", async () => {
+    const emissionsData: ComputeFlightEmissionsResponse = {
+      flightEmissions: [
+        {
+          flight: {
+            origin: "ZRH",
+            destination: "BOS",
+            operatingCarrierCode: "LX",
+            departureDate: { year: 2024, month: 6, day: 1 },
+            flightNumber: "54",
+          },
+          emissionsGramsPerPax: {
+            first: 1745475,
+            business: 139638,
+            premiumEconomy: 523642,
+            economy: 349095,
+          },
+          emissionsInputs: {
+            easaLabelData: {
+              safDiscountPercentage: 0.03,
+            },
+            emissionsInputEntries: {},
+          },
+          emissionsBreakdown: {
+            wttEmissionsGramsPerPax: {
+              first: 4004,
+              business: 3003,
+              premiumEconomy: 2002,
+              economy: 1001,
+            },
+            ttwEmissionsGramsPerPax: {
+              first: 1745475,
+              business: 139638,
+              premiumEconomy: 523642,
+              economy: 349095,
+            },
+          },
+          source: 2,
+          contrailsImpactBucket: 1,
+        },
+      ],
+      modelVersion: {
+        major: 1,
+        minor: 5,
+        patch: 0,
+        dated: "20220914",
+      },
+    };
+
+    render(<PassengerLevelTable emissionsData={emissionsData} />);
+    expect(screen.getByText("Sustainable Aviation Fuel (SAF)")).not.toBeEmptyDOMElement();
   });
 });

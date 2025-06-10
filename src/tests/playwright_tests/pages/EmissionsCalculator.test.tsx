@@ -40,12 +40,6 @@ test("render single flight", async ({ page }) => {
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
-test("open emissions breakdown", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page.getByLabel("Show more rows").click();
-  await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
 test("render single flight with model version", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827&v=1.2.3");
   await expect(page).toHaveScreenshot({ fullPage: true });
@@ -83,41 +77,5 @@ test("show 1 plus year future dates tooltip", async ({ page }) => {
 
 test("render multiple flights", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZRH-NYC-LH-123-20300827,NYC-MUC-BA-456-20300827");
-  await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
-test("open wtw tooltip", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page.getByLabel("The sum of Well-to-Tank (WTT) and Tank-to-Wake (TTW) emissions.").click();
-  await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
-test("open ttw tooltip", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page.getByLabel("Show more rows").click();
-  await page
-    .getByLabel(
-      "Emissions produced by burning jet fuel during takeoff, flight, and landing of an aircraft."
-    )
-    .click();
-  await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
-test("open wtt tooltip", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page.getByLabel("Show more rows").click();
-  await page
-    .getByLabel(
-      "Emissions generated during the production, processing, handling, and delivery of jet fuel."
-    )
-    .click();
-  await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
-test("open typical tooltip", async ({ page }) => {
-  await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page
-    .getByLabel("Typical Well-to-Wake emissions for a flight between this origin and destination.")
-    .click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });

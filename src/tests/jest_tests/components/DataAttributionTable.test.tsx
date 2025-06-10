@@ -18,6 +18,7 @@ import DataAttributionTable, {
   CargoMassFractionSource,
   PassengerSeatSource,
   SeatAreaRatioSource,
+  EasaLabelSource,
 } from "../../../components/DataAttributionTable";
 import {
   ComputeFlightEmissionsResponse,
@@ -165,6 +166,13 @@ describe("SeatAreaRatioSource", () => {
   });
 });
 
+describe("EasaLabelSource", () => {
+  it("should return response for EASA data", async () => {
+    render(<EasaLabelSource />);
+    expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
+  });
+});
+
 describe("DataAttributionTable", () => {
   it("should return data attribution level table with expected values", async () => {
     const emissionsData: ComputeFlightEmissionsResponse = {
@@ -232,6 +240,40 @@ describe("DataAttributionTable", () => {
     // Passenger Seat Source
     expect(screen.getByText("Fleet-level aircraft configuration", { exact: false }));
     expect(screen.getByText("OAG")).not.toBeEmptyDOMElement();
+  });
+
+  it("should return data attribution level table with expected EASA values", async () => {
+    const emissionsData: ComputeFlightEmissionsResponse = {
+      flightEmissions: [
+        {
+          flight: {
+            origin: "ZRH",
+            destination: "BOS",
+            operatingCarrierCode: "LX",
+            departureDate: { year: 2024, month: 6, day: 1 },
+            flightNumber: 54,
+          },
+          emissionsInputs: {
+            easaLabelData: {
+              safDiscountPercentage: 0.2,
+            },
+            emissionsInputEntries: {},
+          },
+          source: 2,
+        },
+      ],
+      modelVersion: {
+        major: 1,
+        minor: 5,
+        patch: 0,
+        dated: "20220914",
+      },
+    };
+
+    render(<DataAttributionTable emissionsData={emissionsData} />);
+
+    // Fuel Burn Source
+    expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
   });
 
   it("should return invalid data", async () => {
