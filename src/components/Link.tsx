@@ -17,7 +17,6 @@ import { Link as MuiLink } from "@mui/material";
 type LinkProps = {
   text: string;
   href: string | undefined;
-  ariaLabel?: string | undefined;
 };
 
 function Link(props: LinkProps) {
@@ -26,10 +25,10 @@ function Link(props: LinkProps) {
       <MuiLink
         href={props.href}
         target="_blank"
-        rel="noopener"
+        rel="noopener noreferrer"
         color="#0000EE"
         sx={{ margin: "-8px", padding: "8px" }}
-        aria-label={props.ariaLabel}>
+        aria-label={`${props.text} (opens in a new tab)`}>
         {props.text}
       </MuiLink>
     );
