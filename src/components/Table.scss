@@ -28,8 +28,7 @@
   }
 
   &.totals {
-
-    .MuiTableRow-root:last-child .MuiTableCell-root.data-cell {
+    .MuiTableRow-root:last-child .MuiTableCell-root {
       color: #414549;
       padding-top: 16px;
     }
@@ -39,6 +38,7 @@
     .MuiTableCell-root:first-child {
       width: 80%;
     }
+
     .MuiTableCell-root:last-child {
       text-align: right;
       vertical-align: top;
@@ -53,7 +53,8 @@
   .MuiTableRow-root {
     height: 100%;
 
-    &.highlight-row .data-cell, &.highlight-row .emission-name {
+    &.highlight-row .data-cell,
+    &.highlight-row .emission-name {
       font-weight: 700;
     }
 
@@ -99,5 +100,12 @@
     font-weight: 400;
     line-height: 20px;
     letter-spacing: 0.2px;
+  }
+
+  &.MuiTableContainer-root .MuiTable-root .MuiTableRow-root .MuiTableCell-root,
+  &.MuiTableContainer-root .MuiTable-root .MuiTableRow-root .MuiTypography-root:not(.MuiLink-root) {
+    @media (prefers-contrast: more) {
+      color: black;
+    }
   }
 }
