@@ -102,10 +102,12 @@
     letter-spacing: 0.2px;
   }
 
+  &,
   &.MuiTableContainer-root .MuiTable-root .MuiTableRow-root .MuiTableCell-root,
   &.MuiTableContainer-root .MuiTable-root .MuiTableRow-root .MuiTypography-root:not(.MuiLink-root) {
     @media (prefers-contrast: more) {
       color: black;
+      border-color: black;
     }
   }
 }
