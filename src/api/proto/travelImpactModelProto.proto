@@ -43,7 +43,7 @@ enum ContrailsImpactBucket {
   // The contrails impact is comparable to the total CO2e emissions.
   CONTRAILS_IMPACT_MODERATE = 2;
   // The contrails impact is higher than the total CO2e emissions impact.
-  CONTRAILS_IMPACT_HIGH = 3;
+  CONTRAILS_IMPACT_SEVERE = 3;
 }
 
 message ComputeFlightEmissionsRequest {
