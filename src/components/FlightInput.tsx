@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Box, Button, InputAdornment, TextField } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
 import ErrorIcon from "@mui/icons-material/Error";
+import { InputAdornment, TextField } from "@mui/material";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { Flight } from "../api/proto/generated/travelImpactModelProto";
 import { convertDateMessageToString, convertStringToDateMessage } from "../data/flightDate";
 import {
-  ComputeFlightEmissionsRequest,
-  DateMessage,
-  Flight,
-} from "../api/proto/generated/travelImpactModelProto";
-import "./EditableInputFields.scss";
+  NUMBER_OF_DAYS_IN_YEAR,
+  getCarrierCodeHelperText,
+  getDateHelperText,
+  getDestinationHelperText,
+  getFlightNumberHelperText,
+  getOriginHelperText,
+  isCarrierCodeTextErrorMessage,
+  isFlightNumberTextErrorMessage,
+  isOriginDestinationTextErrorMessage,
+} from "../data/flightInputValidation";
 
 interface FlightInputFieldsProps {
   flightLeg?: Flight;
@@ -31,58 +37,7 @@ interface FlightInputFieldsProps {
   setValue: (leg: Flight) => void;
 }
 
-const AIRPORT_CODE_REGEX = new RegExp("^[a-zA-Z]{3}$");
-const CARRIER_CODE_REGEX = new RegExp("^[a-zA-Z0-9]{2}$");
-const FLIGHT_NUMBER_REGEX = new RegExp("^[0-9]+$");
-const NUMBER_OF_DAYS_IN_YEAR = 365;
-
 function FlightInput(props: FlightInputFieldsProps) {
-  function getOriginHelperText(value: string | undefined) {
-    if (!value || (value && !AIRPORT_CODE_REGEX.test(value))) {
-      return "3-letter IATA airport code";
-    }
-  }
-
-  function getDestinationHelperText(value: string | undefined) {
-    if (!value || (value && !AIRPORT_CODE_REGEX.test(value))) {
-      return "3-letter IATA airport code";
-    }
-  }
-
-  function getCarrierCodeHelperText(value: string | undefined) {
-    if (!value || (value && !CARRIER_CODE_REGEX.test(value))) {
-      return "2-character IATA airline code";
-    }
-  }
-
-  function getFlightNumberHelperText(value: string | undefined) {
-    if (!value || (value && !FLIGHT_NUMBER_REGEX.test(value))) {
-      return "Numbers only";
-    }
-  }
-
-  function getDateHelperText(value: DateMessage | undefined) {
-    const dateString = value ? convertDateMessageToString(value) : undefined;
-    const valueInDayJsFormat = dayjs(dateString).isValid() ? dayjs(dateString) : dayjs();
-    if (valueInDayJsFormat < dayjs().startOf("date")) {
-      return "Departure date should be in the future";
-    } else if (valueInDayJsFormat > dayjs().startOf("date").add(NUMBER_OF_DAYS_IN_YEAR, "day")) {
-      return "Departure date cannot be more than a year in the future";
-    }
-  }
-
-  function isOriginDestinationTextErrorMessage(value: string | undefined) {
-    return value !== undefined && !AIRPORT_CODE_REGEX.test(value);
-  }
-
-  function isCarrierCodeTextErrorMessage(value: string | undefined) {
-    return value !== undefined && !CARRIER_CODE_REGEX.test(value);
-  }
-
-  function isFlightNumberTextErrorMessage(value: string | undefined) {
-    return value !== undefined && !FLIGHT_NUMBER_REGEX.test(value);
-  }
-
   // Data used to render the inputs fields and the corresponding error messages.
   // helperTextKeys are needed in order to re-read the error messages by screen readers.
   const [inputs, setInputs] = useState({
@@ -324,56 +279,4 @@ function FlightInput(props: FlightInputFieldsProps) {
   );
 }
 
-interface EditableInputFieldsProp {
-  request: ComputeFlightEmissionsRequest;
-  onSubmit: (arg: Map<number, Flight>) => void;
-}
-
-function EditableInputFields({ request, onSubmit }: EditableInputFieldsProp) {
-  const [inputRowsValid, setInputRowsValid] = useState(new Map());
-  const [inputRowFlightLegs, setInputRowFlightLegs] = useState(
-    new Map(request.flights.map((el, index) => [index, el]))
-  );
-
-  /** Update the `allInputsValid` state on render only. */
-  useEffect(() => {
-    if (Array.from(inputRowsValid.values()).every((e) => e === true)) {
-      onSubmit(inputRowFlightLegs);
-    }
-  }, []);
-
-  return (
-    <Box className="input-box" component="fieldset" borderRadius={3}>
-      {request.flights.length > 0 ? (
-        request.flights.map((leg, index) => (
-          <FlightInput
-            flightLeg={leg}
-            key={index}
-            setValidity={(isValid: boolean) =>
-              setInputRowsValid((row) => new Map(row.set(index, isValid)))
-            }
-            setValue={(leg: Flight) => setInputRowFlightLegs((map) => new Map(map.set(index, leg)))}
-          />
-        ))
-      ) : (
-        <FlightInput
-          setValidity={(isValid: boolean) =>
-            setInputRowsValid((map) => new Map(map.set(0, isValid)))
-          }
-          setValue={(leg: Flight) => setInputRowFlightLegs((map) => new Map(map.set(0, leg)))}
-        />
-      )}
-      <div className="show-emissions-button">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => onSubmit(inputRowFlightLegs)}
-          disabled={Array.from(inputRowsValid.values()).includes(false)}>
-          Show emissions
-        </Button>
-      </div>
-    </Box>
-  );
-}
-
-export default EditableInputFields;
+export default FlightInput;

@@ -20,11 +20,11 @@ import Tooltip from "@mui/material/Tooltip";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FirebaseApp } from "firebase/app";
-import EditableInputFields from "../components/EditableInputFields";
+import CalculatorForm from "../components/CalculatorForm";
 import Footer from "../components/Footer";
 import Link from "../components/Link";
 import OutputData from "../components/OutputData";
-import ReadonlyInputFields from "../components/ReadonlyInputFields";
+import MultiFlightForm from "../components/MultiFlightForm";
 import TIMAppBar from "../components/TIMAppBar";
 import {
   FLIGHT_ITINERARY_URL_PARAM,
@@ -144,7 +144,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
                 <span>{modelVersionWarning}</span>
               </Alert>
             )}
-            <EditableInputFields request={request} onSubmit={onSubmit} />
+            <CalculatorForm request={request} onSubmit={onSubmit} />
             {request.flights.length === 1 && emissionsDataValid && (
               <OutputData
                 emissionsData={emissionsDataValid}
@@ -157,7 +157,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
             <Typography component="h2" variant="h5">
               All flights
             </Typography>
-            <ReadonlyInputFields request={request} />
+            <MultiFlightForm request={request} />
           </>
         )}
         <Footer prefixInfo={modelVersionString} extraLink={CcLicencingLink} variant={variant} />

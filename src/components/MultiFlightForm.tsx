@@ -20,13 +20,13 @@ import {
   Flight,
 } from "../api/proto/generated/travelImpactModelProto";
 import { convertDateMessageToString } from "../data/flightDate";
-import "./ReadonlyInputFields.scss";
+import "./MultiFlightForm.scss";
 import {
   FLIGHT_ITINERARY_URL_PARAM,
   generateFlightItineraryUrlParam,
 } from "../data/flightItinerary";
 
-interface ReadonlyInputFieldsProps {
+interface MultiFlightFormProps {
   request: ComputeFlightEmissionsRequest;
 }
 
@@ -36,7 +36,7 @@ function getUrl(flights: Flight[]) {
   return url.toString();
 }
 
-function ReadonlyInputFields({ request }: ReadonlyInputFieldsProps) {
+function MultiFlightForm({ request }: MultiFlightFormProps) {
   return (
     <div className="readonly-input-fields-container">
       {request.flights.map((leg, index) => (
@@ -63,4 +63,4 @@ function ReadonlyInputFields({ request }: ReadonlyInputFieldsProps) {
   );
 }
 
-export default ReadonlyInputFields;
+export default MultiFlightForm;
