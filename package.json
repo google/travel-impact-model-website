@@ -67,7 +67,7 @@
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@jest/globals": "^27.5.1",
-    "@playwright/test": "^1.37.1",
+    "@playwright/test": "^1.55.0",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^27.5.1",
     "eslint": "^8.48.0",

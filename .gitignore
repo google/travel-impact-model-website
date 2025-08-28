@@ -98,3 +98,6 @@ node_modules/
 
 # proto message
 src/api/proto/generated
+
+# Playwright
+/blob-report/
