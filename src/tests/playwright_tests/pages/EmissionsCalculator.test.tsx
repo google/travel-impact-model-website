@@ -36,11 +36,13 @@ test("render default", async ({ page }) => {
 });
 
 test("render single flight", async ({ page }) => {
+  await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("render single flight with model version", async ({ page }) => {
+  await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827&v=1.2.3");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
@@ -51,6 +53,7 @@ test("render invalid fields", async ({ page }) => {
 });
 
 test("transition to invalid state", async ({ page }) => {
+  await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await page.getByLabel("Origin", { exact: true }).fill("INVALID ORIGIN");
   await expect(page).toHaveScreenshot({ fullPage: true });
@@ -58,18 +61,21 @@ test("transition to invalid state", async ({ page }) => {
 
 test("transition to valid state", async ({ page }) => {
   // Incorrect origin value.
+  await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=Z-BOS-LX-54-20250827");
   await page.getByLabel("Origin", { exact: true }).fill("NEW");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("show past dates tooltip", async ({ page }) => {
+  await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
   await page.getByLabel("Click to show tooltip.").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
 test("show 1 plus year future dates tooltip", async ({ page }) => {
+  await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20500827");
   await page.getByLabel("Click to show tooltip.").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
