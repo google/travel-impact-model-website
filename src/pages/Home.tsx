@@ -29,12 +29,6 @@ function Home() {
     <div className="tim-home-page" role="main">
       <TIMAppBar variant={variant} />
 
-      {/* Background image from: https://www.pexels.com/photo/photo-of-people-on-top-of-mountain-2161920/ */}
-      <picture className="background-image-wrapper">
-        <source srcSet="/images/mountains.webp" type="image/webp" />
-        <img className="background-image" src="/images/mountains.jpg" alt="" />
-      </picture>
-
       <div className="tim-main-content-container">
         <div className="tim-main-content">
           <div className="tim-title">
