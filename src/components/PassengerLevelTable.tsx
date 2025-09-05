@@ -33,7 +33,7 @@ function formatContrailsImpactBucket(contrailsImpactBucket: ContrailsImpactBucke
       return "Low";
     case ContrailsImpactBucket.CONTRAILS_IMPACT_MODERATE:
       return "Medium";
-    case ContrailsImpactBucket.CONTRAILS_IMPACT_HIGH:
+    case ContrailsImpactBucket.CONTRAILS_IMPACT_SEVERE:
       return "High";
     case ContrailsImpactBucket.UNRECOGNIZED:
     case ContrailsImpactBucket.CONTRAILS_IMPACT_UNSPECIFIED:
