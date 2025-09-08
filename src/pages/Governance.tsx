@@ -122,7 +122,7 @@ function Governance() {
             nonVotingStar={true}
           />
           <EntityCard
-            name="Dr. Marc Stettler"
+            name="Prof. Marc Stettler"
             title="Professor in Transport and Environment"
             institution="Imperial College London"
             institutionLink="https://www.imperial.ac.uk/"
