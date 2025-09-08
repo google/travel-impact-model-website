@@ -19,14 +19,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.66.1",
-    "ts-proto": "^2.7.7",
+    "ts-proto": "^1.181.2",
     "typescript": "^4.9.5",
     "web-vitals": "^5.1.0"
   },
   "scripts": {
     "start": "./build_proto.sh && react-scripts start",
     "build": "./build_proto.sh && react-scripts build",
-    "test": "jest && npx playwright test",
+    "test": "./build_proto.sh && jest && npx playwright test",
     "test-update": "jest -u && npx playwright test --update-snapshots",
     "eject": "react-scripts eject",
     "lint": "eslint --fix 'src/**/*.{js,jsx,ts,tsx,css,md,json}'",
