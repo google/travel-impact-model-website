@@ -30,5 +30,6 @@ test("expanded multiple faqs", async ({ page }) => {
   await page.click("[id='faq0-header']");
   await page.click("[id='faq1-header']");
   await page.click("[id='faq2-header']");
-  await expect(page).toHaveScreenshot({ fullPage: true });
+  await page.evaluate(() => window.scrollTo(0, 0)); // Scroll to top.
+  await expect(page).toHaveScreenshot({ fullPage: false });
 });
