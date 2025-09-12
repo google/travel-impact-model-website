@@ -126,7 +126,7 @@ function FaqItem(props: FaqItemProps) {
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography>{props.answer}</Typography>
+        <Typography component="div">{props.answer}</Typography>
       </AccordionDetails>
     </Accordion>
   );
