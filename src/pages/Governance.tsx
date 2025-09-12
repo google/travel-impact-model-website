@@ -129,10 +129,10 @@ function Governance() {
             nonVotingStar={false}
           />
           <EntityCard
-            name="Caroline Drischel"
-            title="Head of Corporate Responsibility"
+            name="Lars Kroeplin"
+            title="Head of Corporate Responsibility Development"
             institution="Lufthansa Group"
-            institutionLink="http://www.dlh.de/"
+            institutionLink="https://www.lufthansagroup.com"
             nonVotingStar={false}
           />
           <EntityCard
