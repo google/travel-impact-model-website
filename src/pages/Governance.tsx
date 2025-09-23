@@ -44,6 +44,97 @@ function EntityCard(props: CardProps) {
   );
 }
 
+interface MemoProps {
+  url: string;
+  name: string;
+  publicationDate: string;
+  description: string;
+}
+
+function MemoItem(props: MemoProps) {
+  return (
+    <div className="memo">
+      <a href={props.url} download>
+        {props.name}
+      </a>
+      <Typography variant="caption" component="p" className="memo-description">
+        {props.publicationDate}
+      </Typography>
+      <Typography variant="body2" component="p" className="memo-description">
+        {props.description}
+      </Typography>
+    </div>
+  );
+}
+
+const MEMO_LIST = [
+  {
+    url: "/static/media/tim_boosting_model_granularity.pdf",
+    name: "Boosting Model Granularity",
+    publicationDate: "January 2025",
+    description: `
+           This technical brief explores improving the Travel Impact Model's (TIM) fuel burn
+           estimates by incorporating factors beyond aircraft type and stage length (first-order
+           effects). It reviews literature and data availability for other influencing factors
+           (second-order effects). A qualitative analysis identified aircraft age, engine variant,
+           and payload as the most promising second-order effects for further study and development
+           of correction factors.`,
+  },
+  {
+    url: "/static/media/tim_contrails_impact.pdf",
+    name: "Contrails Impact",
+    publicationDate: "January 2025",
+    description: `
+          This technical brief details progress on communicating contrail impacts in the Travel
+          Impact Model (TIM). It outlines four methods for classifying flights by contrail warming
+          impact risk for consumers at booking. The currently preferred method classifies flights
+          relative to typical route CO2 emissions.`,
+  },
+  {
+    url: "/static/media/tim_model_selection.pdf",
+    name: "Model Selection",
+    publicationDate: "December 2024",
+    description: `
+          This technical brief details two improvements to the Travel Impact Model (TIM) for
+          estimating fuel burn. First, the model was updated to the latest 2023 European
+          Environment Agency data, improving accuracy and coverage. Second, a distance adjustment
+          factor now accounts for real-world flight path variations beyond the great-circle
+          distance between airports. This memo contains the latest validation results,
+          demonstrating that these model changes enhance TIM's coverage and reduce estimation
+          errors.`,
+  },
+  {
+    url: "/static/media/tim_roadmap.pdf",
+    name: "TIM Roadmap",
+    publicationDate: "November 2024",
+    description: `
+          This technical brief outlines the Travel Impact Model (TIM) Roadmap, detailing its key
+          principles, operating plan, and ongoing workstreams. The roadmap emphasizes
+          transparency, accuracy, and continuous improvement of the TIM, ensuring it remains a
+          reliable and future-proof tool for estimating flight emissions.`,
+  },
+  {
+    url: "/static/media/tim_model_validation_methodology.pdf",
+    name: "Model Validation Methodology",
+    publicationDate: "November 2024",
+    description: `
+          This technical brief outlines the validation process used to ensure the Travel Impact
+          Model (TIM) accurately estimates aircraft fuel burn. It details the methodology, which
+          leverages both public and private fuel burn data, and how it's applied to evaluate
+          model changes. This rigorous process increases transparency and ensures that TIM
+          provides reliable fuel consumption estimates.`,
+  },
+  {
+    url: "/static/media/tim_belly_cargo_apportionment_rationale.pdf",
+    name: "Belly Cargo Apportionment",
+    publicationDate: "October 2023 (revised April 2025)",
+    description: `
+          This technical brief explains the rationale for a Travel Impact Model (TIM) update that
+          apportions carbon dioxide (CO2) emissions to both passengers and belly cargo (cargo
+          carried in the belly of passenger aircraft) using a mass-based approach.`,
+  },
+];
+
 function Governance() {
   useEffect(() => {
     document.title = "Governance | Travel Impact Model";
@@ -165,95 +256,15 @@ function Governance() {
         <Typography variant="h4" component="h2">
           Publications
         </Typography>
-        <div className="memo">
-          <a href="/static/media/tim_boosting_model_granularity.pdf" download>
-            Boosting Model Granularity
-          </a>
-          <Typography variant="caption" component="p" className="memo-description">
-            January 2025
-          </Typography>
-          <Typography variant="body2" component="p" className="memo-description">
-            This technical brief explores improving the Travel Impact Model&apos;s (TIM) fuel burn
-            estimates by incorporating factors beyond aircraft type and stage length (first-order
-            effects). It reviews literature and data availability for other influencing factors
-            (second-order effects). A qualitative analysis identified aircraft age, engine variant,
-            and payload as the most promising second-order effects for further study and development
-            of correction factors.
-          </Typography>
-        </div>
-        <div className="memo">
-          <a href="/static/media/tim_contrails_impact.pdf" download>
-            Contrails Impact
-          </a>
-          <Typography variant="caption" component="p" className="memo-description">
-            January 2025
-          </Typography>
-          <Typography variant="body2" component="p" className="memo-description">
-            This technical brief details progress on communicating contrail impacts in the Travel
-            Impact Model (TIM). It outlines four methods for classifying flights by contrail warming
-            impact risk for consumers at booking. The currently preferred method classifies flights
-            relative to typical route CO2 emissions.
-          </Typography>
-        </div>
-        <div className="memo">
-          <a href="/static/media/tim_model_selection.pdf" download>
-            Model Selection
-          </a>
-          <Typography variant="caption" component="p" className="memo-description">
-            December 2024
-          </Typography>
-          <Typography variant="body2" component="p" className="memo-description">
-            This technical brief details two improvements to the Travel Impact Model (TIM) for
-            estimating fuel burn. First, the model was updated to the latest 2023 European
-            Environment Agency data, improving accuracy and coverage. Second, a distance adjustment
-            factor now accounts for real-world flight path variations beyond the great-circle
-            distance between airports. This memo contains the latest validation results,
-            demonstrating that these model changes enhance TIM&apos;s coverage and reduce estimation
-            errors.
-          </Typography>
-        </div>
-        <div className="memo">
-          <a href="/static/media/tim_roadmap.pdf" download>
-            TIM Roadmap
-          </a>
-          <Typography variant="caption" component="p" className="memo-description">
-            November 2024
-          </Typography>
-          <Typography variant="body2" component="p" className="memo-description">
-            This technical brief outlines the Travel Impact Model (TIM) Roadmap, detailing its key
-            principles, operating plan, and ongoing workstreams. The roadmap emphasizes
-            transparency, accuracy, and continuous improvement of the TIM, ensuring it remains a
-            reliable and future-proof tool for estimating flight emissions.
-          </Typography>
-        </div>
-        <div className="memo">
-          <a href="/static/media/tim_model_validation_methodology.pdf" download>
-            Model Validation Methodology
-          </a>
-          <Typography variant="caption" component="p" className="memo-description">
-            November 2024
-          </Typography>
-          <Typography variant="body2" component="p" className="memo-description">
-            This technical brief outlines the validation process used to ensure the Travel Impact
-            Model (TIM) accurately estimates aircraft fuel burn. It details the methodology, which
-            leverages both public and private fuel burn data, and how it&apos;s applied to evaluate
-            model changes. This rigorous process increases transparency and ensures that TIM
-            provides reliable fuel consumption estimates.
-          </Typography>
-        </div>
-        <div className="memo">
-          <a href="/static/media/tim_belly_cargo_apportionment_rationale.pdf" download>
-            Belly Cargo Apportionment
-          </a>
-          <Typography variant="caption" component="p" className="memo-description">
-            October 2023 (revised April 2025)
-          </Typography>
-          <Typography variant="body2" component="p" className="memo-description">
-            This technical brief explains the rationale for a Travel Impact Model (TIM) update that
-            apportions carbon dioxide (CO2) emissions to both passengers and belly cargo (cargo
-            carried in the belly of passenger aircraft) using a mass-based approach.
-          </Typography>
-        </div>
+        {MEMO_LIST.map((memoItem, index) => (
+          <MemoItem
+            url={memoItem.url}
+            name={memoItem.name}
+            publicationDate={memoItem.publicationDate}
+            description={memoItem.description}
+            key={index}
+          />
+        ))}
 
         <Footer variant="background-none" />
       </div>
