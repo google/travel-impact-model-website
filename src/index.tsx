@@ -20,6 +20,7 @@ import reportWebVitals from "./reportWebVitals";
 import { initializeApp } from "firebase/app";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getPerformance } from "firebase/performance";
+import { HelmetProvider } from "react-helmet-async";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDZIoS8NnZms4bFx3_bWNbQ2aj9L8H9mDQ",
@@ -39,7 +40,9 @@ getPerformance(app);
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App app={app} />
+    <HelmetProvider>
+      <App app={app} />
+    </HelmetProvider>
   </React.StrictMode>
 );
 

@@ -22,6 +22,7 @@ import Footer from "../components/Footer";
 import Link from "../components/Link";
 import TIMAppBar from "../components/TIMAppBar";
 import "./FAQ.scss";
+import { Helmet } from "react-helmet-async";
 
 interface FaqItemProps {
   question: string;
@@ -140,6 +141,13 @@ function FAQ() {
   const variant = "background-none";
   return (
     <div>
+      <Helmet>
+        <title>FAQ</title>
+        <meta
+          name="description"
+          content="Find answers to common questions about the Travel Impact Model (TIM) - including its purpose, how to use it, and how it's governed."
+        />
+      </Helmet>
       <TIMAppBar variant={variant} />
       <div className="faq-container" role="main" id="main">
         <div className="faq-questions">

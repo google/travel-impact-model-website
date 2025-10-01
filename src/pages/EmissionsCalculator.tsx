@@ -46,6 +46,7 @@ import {
 } from "../api/proto/generated/travelImpactModelProto";
 import "./EmissionsCalculator.scss";
 import Box from "@mui/material/Box";
+import { Helmet } from "react-helmet-async";
 
 interface EmissionsCalculatorProps {
   app: FirebaseApp;
@@ -154,6 +155,13 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
 
   return (
     <div>
+      <Helmet>
+        <title>Emissions Calculator</title>
+        <meta
+          name="description"
+          content="Use the TIM calculator to estimate route or flight emissions. Enter your trip details to get a clear, per-passenger breakdown of carbon impact."
+        />
+      </Helmet>
       <TIMAppBar variant={variant} />
       <div className="emissionscalculator-container" role="main" id="main">
         <Typography variant="h2" component="h1">

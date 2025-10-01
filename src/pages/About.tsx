@@ -18,6 +18,7 @@ import TIMAppBar from "../components/TIMAppBar";
 import Link from "../components/Link";
 import "./About.scss";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 
 function About() {
   useEffect(() => {
@@ -27,6 +28,13 @@ function About() {
   const variant = "background-none";
   return (
     <div>
+      <Helmet>
+        <title>About the Travel Impact Model</title>
+        <meta
+          name="description"
+          content="Learn about the Travel Impact Model (TIM), an open, science-based approach to estimating flight emissions. Explore its principles and how it works."
+        />
+      </Helmet>
       <TIMAppBar variant={variant} />
       <div className="about-container" role="main" id="main">
         <Typography className="title" variant="h2" component="h1">
