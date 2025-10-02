@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
 # Run the Gerrit commit-msg hook, which adds "Change-Id" to the commit description.
 sh .git/hooks/commit-msg $1

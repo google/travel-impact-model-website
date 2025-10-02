@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 set -e
-. "$(dirname -- "$0")/_/husky.sh"
 
 number_of_uncommmitted_files=$(git status -u --porcelain | wc -l)
 
