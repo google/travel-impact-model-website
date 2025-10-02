@@ -60,10 +60,17 @@ function Home() {
           </div>
           <div className="cards">
             <CardTitle
+              title="Usage Guide"
+              description="Discover the different ways to use the TIM, from our calculator to the API"
+              linkName="Learn how"
+              linkAriaLabel="Learn how to use the Travel Impact Model (TIM) in the Usage Guide"
+              linkValue="/usage-guide"
+            />
+            <CardTitle
               title="About"
-              description="Learn more about the Travel Impact Model (TIM) and how it works"
+              description="Learn more about the TIM, explore its methodology, and find answers in the FAQ"
               linkName="Read more"
-              linkAriaLabel="Read more about Travel Impact Model"
+              linkAriaLabel="Read more about Travel Impact Model (TIM)"
               linkValue="/about-tim"
             />
             <CardTitle
@@ -72,13 +79,6 @@ function Home() {
               linkName="Read more"
               linkAriaLabel="Read more about Travel Impact Model Governance"
               linkValue="/governance"
-            />
-            <CardTitle
-              title="Emissions Calculator"
-              description="Use our tool to calculate and understand the factors in a flight's emissions"
-              linkName="Try it"
-              linkAriaLabel="Try emissions calculator"
-              linkValue="/lookup/route"
             />
           </div>
         </div>

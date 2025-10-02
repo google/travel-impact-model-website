@@ -12,11 +12,138 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Button, Typography } from "@mui/material";
-import ActionCard from "../components/ActionCard";
-import TIMAppBar from "../components/TIMAppBar";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LaunchIcon from "@mui/icons-material/Launch";
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+import { ReactElement } from "react";
 import Link from "../components/Link";
+import TIMAppBar from "../components/TIMAppBar";
+import Footer from "../components/Footer";
 import "./About.scss";
+
+interface FaqItemProps {
+  question: string;
+  answer: ReactElement;
+  index: number;
+}
+
+interface InlineLinkProps {
+  text: string;
+  href?: string;
+  openInNewTab?: boolean;
+}
+
+function InlineLink({ text, href, openInNewTab = true }: InlineLinkProps) {
+  return (
+    <>
+      {" "}
+      <Link text={text} href={href} target={openInNewTab ? "_blank" : "_self"} />{" "}
+    </>
+  );
+}
+
+const FAQ_LIST = [
+  {
+    question: "What is the Travel Impact Model (TIM)?",
+    answer: (
+      <div>
+        The Travel Impact Model (TIM) is a transparent & continuously improving emissions estimation
+        model developed by Google that is built from public and licensable external datasets and
+        based on the latest science. It aims to provide a single source of reliable information, as
+        a public good, for calculating and presenting the climate impact of individual flight trips
+        to passengers. An independent Advisory Committee was
+        <InlineLink
+          text="created in 2023"
+          href="https://blog.google/products/travel/google-travel-impact-model-sustainability/"
+        />
+        to develop recommendations for improvements to the TIM.
+      </div>
+    ),
+  },
+  {
+    question: "Why is the TIM needed?",
+    answer: (
+      <div>
+        The aviation industry
+        <InlineLink
+          text="has agreed"
+          href="https://www.icao.int/environmental-protection/Documents/Assembly/Resolution_A41-21_Climate_change.pdf"
+        />
+        to achieve net-zero carbon dioxide (CO2) emissions by 2050, and is developing new
+        technologies to support that goal. But work is needed to mobilize consumers to support early
+        adopters of those technologies. While
+        <InlineLink
+          text="research shows"
+          href="https://theicct.org/publication/variation-in-aviation-emissions-by-itinerary-the-case-for-emissions-disclosure/"
+        />
+        that consumers can reduce their per trip CO2 emissions by 22 to 63% by choosing the least
+        emitting flights, more consistent and transparent data is needed to help identify those
+        flights.
+      </div>
+    ),
+  },
+  {
+    question: "Where is the TIM used today?",
+    answer: (
+      <ul>
+        <li>
+          The TIM is currently used by a number of travel search/technology providers to display
+          emission estimates. These include: Google Flights, Skyscanner, Booking.com, Expedia and
+          Sabre.
+        </li>
+        <li>
+          Other members of the
+          <InlineLink text="Travalyst coalition" href="https://travalyst.org/industry/" /> like
+          Amadeus and Travelport have also committed to using the TIM in the near future.
+        </li>
+        <li>
+          The International Council on Clean Transportation (ICCT), Travalyst, and Google will
+          continue to promote the adoption of the TIM across the industry to encourage greater
+          consistency for prospective travelers.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    question: "What is the ICCT's role as Secretariat?",
+    answer: (
+      <div>
+        As Secretariat, the International Council on Clean Transportation (ICCT) conducts background
+        research, moderates meetings, publicly communicates Advisory Committee decisions, engages
+        external stakeholders, and undertakes other tasks to support the Advisory Committee.
+      </div>
+    ),
+  },
+  {
+    question: "Who serves on the Advisory Committee?",
+    answer: (
+      <div>
+        The committee brings together a set of individuals with deep and unique expertise, including
+        leading academics as well as representatives from environmental nonprofits, aviation
+        regulators, and airlines themselves. The current committee members are listed on
+        <InlineLink text="this page" href="/governance" openInNewTab={false} />.
+      </div>
+    ),
+  },
+];
+
+function FaqItem(props: FaqItemProps) {
+  return (
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls={"faq" + props.index + "-content"}
+        id={"faq" + props.index + "-header"}>
+        <Typography variant="h6" component="h3">
+          {props.question}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography component="div">{props.answer}</Typography>
+      </AccordionDetails>
+    </Accordion>
+  );
+}
 
 function About() {
   const variant = "background-none";
@@ -45,16 +172,13 @@ function About() {
         <Typography className="section" variant="body1">
           The model combines flight origin and destination, aircraft type, cabin class and seat
           configuration, load factors and average aircraft utilization to estimate CO2e emissions
-          for each flight (per seat/passenger). The methodology output is free and available
-          publicly via an API.
+          each flight (per seat/passenger). The methodology is described in more detail on{" "}
+          <Link text="GitHub" href="https://github.com/google/travel-impact-model" />
+          <LaunchIcon sx={{ fontSize: "inherit", verticalAlign: "middle", ml: 0.5 }} /> and is free
+          and and available publicly. See our
+          <InlineLink text="Usage Guide" href="/usage-guide" openInNewTab={false} />
+          page for different ways to access the data.
         </Typography>
-        <Button
-          variant="outlined"
-          color="primary"
-          href="https://github.com/google/travel-impact-model"
-          target="_blank">
-          Github
-        </Button>
 
         <Typography variant="h5" component="h3">
           Model principles
@@ -83,31 +207,9 @@ function About() {
           </li>
         </Typography>
 
-        <Typography variant="h4" component="h3">
-          How to use TIM
+        <Typography variant="h4" component="h2">
+          Framework and adoption
         </Typography>
-        <div className="action-card-container">
-          <ActionCard
-            title="Emissions Calculator"
-            description="Try it yourself with our easy to use emissions calculator!"
-            linkAriaLabel="Emissions Calculator. Try it yourself with our easy to use emissions calculator!"
-            linkValue="/lookup/flight"
-          />
-          <ActionCard
-            title="Developers API"
-            description="Are you a developer? Try our API."
-            linkAriaLabel="Developers API. Are you a developer? Try our API."
-            linkValue="https://developers.google.com/travel/impact-model"
-            externalLink={true}
-          />
-          <ActionCard
-            title="Google Sheets Ext."
-            description="Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
-            linkAriaLabel="Google Sheets Ext. Not a developer? Want to do some analysis on your own? Try the Google Sheets plug-in."
-            linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
-            externalLink={true}
-          />
-        </div>
         <Typography className="section" variant="body1">
           The Travel Impact Model is Google&apos;s implementation of the Travalyst Shared Framework,
           and it has been reviewed by Travalyst&apos;s Independent Advisory Group (IAG).
@@ -117,15 +219,24 @@ function About() {
           Booking.com, Skyscanner, Expedia, Trip.com, Travelport, Amadeus, Sabre, Didi, First Choice
           and others.
         </Typography>
-        <Typography className="end-section" variant="body1">
-          If the API or Google Sheets Add-On is not optimal for you to access the emissions data,
-          please{" "}
-          <Link
-            text="contact us"
-            href="https://support.google.com/travel/contact/tim?pcff=category:travel_Impact_model_(TIM)_API"
-          />{" "}
-          to discuss other options.
-        </Typography>
+        <div className="faq-questions">
+          <Typography className="large-header" variant="h4" component="h2">
+            Frequently asked questions (FAQ)
+          </Typography>
+
+          <div>
+            {FAQ_LIST.map((faqItem, index) => (
+              <FaqItem
+                question={faqItem.question}
+                answer={faqItem.answer}
+                index={index}
+                key={index}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="end-section" />
+        <Footer variant={variant} />
       </div>
     </div>
   );

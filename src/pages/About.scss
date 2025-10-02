@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@use '/src/pages/styles';
+@use "/src/pages/styles";
 
 .about-container {
   @include styles.content-container;
@@ -59,14 +59,5 @@
 
   .footnote {
     @include styles.footnote;
-  }
-
-  .action-card-container {
-    display: flex;
-    margin-bottom: 30px;
-
-    @media only screen and (max-width: styles.$screen-max-width) {
-      flex-direction: column;
-    }
   }
 }

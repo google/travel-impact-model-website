@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@use '/src/pages/styles';
+@use "/src/pages/styles";
 
 .governance-container {
   @include styles.content-container;
@@ -28,8 +28,12 @@
     @include styles.subheader;
   }
 
-  .section {
+  .section, .end-section {
     @include styles.section;
+  }
+
+  .end-section {
+    margin-bottom: 50px;
   }
 
   .MuiButton-outlinedPrimary {
@@ -47,6 +51,7 @@
   .card {
     width: 355px;
     padding: 20px;
+    border-radius: 16px;
 
     @media only screen and (max-width: styles.$screen-max-width) {
       width: 100%;
