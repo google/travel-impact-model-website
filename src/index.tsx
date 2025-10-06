@@ -18,6 +18,7 @@ import App from "./App";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import { initializeApp } from "firebase/app";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getPerformance } from "firebase/performance";
 
 const firebaseConfig = {
@@ -29,6 +30,10 @@ const firebaseConfig = {
   appId: "1:979758156159:web:0af79a421e52f55c2b324a",
 };
 const app = initializeApp(firebaseConfig);
+if (process.env.REACT_APP_USE_FIREBASE_EMULATOR) {
+  const functions = getFunctions(app);
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+}
 getPerformance(app);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
