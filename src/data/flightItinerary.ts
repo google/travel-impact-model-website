@@ -17,15 +17,17 @@ import {
   ComputeFlightEmissionsRequest,
   ComputeTypicalFlightEmissionsRequest,
   Flight,
+  Market,
 } from "../api/proto/generated/travelImpactModelProto";
 
 /** The flight itinerary URL parameter name. */
 export const FLIGHT_ITINERARY_URL_PARAM = "itinerary";
 
 /**
- * Converts the flight itinerary URL param to the FlightItinerary object.
+ * Converts the flight itinerary URL param to an object the API understands.
  * The expected format is "ZRH-LON-LH-123-20231101,MUC-NYC-BA-456-20241124".
- * Both "-" and "/" are supported separators between flights and are treated equally.
+ * The route format "ZRH-LON" is also supported.
+ * Both "," and "/" are supported separators between flights and are treated equally.
  */
 export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFlightEmissionsRequest {
   return {
@@ -35,9 +37,9 @@ export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFligh
           return {
             origin: legBits[0] || "",
             destination: legBits[1] || "",
-            operatingCarrierCode: legBits[2] || "",
-            flightNumber: legBits[3] || "",
-            departureDate: convertStringToDateMessage(legBits[4]) || "",
+            operatingCarrierCode: legBits?.[2] || "",
+            flightNumber: legBits?.[3] || "",
+            departureDate: (legBits?.[4] && convertStringToDateMessage(legBits[4])) || "",
           } as Flight;
         })
       : [],
@@ -57,7 +59,7 @@ export function flightEmissionsRequestToTypicalFlightEmissionsRequest(
 }
 
 /**
- * Encodes the provided FlightItinerary object into a URL param in the format
+ * Encodes the provided list of flights into a URL param in the format
  * "ZRH-LON-LH-123-20231101,MUC-NYC-BA-456-20241124".
  */
 export function generateFlightItineraryUrlParam(itinerary: Flight[]): string {
@@ -72,4 +74,11 @@ export function generateFlightItineraryUrlParam(itinerary: Flight[]): string {
       ].join("-")
     )
     .join(",");
+}
+
+/**
+ * Encodes a route itinerary to a URL parameter like "ZRH-BOS".
+ */
+export function generateRouteItineraryUrlParam(itinerary: Market): string {
+  return [itinerary.origin || "", itinerary.destination || ""].join("-");
 }

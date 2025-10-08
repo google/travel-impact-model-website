@@ -149,8 +149,9 @@ function formatContrailsSection(
   );
 }
 
-function formatTypicalEmissionsSection(
-  typicalEmissionsPerPassenger: EmissionsGramsPerPax
+export function formatTypicalEmissionsSection(
+  typicalEmissionsPerPassenger: EmissionsGramsPerPax,
+  displayTitle = true
 ): string | JSX.Element {
   const tableData = {
     headers: ["Emission Type", "Economy", "Premium", "Business", "First"],
@@ -159,7 +160,7 @@ function formatTypicalEmissionsSection(
         cells: formatEmissionsRow(
           "Typical",
           typicalEmissionsPerPassenger,
-          "Typical Well-to-Wake emissions for a flight between this origin and destinaion." /* description */
+          "Typical Well-to-Wake emissions for a flight between this origin and destination." /* description */
         ),
         indented: false,
       },
@@ -167,9 +168,11 @@ function formatTypicalEmissionsSection(
   };
   return (
     <div>
-      <Typography variant="subtitle1" component="h3" className="subheader">
-        Typical Emissions
-      </Typography>
+      {displayTitle && (
+        <Typography variant="subtitle1" component="h3" className="subheader">
+          Typical Emissions
+        </Typography>
+      )}
       <Table
         ariaLabel="Typical Well-to-Wake emissions for a flight between this origin and destination"
         data={tableData}

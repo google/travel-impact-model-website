@@ -18,16 +18,19 @@ import {
   ComputeFlightEmissionsRequest,
   Flight,
 } from "../api/proto/generated/travelImpactModelProto";
-import "./CalculatorForm.scss";
+import "./FlightCalculatorForm.scss";
 import FlightInput from "./FlightInput";
 
-interface CalculatorFormProp {
+interface FlightCalculatorFormProp {
   request: ComputeFlightEmissionsRequest;
   onSubmit: (arg: Map<number, Flight>) => void;
 }
 
-function CalculatorForm({ request, onSubmit }: CalculatorFormProp) {
-  const [inputRowsValid, setInputRowsValid] = useState(new Map());
+function FlightCalculatorForm({ request, onSubmit }: FlightCalculatorFormProp) {
+  const initialValidity = new Map(
+    request.flights.length > 0 ? request.flights.map((_, idx) => [idx, false]) : [[0, false]]
+  );
+  const [inputRowsValid, setInputRowsValid] = useState(initialValidity);
   const [inputRowFlightLegs, setInputRowFlightLegs] = useState(
     new Map(request.flights.map((el, index) => [index, el]))
   );
@@ -73,4 +76,4 @@ function CalculatorForm({ request, onSubmit }: CalculatorFormProp) {
   );
 }
 
-export default CalculatorForm;
+export default FlightCalculatorForm;

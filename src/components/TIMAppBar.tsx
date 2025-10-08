@@ -50,7 +50,7 @@ const pages = [
   { link: "/", text: "Home", icon: <HomeIcon /> },
   { link: "/about-tim", text: "About", icon: <InfoIcon /> },
   { link: "/governance", text: "Governance", icon: <InfoIcon /> },
-  { link: "/lookup/flight", text: "Emissions Calculator", icon: <CalculateIcon /> },
+  { link: "/lookup/route", text: "Emissions Calculator", icon: <CalculateIcon /> },
   { link: "/faq", text: "FAQ", icon: <QuizIcon /> },
 ];
 

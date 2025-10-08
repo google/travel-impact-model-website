@@ -41,13 +41,23 @@ test("render single flight", async ({ page }) => {
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
+test("render route", async ({ page }) => {
+  await page.goto("/lookup/route?itinerary=ZRH-BOS");
+  await expect(page).toHaveScreenshot({ fullPage: true });
+});
+
+test("render route invalid fields", async ({ page }) => {
+  await page.goto("/lookup/route?itinerary=ZR-BO");
+  await expect(page).toHaveScreenshot({ fullPage: true });
+});
+
 test("render single flight with model version", async ({ page }) => {
   await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827&v=1.2.3");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
-test("render invalid fields", async ({ page }) => {
+test("render flight invalid fields", async ({ page }) => {
   await page.goto("/lookup/flight?itinerary=ZR-BO-L-12BA-20200827");
   await expect(page).toHaveScreenshot({ fullPage: true });
 });

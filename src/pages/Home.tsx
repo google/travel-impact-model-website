@@ -59,7 +59,7 @@ function Home() {
               description="Use our tool to calculate and understand the factors in a flight's emissions"
               linkName="Try it"
               linkAriaLabel="Try emissions calculator"
-              linkValue="/lookup/flight"
+              linkValue="/lookup/route"
             />
           </div>
         </div>

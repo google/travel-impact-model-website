@@ -79,6 +79,7 @@ function App({ app }: AppProps) {
             <Route path="/about-tim" element={<About />} />
             <Route path="/governance" element={<Governance />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/lookup/route" element={<EmissionsCalculator app={app} />} />
             <Route path="/lookup/flight" element={<EmissionsCalculator app={app} />} />
             <Route path="/404" element={<NoPage />} />
             <Route path="*" element={<Navigate to="/404" />} />

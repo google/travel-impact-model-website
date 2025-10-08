@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-@use 'src/pages/styles';
+@use "src/pages/styles";
 
 .emissionscalculator-container {
   @include styles.content-container;
+
+  .input-box {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
   .MuiTypography-h2 {
     @include styles.title;
@@ -27,11 +32,37 @@
     margin-top: 8px;
   }
 
+  .info-icon {
+    padding: 0;
+    padding-left: 5px;
+    padding-bottom: 2px;
+  }
+
   .info-icon .MuiSvgIcon-root {
     font-size: 18px;
   }
 
   .alert-icon .MuiSvgIcon-root {
     font-size: 18px;
+  }
+
+  .MuiTab-textColorPrimary {
+    color: black;
+  }
+
+  .MuiTabPanel-root {
+    padding-left: 0px;
+  }
+
+  .MuiToggleButton-root {
+    text-transform: none;
+    border-radius: 8px;
+    color: #5e5e5e;
+    border-color: #dadce0;
+  }
+
+  .MuiToggleButton-root.Mui-selected {
+    border: black solid 1px;
+    border-bottom: black solid 3px;
   }
 }
