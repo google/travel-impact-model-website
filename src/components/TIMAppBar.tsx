@@ -36,6 +36,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./TIMAppBar.scss";
+import SkipLink from "../components/SkipLink";
 
 type Props = {
   variant: "background-image" | "background-none";
@@ -124,35 +125,39 @@ function TIMAppBar({ variant }: Props) {
   }, [location.pathname]);
 
   return (
-    <AppBar
-      color="primary"
-      position="sticky"
-      sx={{
-        backgroundColor: variant === "background-image" ? "rgba(255, 255, 255, 0.8)" : "#FFFFFF",
-        boxShadow: "none",
-      }}>
-      <Toolbar>
-        <IconButton href="/">
-          <Typography variant="h6" component="div" color="text.primary">
-            TIM
-          </Typography>
-        </IconButton>
-        <Box sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "flex-end", flexGrow: 1 }}>
-          {pages.map((page, index) => (
-            <Button
-              className="appbar-link"
-              key={page.text}
-              href={page.link}
-              sx={{ color: "text.primary" }}
-              aria-current={selectedIndex === index ? "page" : undefined}
-              onClick={() => setSelectedIndex(index)}>
-              {page.text}
-            </Button>
-          ))}
-        </Box>
-        <MenuDrawer selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
-      </Toolbar>
-    </AppBar>
+    <div role="navigation">
+      <AppBar
+        color="primary"
+        position="sticky"
+        sx={{
+          backgroundColor: variant === "background-image" ? "rgba(255, 255, 255, 0.8)" : "#FFFFFF",
+          boxShadow: "none",
+        }}>
+        <SkipLink />
+        <Toolbar>
+          <IconButton href="/">
+            <Typography variant="h6" component="div" color="text.primary">
+              TIM
+            </Typography>
+          </IconButton>
+          <Box
+            sx={{ display: { xs: "none", sm: "flex" }, justifyContent: "flex-end", flexGrow: 1 }}>
+            {pages.map((page, index) => (
+              <Button
+                className="appbar-link"
+                key={page.text}
+                href={page.link}
+                sx={{ color: "text.primary" }}
+                aria-current={selectedIndex === index ? "page" : undefined}
+                onClick={() => setSelectedIndex(index)}>
+                {page.text}
+              </Button>
+            ))}
+          </Box>
+          <MenuDrawer selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
 

@@ -139,9 +139,9 @@ function FAQ() {
 
   const variant = "background-none";
   return (
-    <div role="main">
+    <div>
       <TIMAppBar variant={variant} />
-      <div className="faq-container">
+      <div className="faq-container" role="main" id="main">
         <div className="faq-questions">
           <Typography className="large-header" variant="h2" component="h1" color="primary">
             Frequently Asked Questions

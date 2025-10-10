@@ -141,9 +141,9 @@ function Governance() {
   }, []);
 
   return (
-    <div role="main">
+    <div>
       <TIMAppBar variant="background-none" />
-      <div className="governance-container">
+      <div className="governance-container" role="main" id="main">
         <Typography className="title" variant="h2" component="h1">
           Governance
         </Typography>

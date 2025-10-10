@@ -26,9 +26,9 @@ function About() {
 
   const variant = "background-none";
   return (
-    <div role="main">
+    <div>
       <TIMAppBar variant={variant} />
-      <div className="about-container">
+      <div className="about-container" role="main" id="main">
         <Typography className="title" variant="h2" component="h1">
           About the Travel Impact Model
         </Typography>

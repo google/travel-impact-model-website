@@ -26,10 +26,9 @@ function Home() {
 
   const variant = "background-image";
   return (
-    <div className="tim-home-page" role="main">
+    <div className="tim-home-page">
       <TIMAppBar variant={variant} />
-
-      <div className="tim-main-content-container">
+      <div className="tim-main-content-container" role="main" id="main">
         <div className="tim-main-content">
           <div className="tim-title">
             <Typography className="title" variant="h1" component="h1">

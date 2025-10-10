@@ -26,3 +26,9 @@ test("show sidebar", async ({ page, isMobile }) => {
   await page.getByLabel("menu").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
+
+test("show skip link button", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Skip to main content").focus();
+  await expect(page).toHaveScreenshot({ fullPage: true });
+});

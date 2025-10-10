@@ -153,9 +153,9 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const variant = "background-none";
 
   return (
-    <div role="main">
+    <div>
       <TIMAppBar variant={variant} />
-      <div className="emissionscalculator-container">
+      <div className="emissionscalculator-container" role="main" id="main">
         <Typography variant="h2" component="h1">
           Emissions Calculator
         </Typography>

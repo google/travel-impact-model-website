@@ -22,14 +22,16 @@ function NoPage() {
   }, []);
 
   return (
-    <div style={{ textAlign: "center" }} role="main">
+    <div style={{ textAlign: "center" }}>
       <TIMAppBar variant="background-none" />
-      <Typography variant="h1" component="h1" color="primary">
-        404
-      </Typography>
-      <Typography variant="h2" component="h2" color="primary">
-        Page not found
-      </Typography>
+      <div role="main" id="main">
+        <Typography variant="h1" component="h1" color="primary">
+          404
+        </Typography>
+        <Typography variant="h2" component="h2" color="primary">
+          Page not found
+        </Typography>
+      </div>
     </div>
   );
 }

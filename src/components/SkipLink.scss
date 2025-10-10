@@ -1,0 +1,15 @@
+.skiplink-button {
+  position: fixed !important;
+  opacity: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: white !important;
+  margin: 10px !important;
+  text-transform: none !important;
+}
+
+.skiplink-button:focus {
+  transition: none;
+  opacity: 1;
+  transition-delay: 0s;
+}
