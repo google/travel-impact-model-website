@@ -19,7 +19,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FirebaseApp } from "firebase/app";
 import FlightCalculatorForm from "../components/FlightCalculatorForm";
@@ -67,10 +67,6 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const [selectedTab, setSelectedTab] = useState(
     url.pathname == "/lookup/route" ? "route" : "flight"
   );
-
-  useEffect(() => {
-    document.title = "Emissions Calculator Page";
-  }, []);
 
   /** Change the URL so that it contains the details of the search. */
   function updateFlightUrl(itinerary: Flight[]) {

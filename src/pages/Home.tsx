@@ -17,14 +17,9 @@ import CardTitle from "../components/CardTitle";
 import Footer from "../components/Footer";
 import TIMAppBar from "../components/TIMAppBar";
 import "./Home.scss";
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 function Home() {
-  useEffect(() => {
-    document.title = "TIM Home Page";
-  }, []);
-
   const variant = "background-image";
   return (
     <div className="tim-home-page">

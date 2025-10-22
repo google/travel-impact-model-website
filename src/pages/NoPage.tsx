@@ -14,14 +14,9 @@
 
 import { Typography } from "@mui/material";
 import TIMAppBar from "../components/TIMAppBar";
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 function NoPage() {
-  useEffect(() => {
-    document.title = "Page Load Error - 404";
-  }, []);
-
   return (
     <div style={{ textAlign: "center" }}>
       <Helmet>

@@ -17,7 +17,6 @@ import Footer from "../components/Footer";
 import Link from "../components/Link";
 import TIMAppBar from "../components/TIMAppBar";
 import "./Governance.scss";
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 interface CardProps {
@@ -137,10 +136,6 @@ const MEMO_LIST = [
 ];
 
 function Governance() {
-  useEffect(() => {
-    document.title = "Governance | Travel Impact Model";
-  }, []);
-
   return (
     <div>
       <Helmet>

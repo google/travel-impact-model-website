@@ -17,14 +17,9 @@ import ActionCard from "../components/ActionCard";
 import TIMAppBar from "../components/TIMAppBar";
 import Link from "../components/Link";
 import "./About.scss";
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 function About() {
-  useEffect(() => {
-    document.title = "About the Travel Impact Model";
-  }, []);
-
   const variant = "background-none";
   return (
     <div>
