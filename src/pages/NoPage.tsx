@@ -14,15 +14,12 @@
 
 import { Typography } from "@mui/material";
 import TIMAppBar from "../components/TIMAppBar";
-import { Helmet } from "react-helmet-async";
 
 function NoPage() {
   return (
     <div style={{ textAlign: "center" }}>
-      <Helmet>
-        <title>Page Not Found</title>
-        <meta name="description" content="The page you are looking for could not be found." />
-      </Helmet>
+      <title>Page Not Found</title>
+      <meta name="description" content="The page you are looking for could not be found." />
       <TIMAppBar variant="background-none" />
       <div role="main" id="main">
         <Typography variant="h1" component="h1" color="primary">

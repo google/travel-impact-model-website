@@ -17,7 +17,6 @@ import Footer from "../components/Footer";
 import Link from "../components/Link";
 import TIMAppBar from "../components/TIMAppBar";
 import "./Governance.scss";
-import { Helmet } from "react-helmet-async";
 
 interface CardProps {
   name: string;
@@ -138,13 +137,11 @@ const MEMO_LIST = [
 function Governance() {
   return (
     <div>
-      <Helmet>
-        <title>Governance</title>
-        <meta
-          name="description"
-          content="See how the Travel Impact Model (TIM) is governed. Learn about the advisory committee and the role it plays in ensuring scientific accuracy and transparency."
-        />
-      </Helmet>
+      <title>Governance</title>
+      <meta
+        name="description"
+        content="See how the Travel Impact Model (TIM) is governed. Learn about the advisory committee and the role it plays in ensuring scientific accuracy and transparency."
+      />
       <TIMAppBar variant="background-none" />
       <div className="governance-container" role="main" id="main">
         <Typography className="title" variant="h2" component="h1">

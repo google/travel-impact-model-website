@@ -17,19 +17,16 @@ import CardTitle from "../components/CardTitle";
 import Footer from "../components/Footer";
 import TIMAppBar from "../components/TIMAppBar";
 import "./Home.scss";
-import { Helmet } from "react-helmet-async";
 
 function Home() {
   const variant = "background-image";
   return (
     <div className="tim-home-page">
-      <Helmet>
-        <title>Travel Impact Model</title>
-        <meta
-          name="description"
-          content="The Travel Impact Model (TIM) provides clear, science-based estimates of travel emissions, built on the latest research."
-        />
-      </Helmet>
+      <title>Travel Impact Model</title>
+      <meta
+        name="description"
+        content="The Travel Impact Model (TIM) provides clear, science-based estimates of travel emissions, built on the latest research."
+      />
       <TIMAppBar variant={variant} />
       <div className="tim-main-content-container" role="main" id="main">
         <div className="tim-main-content">
