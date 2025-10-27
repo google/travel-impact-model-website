@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-@use "src/pages/styles";
+@use "/src/pages/styles";
 
 .passenger-level-table-container {
   .emission-name {
       color: #414549;
-      line-height: 1.5;  
+      line-height: 1.5;
   }
 
   &.total {
     font-weight: 700;
   }
-  
+
   .emission-description {
       color: var(--grey-700, #5F6368);
   }

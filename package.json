@@ -25,11 +25,10 @@
     "web-vitals": "^5.1.0"
   },
   "scripts": {
-    "start": "./build_proto.sh && react-scripts start",
-    "build": "./build_proto.sh && react-scripts build",
+    "start": "./build_proto.sh && vite",
+    "build": "./build_proto.sh && vite build",
     "test": "./build_proto.sh && jest && npx playwright test",
     "test-update": "jest -u && npx playwright test --update-snapshots",
-    "eject": "react-scripts eject",
     "lint": "eslint --fix 'src/**/*.{js,jsx,ts,tsx,css,md,json}'",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "prepare": "husky"
@@ -68,12 +67,14 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^27.5.2",
     "@types/react-test-renderer": "^19.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@vitejs/plugin-react": "^4.7.0",
     "babel-jest": "^27.5.1",
-    "eslint": "^8.48.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
@@ -81,7 +82,7 @@
     "prettier": "^3.0.2",
     "protoc": "^1.1.3",
     "react-router-dom": "^6.14.1",
-    "react-scripts": "^5.0.1",
-    "react-test-renderer": "^18.2.0"
+    "react-test-renderer": "^18.2.0",
+    "vite": "^6.4.1"
   }
 }

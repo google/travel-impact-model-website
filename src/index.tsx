@@ -31,7 +31,7 @@ const firebaseConfig = {
   appId: "1:979758156159:web:0af79a421e52f55c2b324a",
 };
 const app = initializeApp(firebaseConfig);
-if (process.env.REACT_APP_USE_FIREBASE_EMULATOR) {
+if (import.meta.env.VITE_API_USE_FIREBASE_EMULATOR) {
   const functions = getFunctions(app);
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
 }

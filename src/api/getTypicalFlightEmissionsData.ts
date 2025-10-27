@@ -25,21 +25,21 @@ async function getTypicalFlightEmissionsData(
   request: ComputeTypicalFlightEmissionsRequest,
   app: FirebaseApp
 ): Promise<ComputeTypicalFlightEmissionsResponse> {
-  if (process.env.REACT_APP_API_URL && process.env.REACT_APP_API_KEY) {
-    // Get data from user input API URL. Set `REACT_APP_API_URL=<url> REACT_APP_API_KEY=<api key> npm start`.
-    const response = await axios.post(process.env.REACT_APP_API_URL, request, {
+  if (import.meta.env.VITE_API_URL && import.meta.env.VITE_API_KEY) {
+    // Get data from user input API URL. Set `VITE_API_URL=<url> VITE_API_KEY=<api key> npm start`.
+    const response = await axios.post(import.meta.env.VITE_API_URL, request, {
       headers: {
         "Content-Type": "application/json",
       },
       params: {
-        key: process.env.REACT_APP_API_KEY,
+        key: import.meta.env.VITE_API_KEY,
       },
     });
     if (response?.data) {
       return response.data;
     }
-  } else if (process.env.REACT_APP_FAKE_API_DATA || process.env.REACT_APP_FAKE_API_EASA_DATA) {
-    // Get data from fake data. Set `REACT_APP_FAKE_API_DATA=true npm start`.
+  } else if (import.meta.env.VITE_FAKE_API_DATA || import.meta.env.VITE_FAKE_API_EASA_DATA) {
+    // Get data from fake data. Set `VITE_FAKE_API_DATA=true npm start`.
     return ComputeTypicalFlightEmissionsResponse.fromJSON(fakeTypicalEmissionsApiResponse);
   } else {
     const functions = getFunctions(app);

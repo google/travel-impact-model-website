@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@use "src/pages/styles";
+@use "/src/pages/styles";
 
 html,
 body,
@@ -53,8 +53,8 @@ body,
 .tim-main-content-container {
   /* Background image from: https://www.pexels.com/photo/photo-of-people-on-top-of-mountain-2161920/ */
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 33%), image-set(
-     url("../../public/images/mountains.webp") type("image/webp"),
-     url("../../public/images/mountains.jpg") type("image/jpeg")
+     url("../../images/mountains.webp") type("image/webp"),
+     url("../../images/mountains.jpg") type("image/jpeg")
   );
   background-position: center;
   background-repeat: no-repeat;

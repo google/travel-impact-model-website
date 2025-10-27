@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@use 'src/pages/styles';
+@use '/src/pages/styles';
 
 .faq-container {
   @include styles.content-container;

@@ -38,7 +38,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -57,7 +57,7 @@ export default defineConfig({
       testMatch: '*EmissionsCalculator.test.*',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://127.0.0.1:3001',
+        baseURL: 'http://localhost:3001',
       },
     },
 
@@ -83,7 +83,7 @@ export default defineConfig({
       testMatch: '*EmissionsCalculator.test.*',
       use: {
         ...devices['Pixel 5'],
-        baseURL: 'http://127.0.0.1:3001',
+        baseURL: 'http://localhost:3001',
       },
     },
   ],
@@ -91,14 +91,14 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: 'REACT_APP_FAKE_API_DATA=true PORT=3000 npm run start',
-      url: 'http://127.0.0.1:3000',
+      command: 'VITE_FAKE_API_DATA=true VITE_PORT=3000 npm run start',
+      url: 'http://localhost:3000',
       reuseExistingServer: false,
     },
     {
       /* Configure web server for testing EASA labels */
-      command: 'REACT_APP_FAKE_API_EASA_DATA=true PORT=3001 npm run start',
-      url: 'http://127.0.0.1:3001',
+      command: 'VITE_FAKE_API_EASA_DATA=true VITE_PORT=3001 npm run start',
+      url: 'http://localhost:3001',
       reuseExistingServer: false,
     }
   ],
