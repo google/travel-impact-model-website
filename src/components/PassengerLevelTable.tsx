@@ -43,12 +43,12 @@ function formatContrailsImpactBucket(contrailsImpactBucket: ContrailsImpactBucke
 }
 
 export function formatEmissionsPerPassengerRow(
-  name: string | JSX.Element,
+  name: string | React.JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
-  description: string | JSX.Element,
+  description: string | React.JSX.Element,
   emissionsMultiplier = 1,
   isTotalRow = false
-): (string | JSX.Element)[] {
+): (string | React.JSX.Element)[] {
   const info = (
     <div className="passenger-level-table-container">
       <Typography
@@ -77,19 +77,19 @@ export function formatEmissionsPerPassengerRow(
 }
 
 function formatEmissionsRow(
-  name: string | JSX.Element,
+  name: string | React.JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
-  description: string | JSX.Element
-): (string | JSX.Element)[] {
+  description: string | React.JSX.Element
+): (string | React.JSX.Element)[] {
   return formatEmissionsPerPassengerRow(name, emissionsPerPassenger, description);
 }
 
 function formatSafDiscountRow(
-  name: string | JSX.Element,
+  name: string | React.JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
-  description: string | JSX.Element,
+  description: string | React.JSX.Element,
   safDiscountPercentage: number
-): (string | JSX.Element)[] {
+): (string | React.JSX.Element)[] {
   // For SAF rows, multiply emissions by the negative SAF percentage to render emissions reduction
   // (e.g. 20% SAF of 200kg total emissions = -40kg)
   const safMultiplier = safDiscountPercentage * -1;
@@ -97,10 +97,10 @@ function formatSafDiscountRow(
 }
 
 function formatTotalsRow(
-  name: string | JSX.Element,
+  name: string | React.JSX.Element,
   emissionsPerPassenger: EmissionsGramsPerPax | undefined,
   safDiscountPercentage: number
-): (string | JSX.Element)[] {
+): (string | React.JSX.Element)[] {
   // For Total Rows, multiply by (1 - SAF discount percentage) to render net emissions
   const totalMultiplier = 1 - safDiscountPercentage;
   return formatEmissionsPerPassengerRow(
@@ -114,7 +114,7 @@ function formatTotalsRow(
 
 function formatContrailsSection(
   contrailsImpactBucket: ContrailsImpactBucket | undefined
-): string | JSX.Element {
+): string | React.JSX.Element {
   const info = (
     <div className="passenger-level-table-container">
       <Typography className={"emission-name"} variant="subtitle1" component="div">
@@ -152,7 +152,7 @@ function formatContrailsSection(
 export function formatTypicalEmissionsSection(
   typicalEmissionsPerPassenger: EmissionsGramsPerPax,
   displayTitle = true
-): string | JSX.Element {
+): string | React.JSX.Element {
   const tableData = {
     headers: ["Emission Type", "Economy", "Premium", "Business", "First"],
     rows: [
@@ -187,7 +187,7 @@ function createTableData(
   emissionsBreakdown: EmissionsBreakdown | undefined,
   safDiscountPercentage: number
 ): TableData {
-  const tableData = {
+  const tableData : TableData = {
     headers: ["Emission Type", "Economy", "Premium", "Business", "First"],
     rows: [
       {

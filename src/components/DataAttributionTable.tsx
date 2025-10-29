@@ -26,7 +26,7 @@ interface SourceProps {
   value: EmissionsInputs_EmissionsInputEntry;
 }
 
-export function FuelBurnSource({ value }: SourceProps): JSX.Element | undefined {
+export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | undefined {
   if (value.dataSource === "EEA") {
     return (
       <ul>
@@ -61,7 +61,7 @@ export function FuelBurnSource({ value }: SourceProps): JSX.Element | undefined 
   }
 }
 
-export function LoadFactorSource({ value }: SourceProps): JSX.Element | undefined {
+export function LoadFactorSource({ value }: SourceProps): React.JSX.Element | undefined {
   if (value.dataSource === "T100") {
     return (
       <ul>
@@ -96,7 +96,7 @@ export function LoadFactorSource({ value }: SourceProps): JSX.Element | undefine
   }
 }
 
-export function CargoMassFractionSource({ value }: SourceProps): JSX.Element | undefined {
+export function CargoMassFractionSource({ value }: SourceProps): React.JSX.Element | undefined {
   if (value.dataSource === "T100") {
     return (
       <ul>
@@ -111,7 +111,7 @@ export function CargoMassFractionSource({ value }: SourceProps): JSX.Element | u
   }
 }
 
-export function PassengerSeatSource({ value }: SourceProps): JSX.Element | undefined {
+export function PassengerSeatSource({ value }: SourceProps): React.JSX.Element | undefined {
   const aircraftConfigFromSchedulesSource = (
     <li key="schedulesSources">
       Aircraft Configuration/Version (ACV) from published flight schedules (from{" "}
@@ -127,7 +127,7 @@ export function PassengerSeatSource({ value }: SourceProps): JSX.Element | undef
     </li>
   );
 
-  let dataSources: JSX.Element[] | undefined = undefined;
+  let dataSources: React.JSX.Element[] | undefined = undefined;
   if (value.dataSource === "OPERATING_CARRIER_CONFIG") {
     dataSources = [aircraftConfigFromSchedulesSource];
   } else if (value.dataSource === "OAG_SEATS_EQUIPMENT_CONFIG") {
@@ -139,7 +139,7 @@ export function PassengerSeatSource({ value }: SourceProps): JSX.Element | undef
   if (dataSources) return <ul>{dataSources}</ul>;
 }
 
-export function SeatAreaRatioSource(): JSX.Element {
+export function SeatAreaRatioSource(): React.JSX.Element {
   return (
     <ul>
       <li>
@@ -152,7 +152,7 @@ export function SeatAreaRatioSource(): JSX.Element {
   );
 }
 
-export function EasaLabelSource(): JSX.Element {
+export function EasaLabelSource(): React.JSX.Element {
   return (
     <ul>
       <li>
@@ -170,7 +170,7 @@ type Props = {
   emissionsData: ComputeFlightEmissionsResponse;
 };
 
-function formatAttributionName(name: string): string | JSX.Element {
+function formatAttributionName(name: string): string | React.JSX.Element {
   return (
     <Typography variant="subtitle1" component="div">
       {name}
@@ -244,7 +244,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
   return rowsData;
 }
 
-function DataAttributionTable({ emissionsData }: Props): JSX.Element {
+function DataAttributionTable({ emissionsData }: Props): React.JSX.Element {
   const isEasaLabel = emissionsData.flightEmissions[0].source == Source.EASA;
 
   const rowsData = isEasaLabel

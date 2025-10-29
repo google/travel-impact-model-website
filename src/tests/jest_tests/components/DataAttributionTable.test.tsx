@@ -23,6 +23,7 @@ import DataAttributionTable, {
 import {
   ComputeFlightEmissionsResponse,
   EmissionsInputs_EmissionsInputEntry,
+  Source,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -185,6 +186,7 @@ describe("DataAttributionTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.TIM,
           emissionsInputs: {
             emissionsInputEntries: {
               totalFuelBurnEstimatedKg: {
@@ -251,7 +253,7 @@ describe("DataAttributionTable", () => {
             destination: "BOS",
             operatingCarrierCode: "LX",
             departureDate: { year: 2024, month: 6, day: 1 },
-            flightNumber: 54,
+            flightNumber: "54",
           },
           emissionsInputs: {
             easaLabelData: {
@@ -259,7 +261,7 @@ describe("DataAttributionTable", () => {
             },
             emissionsInputEntries: {},
           },
-          source: 2,
+          source: Source.EASA,
         },
       ],
       modelVersion: {
@@ -287,6 +289,7 @@ describe("DataAttributionTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.SOURCE_UNSPECIFIED,
           emissionsInputs: {
             emissionsInputEntries: {},
           },
@@ -315,6 +318,7 @@ describe("DataAttributionTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.SOURCE_UNSPECIFIED,
         },
       ],
       modelVersion: {

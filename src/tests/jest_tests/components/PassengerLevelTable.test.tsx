@@ -19,6 +19,7 @@ import {
   ComputeFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsResponse,
   EmissionsGramsPerPax,
+  Source,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -35,6 +36,7 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.TIM,
           emissionsGramsPerPax: {
             first: 1745475,
             business: 139638,
@@ -87,6 +89,7 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.TIM,
           emissionsGramsPerPax: {
             first: 1745475,
             business: 139638,
@@ -165,6 +168,7 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.SOURCE_UNSPECIFIED,
           emissionsGramsPerPax: {},
           emissionsInputs: {
             emissionsInputEntries: {},
@@ -194,6 +198,7 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
+          source: Source.SOURCE_UNSPECIFIED,
         },
       ],
       modelVersion: {

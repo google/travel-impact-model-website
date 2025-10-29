@@ -24,7 +24,7 @@ import { Typography } from "@mui/material";
 import "./Table.scss";
 
 export interface RowData {
-  cells: (string | JSX.Element)[];
+  cells: (string | React.JSX.Element)[];
   indented?: boolean;
   emphasize?: boolean;
 }
