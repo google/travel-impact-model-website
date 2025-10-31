@@ -13,13 +13,18 @@
 // limitations under the License.
 
 import { Typography } from "@mui/material";
+import { preload } from "react-dom";
 import CardTitle from "../components/CardTitle";
 import Footer from "../components/Footer";
 import TIMAppBar from "../components/TIMAppBar";
+import mountainsJpg from "../assets/images/mountains.jpg";
+import mountainsWebp from "../assets/images/mountains.webp";
 import "./Home.scss";
 
 function Home() {
   const variant = "background-image";
+  preload(mountainsWebp, { as: "image", type: "image/webp" });
+  preload(mountainsJpg, { as: "image", type: "image/jpeg" });
   return (
     <div className="tim-home-page">
       <title>Travel Impact Model</title>
@@ -27,6 +32,21 @@ function Home() {
         name="description"
         content="The Travel Impact Model (TIM) provides clear, science-based estimates of travel emissions, built on the latest research."
       />
+      <div className="background-image">
+        <picture>
+          <source srcSet={mountainsWebp} type="image/webp" />
+          <source srcSet={mountainsJpg} type="image/jpeg" />
+          {/* Background image from: https://www.pexels.com/photo/photo-of-people-on-top-of-mountain-2161920/ */}
+          <img
+            src={mountainsJpg}
+            alt="Distant view of people on a mountain peak under a partly cloudy sky."
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
+        </picture>
+      </div>
       <TIMAppBar variant={variant} />
       <div className="tim-main-content-container" role="main" id="main">
         <div className="tim-main-content">
