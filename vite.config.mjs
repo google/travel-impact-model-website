@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     build: {
       outDir: 'build',
+      chunkSizeWarningLimit: 1100,
     },
     server: {
       port: port
