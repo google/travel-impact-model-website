@@ -187,7 +187,7 @@ function createTableData(
   emissionsBreakdown: EmissionsBreakdown | undefined,
   safDiscountPercentage: number
 ): TableData {
-  const tableData : TableData = {
+  const tableData: TableData = {
     headers: ["Emission Type", "Economy", "Premium", "Business", "First"],
     rows: [
       {
