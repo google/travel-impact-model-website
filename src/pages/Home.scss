@@ -20,7 +20,8 @@ html,
 body,
 #root,
 .tim-home-page {
-  height: 100%;
+  height: fit-content;
+  min-height: 100dvh;
 }
 
 .tim-home-page {
