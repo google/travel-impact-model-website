@@ -108,7 +108,7 @@ const FAQ_LIST = [
         The committee brings together a set of individuals with deep and unique expertise, including
         leading academics as well as representatives from environmental nonprofits, aviation
         regulators, and airlines themselves. The current committee members are listed on{" "}
-        <Link text="this page" href="/about-tim" />.
+        <Link text="this page" href="/governance" />.
       </div>
     ),
   },
