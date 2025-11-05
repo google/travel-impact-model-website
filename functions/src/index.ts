@@ -21,9 +21,9 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import {onCall, CallableRequest} from "firebase-functions/v2/https";
+import { onCall, CallableRequest } from "firebase-functions/v2/https";
 import axios from "axios";
-import {initializeApp} from "firebase-admin/app";
+import { initializeApp } from "firebase-admin/app";
 
 initializeApp();
 
@@ -33,7 +33,7 @@ initializeApp();
  * @return {AxiosResponse} Returns API response
  */
 export const computeFlightEmissions = onCall(
-  {cors: true, secrets: ["TIM_API_KEY"]},
+  { cors: true, secrets: ["TIM_API_KEY"] },
   async (request: CallableRequest) => {
     const apiResponse = await axios.post(
       "https://travelimpactmodel.googleapis.com/v1/flights:computeFlightEmissions",
@@ -57,7 +57,7 @@ export const computeFlightEmissions = onCall(
  * @return {AxiosResponse} Returns API response
  */
 export const computeTypicalFlightEmissions = onCall(
-  {cors: true, secrets: ["TIM_API_KEY"]},
+  { cors: true, secrets: ["TIM_API_KEY"] },
   async (request: CallableRequest) => {
     const apiResponse = await axios.post(
       "https://travelimpactmodel.googleapis.com/v1/flights:computeTypicalFlightEmissions",

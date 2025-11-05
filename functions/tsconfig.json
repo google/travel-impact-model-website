@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2020", // Node.js 20
+    "esModuleInterop": true,
+    "skipLibCheck": true,     // Silence irrelevant errors in node_modules
   },
   "compileOnSave": true,
   "include": [
