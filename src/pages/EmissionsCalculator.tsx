@@ -156,7 +156,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
         content="Use the TIM calculator to estimate route or flight emissions. Enter your trip details to get a clear, per-passenger breakdown of carbon impact."
       />
       <TIMAppBar variant={variant} />
-      <div className="emissionscalculator-container" role="main" id="main">
+      <div className="emissionscalculator-container" role="main" id="main" tabIndex={-1}>
         <Typography variant="h2" component="h1">
           Emissions Calculator
         </Typography>

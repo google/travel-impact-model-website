@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
+html {
+  // Add support for changing text size on mobile devices on Apple devices
+  font: -apple-system-body;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  // Add support for changing text size on mobile devices on Android devices
+  text-size-adjust: calc(100% * env(preferred-text-scale));
 }
 
 code {

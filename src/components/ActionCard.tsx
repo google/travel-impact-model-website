@@ -35,15 +35,19 @@ export default function ActionCard(props: ActionCardProps) {
         aria-label={props.linkAriaLabel}
         target={props.externalLink ? "_blank" : ""}
         rel={props.externalLink ? "noopener" : ""}>
-        <CardContent>
+        <CardContent
+          className="action-card-content"
+          role="img"
+          aria-label={props.linkAriaLabel}
+          aria-labelledby={props.linkAriaLabel}>
           <div className="action-card-title">
             <Typography gutterBottom variant="h6" component="div">
               {props.title}
             </Typography>
             {props.externalLink ? (
-              <Launch className="action-icon" color="action" sx={{ fontSize: 16 }} />
+              <Launch className="action-icon launch-icon" color="action" />
             ) : (
-              <Link className="action-icon" color="action" sx={{ fontSize: 18 }} />
+              <Link className="action-icon link-icon" color="action" />
             )}
           </div>
           <Typography variant="body2">{props.description}</Typography>

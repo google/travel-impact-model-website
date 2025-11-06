@@ -157,7 +157,7 @@ function Governance() {
         content="See how the Travel Impact Model (TIM) is governed. Learn about the advisory committee and the role it plays in ensuring scientific accuracy and transparency."
       />
       <TIMAppBar variant="background-none" />
-      <div className="governance-container" role="main" id="main">
+      <div className="governance-container" role="main" id="main" tabIndex={-1}>
         <Typography className="title" variant="h2" component="h1">
           Governance
         </Typography>

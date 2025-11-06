@@ -21,6 +21,22 @@
     max-width: 350px;
     min-height: 140px;
     margin: 10px;
+
+    a {
+      &:focus-visible {
+        outline: 2px solid LinkText;
+        outline-offset: 2px;
+        @media (forced-colors: active) {
+          background-color: Highlight;
+          color: white;
+          outline: 2px solid white;
+        }
+      }
+    }
+
+    @media (forced-colors: active) {
+      border: 1px solid LinkText;
+    }
   }
 
   .action-card-title {
@@ -32,4 +48,13 @@
   .action-icon {
     margin-left: 8px;
     text-align: right;
+
+    &.launch-icon {
+      font-size: 16px;
+      color: LinkText;
+    }
+    &.link-icon {
+      font-size: 18px;
+      color: LinkText;
+    }
   }

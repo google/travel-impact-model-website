@@ -48,8 +48,8 @@ function Home() {
         </picture>
       </div>
       <TIMAppBar variant={variant} />
-      <div className="tim-main-content-container" role="main" id="main">
-        <div className="tim-main-content">
+      <div className="tim-main-content-container">
+        <div className="tim-main-content" role="main" id="main" tabIndex={-1}>
           <div className="tim-title">
             <Typography className="title" variant="h1" component="h1">
               Travel Impact Model
