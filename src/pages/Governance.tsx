@@ -68,6 +68,17 @@ function MemoItem(props: MemoProps) {
 
 const MEMO_LIST = [
   {
+    url: "/static/media/tim_contrails_impact_update.pdf",
+    name: "Contrails Impact Update",
+    publicationDate: "November 2025",
+    description: `
+           This technical brief documents the updates to the contrail warming
+           estimates of the Travel Impact Model (TIM).  It outlines three major
+           methodological improvements, and compares the results of the updated
+           estimation model with the results of the previous one,
+           which were presented in the January 2025 technical brief.`,
+  },
+  {
     url: "/static/media/tim_boosting_model_granularity.pdf",
     name: "Boosting Model Granularity",
     publicationDate: "January 2025",
