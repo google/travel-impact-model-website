@@ -29,10 +29,13 @@ interface CardProps {
 function EntityCard(props: CardProps) {
   return (
     <Paper className="card" elevation={3}>
-      <Typography variant="body1" sx={{ fontWeight: 500 }} component="div">
-        {props.name}
+      <Typography
+        variant="body1"
+        sx={{ fontWeight: 500 }}
+        component="div"
+        aria-label={props.nonVotingStar ? "* means non-voting observer" : ""}>
+        {props.name} {props.nonVotingStar ? "*" : ""}
       </Typography>
-      <Typography aria-label={props.nonVotingStar ? "* means non-voting observer" : ""} />
       <Typography variant="body1">
         <div>{props.title}</div>
         <div>
@@ -210,14 +213,14 @@ function Governance() {
             nonVotingStar={false}
           />
           <EntityCard
-            name="Achilleas Achilleos *"
+            name="Achilleas Achilleos"
             title="Strategic Programme Officer"
             institution="European Union Aviation Safety Agency"
             institutionLink="https://www.easa.europa.eu/"
             nonVotingStar={true}
           />
           <EntityCard
-            name="Fabio Grandi *"
+            name="Fabio Grandi"
             title="Special Assistant to the Chief Scientific & Technical Advisor for Environment and Energy"
             institution="Federal Aviation Administration"
             institutionLink="https://www.faa.gov/"

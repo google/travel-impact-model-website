@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import { Page, expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 async function mockCurrentTime(page: Page, datetime: number) {
   await page.addInitScript(`{
@@ -28,6 +29,16 @@ async function mockCurrentTime(page: Page, datetime: number) {
     }
   }`);
 }
+
+test("should not have any automatically detectable WCAG A or AA violations", async ({ page }) => {
+  await page.goto("/lookup/flight");
+
+  const accessibilityScanResults = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+
+  expect(accessibilityScanResults.violations).toEqual([]);
+});
 
 test("render default", async ({ page }) => {
   await mockCurrentTime(page, new Date("April 2 2032").valueOf());
