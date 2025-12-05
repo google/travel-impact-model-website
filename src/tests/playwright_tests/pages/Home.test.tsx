@@ -31,6 +31,7 @@ test("show sidebar", async ({ page, isMobile }) => {
 test("show skip link button", async ({ page }) => {
   await page.goto("/");
   await page.getByLabel("Skip to main content").focus();
+  await page.waitForTimeout(400);
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 
