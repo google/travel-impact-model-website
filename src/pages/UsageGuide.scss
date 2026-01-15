@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Google LLC
+ * Copyright 2025 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-@use '/src/pages/styles';
+@use "/src/pages/styles";
 
-.faq-container {
+.usage-guide-container {
   @include styles.content-container;
 
-  .faq-questions {
-    padding-bottom: 30px;
-
-    .MuiTypography-h2 {
-      @include styles.title;
-    }
-
-    ul {
-      margin-top: 0;
-    }
-
-    li:not(:first-child) {
-      padding-top: 12px;
-    }
+  .title {
+    @include styles.title;
   }
 
+  .section, .end-section {
+    @include styles.section;
+  }
+
+  .end-section {
+    margin-bottom: 50px;
+  }
+
+  .action-card-container {
+    display: flex;
+
+    @media only screen and (max-width: styles.$screen-max-width) {
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .MuiPaper-root {
+      border-radius: 16px;
+    }
+  }
 }

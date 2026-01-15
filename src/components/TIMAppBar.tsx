@@ -14,10 +14,10 @@
 
 import CalculateIcon from "@mui/icons-material/Calculate";
 import CloseIcon from "@mui/icons-material/Close";
-import HomeIcon from "@mui/icons-material/Home";
+import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
-import QuizIcon from "@mui/icons-material/Quiz";
+import SchoolIcon from "@mui/icons-material/School";
 import Button from "@mui/material/Button";
 import {
   Divider,
@@ -48,11 +48,10 @@ type DrawerProps = {
 };
 
 const pages = [
-  { link: "/", text: "Home", icon: <HomeIcon /> },
+  { link: "/usage-guide", text: "Usage Guide", icon: <DesignServicesIcon /> },
+  { link: "/lookup/flight", text: "Calculator", icon: <CalculateIcon /> },
   { link: "/about-tim", text: "About", icon: <InfoIcon /> },
-  { link: "/governance", text: "Governance", icon: <InfoIcon /> },
-  { link: "/lookup/route", text: "Emissions Calculator", icon: <CalculateIcon /> },
-  { link: "/faq", text: "FAQ", icon: <QuizIcon /> },
+  { link: "/governance", text: "Governance", icon: <SchoolIcon /> },
 ];
 
 const DrawerHeader = styled("div")(({ theme }) => ({

@@ -1,4 +1,4 @@
-// Copyright 2023 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test("should not have any automatically detectable WCAG A or AA violations", async ({ page }) => {
-  await page.goto("/faq");
+  await page.goto("/usage-guide");
 
   const accessibilityScanResults = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
@@ -26,21 +26,6 @@ test("should not have any automatically detectable WCAG A or AA violations", asy
 });
 
 test("render", async ({ page }) => {
-  await page.goto("/faq");
+  await page.goto("/usage-guide");
   await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
-test("expanded one faq", async ({ page }) => {
-  await page.goto("/faq");
-  await page.click("[id='faq1-header']");
-  await expect(page).toHaveScreenshot({ fullPage: true });
-});
-
-test("expanded multiple faqs", async ({ page }) => {
-  await page.goto("/faq");
-  await page.click("[id='faq0-header']");
-  await page.click("[id='faq1-header']");
-  await page.click("[id='faq2-header']");
-  await page.evaluate(() => window.scrollTo(0, 0)); // Scroll to top.
-  await expect(page).toHaveScreenshot({ fullPage: false });
 });

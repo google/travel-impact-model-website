@@ -20,10 +20,10 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { FirebaseApp } from "firebase/app";
 import About from "./pages/About";
 import EmissionsCalculator from "./pages/EmissionsCalculator";
-import FAQ from "./pages/FAQ";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Governance from "./pages/Governance";
+import UsageGuide from "./pages/UsageGuide";
 
 // Setting theme colors for the website.
 const theme = createTheme({
@@ -75,10 +75,10 @@ function App({ app }: AppProps) {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <BrowserRouter>
           <Routes>
-            <Route index element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/about-tim" element={<About />} />
             <Route path="/governance" element={<Governance />} />
-            <Route path="/faq" element={<FAQ />} />
+            <Route path="/usage-guide" element={<UsageGuide />} />
             <Route path="/lookup/route" element={<EmissionsCalculator app={app} />} />
             <Route path="/lookup/flight" element={<EmissionsCalculator app={app} />} />
             <Route path="/404" element={<NoPage />} />

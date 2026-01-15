@@ -280,6 +280,7 @@ function Governance() {
           />
         ))}
 
+        <div className="end-section" />
         <Footer variant="background-none" />
       </div>
     </div>
