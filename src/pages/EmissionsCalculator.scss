@@ -66,3 +66,39 @@
     border-bottom: black solid 3px;
   }
 }
+
+@media (prefers-contrast: more) {
+  .emissionscalculator-container {
+    // Enhance toggle buttons
+    .MuiToggleButton-root {
+      border-color: #000; // Darken border for unselected
+      border-width: 2px; // Make border thicker
+      color: #000; // Ensure text is black
+    }
+
+    .MuiToggleButton-root.Mui-selected {
+      border: black solid 2px; // Ensure selected also has thicker border
+      border-bottom: black solid 4px; // Make bottom border even thicker
+    }
+
+    // Enhance input fields (assuming Material-UI OutlinedInput)
+    .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+      border-color: #000 !important; // Ensure black border
+      border-width: 2px !important; // Thicker border
+    }
+
+    // Enhance alerts
+    .MuiAlert-root {
+      border: 2px solid #000;
+      background-color: #f0f0f0; // A slightly off-white to distinguish
+      color: #000; // Ensure text is black
+    }
+
+    // Enhance links
+    .MuiLink-root {
+      color: #000;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+}

@@ -29,7 +29,7 @@ function UsageGuide() {
         content="Learn how to use the Travel Impact Model (TIM) through our Emissions Calculator, Developer API, or Google Sheets add-on."
       />
       <TIMAppBar variant={variant} />
-      <div className="usage-guide-container" role="main" id="main">
+      <div className="usage-guide-container" role="main" id="main" tabIndex={-1}>
         <Typography className="title" variant="h2" component="h1">
           Usage Guide
         </Typography>
@@ -49,14 +49,15 @@ function UsageGuide() {
           <ActionCard
             title="Developers API"
             description="Are you a developer? Try our API."
-            linkAriaLabel="Developers API. Are you a developer? Try our API."
+            linkAriaLabel="Open a new tab with the Developers API. Are you a developer? Try our API."
             linkValue="https://developers.google.com/travel/impact-model"
             externalLink={true}
           />
           <ActionCard
             title="Google Sheets Ext."
-            description="Not a developer? Want to do some analysis on your own? Try the Google Sheets add-on."
-            linkAriaLabel="Google Sheets Ext. Not a developer? Want to do some analysis on your own? Try the Google Sheets add-on."
+            description="Not a developer? Try the Google Sheets extension."
+            linkAriaLabel="Open a new tab with the
+            Google Sheets extension. Not a developer? Try the Google Sheets extension."
             linkValue="https://workspace.google.com/marketplace/app/flight_emissions_for_sheets/655425728274"
             externalLink={true}
           />

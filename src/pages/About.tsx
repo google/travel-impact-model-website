@@ -134,7 +134,7 @@ function FaqItem(props: FaqItemProps) {
         expandIcon={<ExpandMoreIcon />}
         aria-controls={"faq" + props.index + "-content"}
         id={"faq" + props.index + "-header"}>
-        <Typography variant="h6" component="h3">
+        <Typography variant="h6" component="span">
           {props.question}
         </Typography>
       </AccordionSummary>
@@ -155,7 +155,7 @@ function About() {
         content="Learn about the Travel Impact Model (TIM), an open, science-based approach to estimating flight emissions. Explore its principles and how it works."
       />
       <TIMAppBar variant={variant} />
-      <div className="about-container" role="main" id="main">
+      <div className="about-container" role="main" id="main" tabIndex={-1}>
         <Typography className="title" variant="h2" component="h1">
           About the Travel Impact Model
         </Typography>

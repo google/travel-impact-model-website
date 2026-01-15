@@ -24,7 +24,7 @@ test("show sidebar", async ({ page, isMobile }) => {
   // The sidebar is only visible on mobile, so skip the test for desktop.
   if (!isMobile) return;
   await page.goto("/");
-  await page.getByLabel("menu").click();
+  await page.getByLabel("Travel Impact Model (TIM) menu button").click();
   await expect(page).toHaveScreenshot({ fullPage: true });
 });
 

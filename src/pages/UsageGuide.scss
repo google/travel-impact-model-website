@@ -44,3 +44,20 @@
     }
   }
 }
+
+@media (prefers-contrast: more) {
+  .usage-guide-container {
+    color: #000; // Ensure all text is black by default for high contrast
+
+    .action-card-container .MuiPaper-root {
+      border: 2px solid #000; // Add a thick black border to cards
+      box-shadow: none; // Remove any shadows for clearer distinction
+    }
+
+    .MuiLink-root {
+      color: #000; // Ensure links are black
+      text-decoration: underline; // Explicitly underline links
+      text-decoration-thickness: 2px; // Make the underline thicker
+    }
+  }
+}

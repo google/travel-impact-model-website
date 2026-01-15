@@ -25,15 +25,15 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Typography,
   styled,
+  Typography,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Toolbar from "@mui/material/Toolbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./TIMAppBar.scss";
 import SkipLink from "../components/SkipLink";
@@ -48,10 +48,25 @@ type DrawerProps = {
 };
 
 const pages = [
-  { link: "/usage-guide", text: "Usage Guide", icon: <DesignServicesIcon /> },
-  { link: "/lookup/flight", text: "Calculator", icon: <CalculateIcon /> },
-  { link: "/about-tim", text: "About", icon: <InfoIcon /> },
-  { link: "/governance", text: "Governance", icon: <SchoolIcon /> },
+  {
+    link: "/usage-guide",
+    text: "Usage Guide",
+    icon: <DesignServicesIcon />,
+    label: "Usage Guide.",
+  },
+  {
+    link: "/lookup/route",
+    text: "Calculator",
+    icon: <CalculateIcon />,
+    label: "Emissions Calculator for route and specific flights.",
+  },
+  {
+    link: "/about-tim",
+    text: "About",
+    icon: <InfoIcon />,
+    label: "About the Travel Impact Model.",
+  },
+  { link: "/governance", text: "Governance", icon: <SchoolIcon />, label: "Governance." },
 ];
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -60,6 +75,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 function MenuDrawer({ selectedIndex, setSelectedIndex }: DrawerProps) {
   const [open, setOpen] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      closeButtonRef.current?.focus();
+    }
+  }, [open]);
 
   return (
     <Box sx={{ display: { xs: "flex", sm: "none" }, justifyContent: "flex-end", flexGrow: 1 }}>
@@ -67,22 +89,24 @@ function MenuDrawer({ selectedIndex, setSelectedIndex }: DrawerProps) {
         size="large"
         edge="start"
         color="primary"
-        aria-label="menu"
+        aria-label="Travel Impact Model (TIM) menu button"
+        aria-expanded={open}
         sx={{ mr: 2 }}
         onClick={() => setOpen(true)}>
         <MenuIcon />
       </IconButton>
-      <Box>
-        <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
+      <Box role="presentation">
+        <Drawer anchor="right" open={open} variant="persistent" onClose={() => setOpen(false)}>
           <DrawerHeader>
             <IconButton
               aria-label="close menu"
               onClick={() => setOpen(false)}
-              sx={{ margin: "12px 8px" }}>
+              sx={{ margin: "12px 8px" }}
+              ref={closeButtonRef}>
               <CloseIcon />
             </IconButton>
           </DrawerHeader>
-          <Divider aria-hidden="true" />
+          <Divider />
           <List>
             {pages.map((page, index) => {
               return (
@@ -92,6 +116,9 @@ function MenuDrawer({ selectedIndex, setSelectedIndex }: DrawerProps) {
                   key={index}
                   selected={selectedIndex === index}
                   aria-current={selectedIndex === index ? "page" : undefined}
+                  aria-label={
+                    index === 0 ? `list of ${pages.length} items, ${page.label}` : page.label
+                  }
                   onClick={() => setSelectedIndex(index)}>
                   <ListItemIcon sx={{ minWidth: "46px" }}>{page.icon}</ListItemIcon>
                   <ListItemText primary={page.text} />
@@ -106,7 +133,7 @@ function MenuDrawer({ selectedIndex, setSelectedIndex }: DrawerProps) {
 }
 
 function TIMAppBar({ variant }: Props) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const location = useLocation();
 
   useEffect(() => {
@@ -115,12 +142,13 @@ function TIMAppBar({ variant }: Props) {
     const exactMatchIndex = pages.findIndex((page) => currentPath === page.link);
     if (exactMatchIndex !== -1) {
       setSelectedIndex(exactMatchIndex);
+      return;
     }
     // If there's no exact match, we find the first match by prefix.
     const partialMatchIndex = pages.findIndex(
       (page) => page.link !== "/" && currentPath.startsWith(page.link)
     );
-    setSelectedIndex(partialMatchIndex !== -1 ? partialMatchIndex : 0);
+    setSelectedIndex(partialMatchIndex);
   }, [location.pathname]);
 
   return (
@@ -134,7 +162,10 @@ function TIMAppBar({ variant }: Props) {
         }}>
         <SkipLink />
         <Toolbar>
-          <IconButton href="/">
+          <IconButton
+            href="/"
+            aria-label="Travel Impact Model (TIM) Home Page"
+            aria-current={selectedIndex === -1 ? "page" : undefined}>
             <Typography variant="h6" component="div" color="text.primary">
               TIM
             </Typography>
@@ -148,6 +179,9 @@ function TIMAppBar({ variant }: Props) {
                 href={page.link}
                 sx={{ color: "text.primary" }}
                 aria-current={selectedIndex === index ? "page" : undefined}
+                aria-label={
+                  index === 0 ? `list of ${pages.length} items, ${page.label}` : page.label
+                }
                 onClick={() => setSelectedIndex(index)}>
                 {page.text}
               </Button>
