@@ -74,3 +74,27 @@ export const computeTypicalFlightEmissions = onCall(
     return apiResponse.data;
   }
 );
+
+/**
+ * Calls Travel Impact Model computeDetailedFlightEmissions API.
+ *
+ * @return {AxiosResponse} Returns API response
+ */
+export const computeDetailedFlightEmissions = onCall(
+  { cors: true, secrets: ["TIM_API_KEY"], enforceAppCheck: true },
+  async (request: CallableRequest) => {
+    const apiResponse = await axios.post(
+      "https://travelimpactmodel.googleapis.com/v1/flights:computeDetailedFlightEmissions",
+      request.data.data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: {
+          key: process.env.TIM_API_KEY,
+        },
+      }
+    );
+    return apiResponse.data;
+  }
+);
