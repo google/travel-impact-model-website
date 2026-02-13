@@ -13,6 +13,8 @@
 // limitations under the License.
 
 import {
+  ComputeDetailedFlightEmissionsRequest,
+  ComputeDetailedFlightEmissionsResponse,
   ComputeFlightEmissionsRequest,
   ComputeFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsRequest,
@@ -22,6 +24,7 @@ import {
 import { FirebaseApp } from "firebase/app";
 import getFlightEmissionsData from "./getFlightEmissionsData";
 import getTypicalFlightEmissionsData from "./getTypicalFlightEmissionsData";
+import getDetailedFlightEmissionsData from "./getDetailedFlightEmissionsData";
 
 function convertGramsToKilograms(value: number | undefined) {
   if (value === undefined) {
@@ -57,10 +60,10 @@ const travelImpactModelApi = {
         emissions.emissionsGramsPerPax = emissionsGramsToKilograms(emissions.emissionsGramsPerPax);
         if (emissions.emissionsBreakdown !== undefined) {
           emissions.emissionsBreakdown.ttwEmissionsGramsPerPax = emissionsGramsToKilograms(
-            emissions.emissionsBreakdown?.ttwEmissionsGramsPerPax
+            emissions.emissionsBreakdown.ttwEmissionsGramsPerPax
           );
           emissions.emissionsBreakdown.wttEmissionsGramsPerPax = emissionsGramsToKilograms(
-            emissions.emissionsBreakdown?.wttEmissionsGramsPerPax
+            emissions.emissionsBreakdown.wttEmissionsGramsPerPax
           );
         }
       });
@@ -79,6 +82,35 @@ const travelImpactModelApi = {
         emissions.emissionsGramsPerPax = emissionsGramsToKilograms(emissions.emissionsGramsPerPax);
       });
     }
+    return data;
+  },
+  async getComputeDetailedFlightEmissions(
+    request: ComputeDetailedFlightEmissionsRequest,
+    app: FirebaseApp
+  ): Promise<ComputeDetailedFlightEmissionsResponse> {
+    const response = await getDetailedFlightEmissionsData(request, app);
+    const data = ComputeDetailedFlightEmissionsResponse.fromJSON(response);
+
+    if (data.flightsWithDetailedEmissions !== undefined) {
+      data.flightsWithDetailedEmissions.forEach((flight) => {
+        if (flight.flightEmissionsDetails !== undefined) {
+          flight.flightEmissionsDetails.emissionsGramsPerPax = emissionsGramsToKilograms(
+            flight.flightEmissionsDetails.emissionsGramsPerPax
+          );
+          if (flight.flightEmissionsDetails.emissionsBreakdown !== undefined) {
+            flight.flightEmissionsDetails.emissionsBreakdown.ttwEmissionsGramsPerPax =
+              emissionsGramsToKilograms(
+                flight.flightEmissionsDetails.emissionsBreakdown?.ttwEmissionsGramsPerPax
+              );
+            flight.flightEmissionsDetails.emissionsBreakdown.wttEmissionsGramsPerPax =
+              emissionsGramsToKilograms(
+                flight.flightEmissionsDetails.emissionsBreakdown?.wttEmissionsGramsPerPax
+              );
+          }
+        }
+      });
+    }
+
     return data;
   },
 };

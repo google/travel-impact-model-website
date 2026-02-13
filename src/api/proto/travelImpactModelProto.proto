@@ -33,6 +33,24 @@ enum Source {
   EASA = 2;
 }
 
+// Metadata about the EASA Flight Emissions Label.
+message EasaLabelMetadata {
+  // The date when the label was issued.
+  Date label_issue_date = 1;
+  // The date when the label expires. The label can be displayed until the end
+  // of this date.
+  Date label_expiry_date = 2;
+  // Version of the label.
+  string label_version = 3;
+  // Sustainable Aviation Fuel (SAF) emissions discount percentage applied
+  // to the label. It is a percentage as a decimal. The values are in the
+  // interval [0,1]. For example, 0.0021 means 0.21%.
+  //
+  // This discount and reduction in emissions are reported by the EASA label
+  // but they are not included in the CO2e estimates distributed by this API.
+  double saf_discount_percentage = 4;
+}
+
 // The significance of contrails warming impact compared to the total CO2e
 // emissions impact.
 enum ContrailsImpactBucket {
@@ -237,4 +255,231 @@ message TypicalFlightEmissions {
 
   // Typical flight emissions per passenger for requested market.
   EmissionsGramsPerPax emissions_grams_per_pax = 2;
+}
+
+message ComputeDetailedFlightEmissionsRequest {
+
+  // Direct flights to return emission estimates for.
+  repeated Flight flights = 1;
+}
+
+// Direct flight with emission estimates details.
+message FlightWithDetailedEmissions {
+
+  // Matches the flight identifiers in the request.
+  // Note: all IATA codes are capitalized.
+  Flight flight = 1;
+
+  // All the flight emissions data.
+  FlightEmissionsDetails flight_emissions_details = 2;
+
+  // Additional metadata about the flight emissions calculation.
+  EmissionsMetadata emissions_metadata = 3;
+}
+
+// Details about the specific flight's emissions
+message FlightEmissionsDetails {
+
+  // Per-passenger emission estimate numbers. Will not be present if emissions
+  // could not be computed.
+  EmissionsGramsPerPax emissions_grams_per_pax = 1;
+
+  // Details about the various emissions portions of the total
+  // emissions_grams_per_pax value. The value of the summed breakdowns should
+  // always equal emissions_grams_per_pax.
+  EmissionsBreakdown emissions_breakdown = 2;
+
+  // The significance of contrails warming impact compared to the total CO2e
+  // emissions impact.
+  ContrailsImpactBucket contrails_impact_bucket = 3;
+
+  // The source of the emissions data.
+  Source source = 4;
+}
+
+// All additional metadata.
+message EmissionsMetadata {
+
+  // Details about the provenance of data used to calculate the emissions data,
+  // including the contributing factors with their data sources.
+  EmissionsProvenance emissions_provenance = 1;
+
+  // Metadata about the EASA Flight Emissions Label. Only set when the emissions
+  // data source is EASA.
+  EasaLabelMetadata easa_label_metadata = 2;
+}
+
+// Information about the provenance of the data used to calculate emissions
+// estimates, including contributing factors and their data sources.
+message EmissionsProvenance {
+
+  // The type of the provenance entry.
+  // New values may be added in the future. Clients should be prepared to handle
+  // unknown enum values gracefully.
+  enum EmissionsProvenanceEntryType {
+    // Unspecified provenance entry type.
+    EMISSIONS_PROVENANCE_ENTRY_TYPE_UNSPECIFIED = 0;
+    // Fuel burn data.
+    FUEL_BURN = 1;
+    // Load factors data.
+    LOAD_FACTORS = 2;
+    // Cargo mass fraction data.
+    CARGO_MASS_FRACTION = 3;
+    // Seating configuration data.
+    SEATING_CONFIG = 4;
+    // Seat area ratios data.
+    SEAT_AREA_RATIOS = 5;
+  }
+
+  // Details about a single contributing factor in emissions calculations.
+  message EmissionsProvenanceEntry {
+    // The source of data for emissions provenance factors.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum DataSource {
+      // Data source unspecified.
+      DATA_SOURCE_UNSPECIFIED = 0;
+      // Data provided by the European Environment Agency (EEA).
+      EEA = 1;
+      // Data from the T-100 dataset, provided by the US Bureau of
+      // Transportation Statistics.
+      T100 = 2;
+      // Data provided by ch-aviation.
+      CH_AVIATION = 3;
+      // Data provided by the Official Aviation Guide (OAG).
+      OAG = 4;
+      // Data provided by the operating carrier.
+      OPERATING_CARRIER = 5;
+      // Typical data based on the aircraft model.
+      AIRCRAFT_MODEL_TYPICAL = 6;
+      // A global default value, used when no other data source is available.
+      GLOBAL_DEFAULT = 7;
+      // Data provided by the International Air Transport Association (IATA).
+      IATA = 8;
+    }
+
+    // The source of the data.
+    DataSource source = 1;
+    // The version of the source data. For example, "2025/04".
+    string source_version = 2;
+
+    // Strategy used for EEA fuel burn estimates.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum FuelBurnEeaStrategy {
+      // Strategy unspecified.
+      FUEL_BURN_EEA_STRATEGY_UNSPECIFIED = 0;
+      // A static correction factor was applied.
+      FUEL_BURN_EEA_STRATEGY_STATIC_CORRECTION_FACTOR = 1;
+      // An EEA2023 based correction factor was applied.
+      FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR = 2;
+    }
+
+    // Strategy used for T100 load factors.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum LoadFactorsT100Strategy {
+      // Strategy unspecified.
+      LOAD_FACTORS_T100_STRATEGY_UNSPECIFIED = 0;
+      // Data by carrier, route, and month of travel.
+      LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH = 1;
+      // Data by carrier and month of travel.
+      LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH = 2;
+      // Historical data matching carrier, route, year, and month.
+      LOAD_FACTORS_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH = 3;
+    }
+
+    // Strategy used for CH-Aviation load factors.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum LoadFactorsChAviationStrategy {
+      // Strategy unspecified.
+      LOAD_FACTORS_CH_AVIATION_STRATEGY_UNSPECIFIED = 0;
+      // Data by carrier and month of travel.
+      LOAD_FACTORS_CH_AVIATION_STRATEGY_CARRIER_MONTH = 1;
+      // Historical data matching carrier, year, and month.
+      LOAD_FACTORS_CH_AVIATION_STRATEGY_ACTUAL_CARRIER_YEAR_MONTH = 2;
+    }
+
+    // Strategy used for T100 cargo mass fraction.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum CargoMassFractionT100Strategy {
+      // Strategy unspecified.
+      CARGO_MASS_FRACTION_T100_STRATEGY_UNSPECIFIED = 0;
+      // Data by carrier, route, and aircraft class.
+      CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS = 1;
+      // Data by route and aircraft class.
+      CARGO_MASS_FRACTION_T100_STRATEGY_ROUTE_AIRCRAFT_CLASS = 2;
+      // Data by distance band and aircraft class.
+      CARGO_MASS_FRACTION_T100_STRATEGY_DISTANCE_AIRCRAFT_CLASS = 3;
+      // Historical data matching carrier, route, year, month, and aircraft
+      // class.
+      CARGO_MASS_FRACTION_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS =
+          4;
+    }
+
+    // Strategy used for IATA seat area ratios.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum SeatAreaRatioIataStrategy {
+      // Strategy unspecified.
+      SEAT_AREA_RATIO_IATA_STRATEGY_UNSPECIFIED = 0;
+      // Seat area ratios for narrow body aircraft were used.
+      SEAT_AREA_RATIO_IATA_STRATEGY_NARROW_AIRCRAFT_BODY = 1;
+      // Seat area ratios for wide body aircraft were used.
+      SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY = 2;
+    }
+
+    // The strategy used to compute emissions for the given data source.
+    // The field set will correspond to the data_source type.
+    oneof data_strategy {
+      // Strategy for EEA fuel burn.
+      FuelBurnEeaStrategy fuel_burn_eea_strategy = 3;
+      // Strategy for T100 load factors.
+      LoadFactorsT100Strategy load_factors_t100_strategy = 4;
+      // Strategy for CH Aviation load factors.
+      LoadFactorsChAviationStrategy load_factors_ch_aviation_strategy = 5;
+      // Strategy for T100 cargo mass fraction.
+      CargoMassFractionT100Strategy cargo_mass_fraction_t100_strategy = 6;
+      // Strategy for IATA seat area ratios.
+      SeatAreaRatioIataStrategy seat_area_ratio_iata_strategy = 8;
+    }
+
+    // The data type of the data source.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum DataType {
+      // Data type unspecified.
+      DATA_TYPE_UNSPECIFIED = 0;
+      // Primary data, as defined in ISO 14083.
+      PRIMARY = 1;
+      // Modeled data, as defined in ISO 14083.
+      MODELED = 2;
+      // Default value data, as defined in ISO 14083.
+      DEFAULT = 3;
+    }
+
+    // Data type of the data source.
+    DataType data_type = 7;
+
+    // The type of the provenance entry.
+    EmissionsProvenanceEntryType provenance_entry_type = 9;
+  }
+
+  // All contributing factors used to calculate emissions.
+  repeated EmissionsProvenanceEntry provenance_entries = 1;
+}
+
+// Output definition for the
+// [ComputeDetailedFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.TravelImpactModelService.ComputeDetailedFlightEmissions]
+// response.
+message ComputeDetailedFlightEmissionsResponse {
+
+  // List of flight legs with emission estimates.
+  repeated FlightWithDetailedEmissions flights_with_detailed_emissions = 1;
+
+  // The model version under which emission estimates for all flights in this
+  // response were computed.
+  ModelVersion model_version = 2;
 }
