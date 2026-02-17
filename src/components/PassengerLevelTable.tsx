@@ -14,7 +14,7 @@
 
 import { Typography } from "@mui/material";
 import {
-  ComputeFlightEmissionsResponse,
+  ComputeDetailedFlightEmissionsResponse,
   ContrailsImpactBucket,
   ComputeTypicalFlightEmissionsResponse,
   EmissionsBreakdown,
@@ -242,16 +242,21 @@ function createTableData(
 }
 
 type Props = {
-  emissionsData: ComputeFlightEmissionsResponse;
+  emissionsData: ComputeDetailedFlightEmissionsResponse;
   typicalEmissionsData?: ComputeTypicalFlightEmissionsResponse;
 };
 
 function PassengerLevelTable({ emissionsData, typicalEmissionsData }: Props) {
-  const emissionsPerPassenger = emissionsData.flightEmissions[0].emissionsGramsPerPax;
-  const emissionsBreakdown = emissionsData.flightEmissions[0].emissionsBreakdown;
+  const emissionsPerPassenger =
+    emissionsData.flightsWithDetailedEmissions[0].flightEmissionsDetails?.emissionsGramsPerPax;
+  const emissionsBreakdown =
+    emissionsData.flightsWithDetailedEmissions[0].flightEmissionsDetails?.emissionsBreakdown;
   const emissionsSafDiscount =
-    emissionsData.flightEmissions[0].emissionsInputs?.easaLabelData?.safDiscountPercentage ?? 0;
-  const emissionsContrailImpact = emissionsData.flightEmissions[0].contrailsImpactBucket ?? 0;
+    emissionsData.flightsWithDetailedEmissions[0].emissionsMetadata?.easaLabelMetadata
+      ?.safDiscountPercentage ?? 0;
+  const emissionsContrailImpact =
+    emissionsData.flightsWithDetailedEmissions[0].flightEmissionsDetails?.contrailsImpactBucket ??
+    0;
   const typicalEmissionsPerPassenger =
     typicalEmissionsData?.typicalFlightEmissions[0]?.emissionsGramsPerPax;
 

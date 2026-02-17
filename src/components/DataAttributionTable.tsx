@@ -14,8 +14,11 @@
 
 import { Typography } from "@mui/material";
 import {
-  ComputeFlightEmissionsResponse,
-  EmissionsInputs_EmissionsInputEntry,
+  ComputeDetailedFlightEmissionsResponse,
+  EmissionsProvenance_EmissionsProvenanceEntry,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
+  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntryType,
   Source,
 } from "../api/proto/generated/travelImpactModelProto";
 import Link from "./Link";
@@ -23,11 +26,11 @@ import Table, { RowData } from "./Table";
 import "./DataAttributionTable.scss";
 
 interface SourceProps {
-  value: EmissionsInputs_EmissionsInputEntry;
+  value: EmissionsProvenance_EmissionsProvenanceEntry;
 }
 
 export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | undefined {
-  if (value.dataSource === "EEA") {
+  if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA) {
     return (
       <ul>
         <li>
@@ -37,7 +40,8 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
           />{" "}
           No 13/2019 1.A.3.a Aviation 1 Master emissions calculator 2019
         </li>
-        {value.dataStrategy === "EEA2023_CORRECTION_FACTOR" && (
+        {value.fuelBurnEeaStrategy ===
+          EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR && (
           <li>
             <Link
               text="EMEP/EEA air pollutant emission inventory guidebook"
@@ -62,7 +66,7 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
 }
 
 export function LoadFactorSource({ value }: SourceProps): React.JSX.Element | undefined {
-  if (value.dataSource === "T100") {
+  if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100) {
     return (
       <ul>
         <li>
@@ -73,7 +77,7 @@ export function LoadFactorSource({ value }: SourceProps): React.JSX.Element | un
         </li>
       </ul>
     );
-  } else if (value.dataSource === "CH_AVIATION") {
+  } else if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.CH_AVIATION) {
     return (
       <ul>
         <li>
@@ -81,7 +85,9 @@ export function LoadFactorSource({ value }: SourceProps): React.JSX.Element | un
         </li>
       </ul>
     );
-  } else if (value.dataSource === "GLOBAL_DEFAULT") {
+  } else if (
+    value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.GLOBAL_DEFAULT
+  ) {
     return (
       <ul>
         <li>
@@ -97,7 +103,7 @@ export function LoadFactorSource({ value }: SourceProps): React.JSX.Element | un
 }
 
 export function CargoMassFractionSource({ value }: SourceProps): React.JSX.Element | undefined {
-  if (value.dataSource === "T100") {
+  if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100) {
     return (
       <ul>
         <li>
@@ -128,11 +134,13 @@ export function PassengerSeatSource({ value }: SourceProps): React.JSX.Element |
   );
 
   let dataSources: React.JSX.Element[] | undefined = undefined;
-  if (value.dataSource === "OPERATING_CARRIER_CONFIG") {
+  if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OPERATING_CARRIER) {
     dataSources = [aircraftConfigFromSchedulesSource];
-  } else if (value.dataSource === "OAG_SEATS_EQUIPMENT_CONFIG") {
+  } else if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OAG) {
     dataSources = [fleetLevelAircraftConfigSource];
-  } else if (value.dataSource === "REFERENCE_CONFIG") {
+  } else if (
+    value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.AIRCRAFT_MODEL_TYPICAL
+  ) {
     dataSources = [aircraftConfigFromSchedulesSource, fleetLevelAircraftConfigSource];
   }
 
@@ -167,7 +175,7 @@ export function EasaLabelSource(): React.JSX.Element {
  ******************************************/
 
 type Props = {
-  emissionsData: ComputeFlightEmissionsResponse;
+  emissionsData: ComputeDetailedFlightEmissionsResponse;
 };
 
 function formatAttributionName(name: string): string | React.JSX.Element {
@@ -179,7 +187,8 @@ function formatAttributionName(name: string): string | React.JSX.Element {
 }
 
 function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
-  const easaData = emissionsData.flightEmissions[0].emissionsInputs?.easaLabelData;
+  const easaData =
+    emissionsData.flightsWithDetailedEmissions[0].emissionsMetadata?.easaLabelMetadata;
 
   if (easaData === undefined || easaData.safDiscountPercentage === undefined) {
     return [];
@@ -193,23 +202,26 @@ function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
 }
 
 function getAttributionRowData({ emissionsData }: Props): RowData[] {
-  const attributionData = emissionsData.flightEmissions[0].emissionsInputs?.emissionsInputEntries;
+  const attributionData =
+    emissionsData.flightsWithDetailedEmissions[0].emissionsMetadata?.emissionsProvenance
+      ?.provenanceEntries;
   // If attribution data is undefined, return nothing.
-  if (attributionData === undefined || Object.keys(attributionData).length === 0) {
+  if (attributionData === undefined || attributionData.length === 0) {
     return [];
   }
 
   const rowsData: RowData[] = [];
-  Object.entries(attributionData).forEach(([key, value]) => {
-    switch (key) {
-      case "totalFuelBurnEstimatedKg": {
+  attributionData.forEach((value) => {
+    const type = value.provenanceEntryType;
+    switch (type) {
+      case EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN: {
         const fuelBurnSources = FuelBurnSource({ value: value });
         if (fuelBurnSources) {
           rowsData.push({ cells: [formatAttributionName("Fuel Burn Estimates"), fuelBurnSources] });
         }
         break;
       }
-      case "loadFactor": {
+      case EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS: {
         const loadFactorSources = LoadFactorSource({ value: value });
         if (loadFactorSources) {
           rowsData.push({
@@ -218,7 +230,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         }
         break;
       }
-      case "cargoMassFraction": {
+      case EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION: {
         const cargoMassFractionSources = CargoMassFractionSource({ value: value });
         if (cargoMassFractionSources) {
           rowsData.push({
@@ -227,7 +239,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         }
         break;
       }
-      case "seatsPerClass": {
+      case EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG: {
         const passengerSeatSources = PassengerSeatSource({ value: value });
         if (passengerSeatSources) {
           rowsData.push({
@@ -245,7 +257,8 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
 }
 
 function DataAttributionTable({ emissionsData }: Props): React.JSX.Element {
-  const isEasaLabel = emissionsData.flightEmissions[0].source == Source.EASA;
+  const isEasaLabel =
+    emissionsData.flightsWithDetailedEmissions[0].flightEmissionsDetails?.source == Source.EASA;
 
   const rowsData = isEasaLabel
     ? getEasaLabelRowData({ emissionsData })

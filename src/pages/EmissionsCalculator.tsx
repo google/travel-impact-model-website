@@ -39,7 +39,7 @@ import {
 } from "../data/flightItinerary";
 import travelImpactModelApi from "../api/travelImpactModelApi";
 import {
-  ComputeFlightEmissionsResponse,
+  ComputeDetailedFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsResponse,
   Flight,
   Market,
@@ -55,7 +55,8 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [toolTipOpen, setToolTipOpen] = useState(false);
-  const [emissionsDataValid, setEmissionsDataValid] = useState<ComputeFlightEmissionsResponse>();
+  const [emissionsDataValid, setEmissionsDataValid] =
+    useState<ComputeDetailedFlightEmissionsResponse>();
   const [typicalEmissionsDataValid, setTypicalEmissionsDataValid] =
     useState<ComputeTypicalFlightEmissionsResponse>();
   const modelVersion = searchParams.get("v");
@@ -97,7 +98,10 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
       flights: flights,
     };
 
-    const emissionsData = travelImpactModelApi.getComputeFlightEmissions(updatedRequest, app);
+    const emissionsData = travelImpactModelApi.getComputeDetailedFlightEmissions(
+      updatedRequest,
+      app
+    );
     emissionsData.then((response) => {
       setEmissionsDataValid(response);
     });

@@ -21,9 +21,16 @@ import DataAttributionTable, {
   EasaLabelSource,
 } from "../../../components/DataAttributionTable";
 import {
-  ComputeFlightEmissionsResponse,
-  EmissionsInputs_EmissionsInputEntry,
+  ComputeDetailedFlightEmissionsResponse,
+  EmissionsProvenance_EmissionsProvenanceEntry,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataType,
+  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntryType,
   Source,
+  ContrailsImpactBucket,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -31,18 +38,24 @@ import React from "react";
 
 describe("FuelBurnSource", () => {
   it("should return undefined", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: undefined,
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.UNRECOGNIZED,
     };
     const response = FuelBurnSource({ value: data });
     expect(response).toEqual(undefined);
   });
 
   it("should return response for EEA data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "EEA",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
+      fuelBurnEeaStrategy:
+        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_UNSPECIFIED,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
     };
     render(<FuelBurnSource value={data} />);
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
@@ -50,9 +63,13 @@ describe("FuelBurnSource", () => {
   });
 
   it("should return response for EEA and EEA correction factor data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "EEA",
-      dataStrategy: "EEA2023_CORRECTION_FACTOR",
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
+      fuelBurnEeaStrategy:
+        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
     };
     render(<FuelBurnSource value={data} />);
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
@@ -65,18 +82,24 @@ describe("FuelBurnSource", () => {
 
 describe("LoadFactorSource", () => {
   it("should return undefined", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: undefined,
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.UNRECOGNIZED,
     };
     const response = LoadFactorSource({ value: data });
     expect(response).toEqual(undefined);
   });
 
   it("should return response for T100 data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "T100",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+      loadFactorsT100Strategy:
+        EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
     };
     render(<LoadFactorSource value={data} />);
     expect(
@@ -85,9 +108,11 @@ describe("LoadFactorSource", () => {
   });
 
   it("should return response for GLOBAL_DEFAULT data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "GLOBAL_DEFAULT",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.GLOBAL_DEFAULT,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
     };
     render(<LoadFactorSource value={data} />);
     expect(screen.getByText("Derived from historical data for the U.S.")).not.toBeEmptyDOMElement();
@@ -96,18 +121,22 @@ describe("LoadFactorSource", () => {
 
 describe("CargoMassFractionSource", () => {
   it("should return undefined", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: undefined,
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.UNRECOGNIZED,
     };
     const response = CargoMassFractionSource({ value: data });
     expect(response).toEqual(undefined);
   });
 
   it("should return response for T100 data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "T100",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
     };
     render(<CargoMassFractionSource value={data} />);
     expect(
@@ -118,18 +147,22 @@ describe("CargoMassFractionSource", () => {
 
 describe("PassengerSeatSource", () => {
   it("should return undefined", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: undefined,
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
     const response = PassengerSeatSource({ value: data });
     expect(response).toEqual(undefined);
   });
 
   it("should return response for OPERATING_CARRIER_CONFIG data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "OPERATING_CARRIER_CONFIG",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OPERATING_CARRIER,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.PRIMARY,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
     render(<PassengerSeatSource value={data} />);
     expect(screen.getByText("Aircraft Configuration/Version (ACV)", { exact: false }));
@@ -138,9 +171,11 @@ describe("PassengerSeatSource", () => {
   });
 
   it("should return response for OAG_SEATS_EQUIPMENT_CONFIG  data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "OAG_SEATS_EQUIPMENT_CONFIG",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OAG,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
     render(<PassengerSeatSource value={data} />);
     expect(screen.getByText("Fleet-level aircraft configuration", { exact: false }));
@@ -148,9 +183,11 @@ describe("PassengerSeatSource", () => {
   });
 
   it("should return response for REFERENCE_CONFIG data", async () => {
-    const data: EmissionsInputs_EmissionsInputEntry = {
-      dataSource: "REFERENCE_CONFIG",
-      dataStrategy: undefined,
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.AIRCRAFT_MODEL_TYPICAL,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
     render(<PassengerSeatSource value={data} />);
     expect(screen.getByText("Aircraft Configuration/Version (ACV)", { exact: false }));
@@ -176,43 +213,87 @@ describe("EasaLabelSource", () => {
 
 describe("DataAttributionTable", () => {
   it("should return data attribution level table with expected values", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
             destination: "BOS",
             operatingCarrierCode: "LX",
-            departureDate: { year: 2024, month: 6, day: 1 },
+            departureDate: { year: 2026, month: 11, day: 30 },
             flightNumber: "54",
           },
-          source: Source.TIM,
-          emissionsInputs: {
-            emissionsInputEntries: {
-              totalFuelBurnEstimatedKg: {
-                dataSource: "EEA",
-                dataStrategy: "EEA2023_CORRECTION_FACTOR",
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: {
+              first: 1592890,
+              business: 1274312,
+              premiumEconomy: 477866,
+              economy: 318578,
+            },
+            emissionsBreakdown: {
+              wttEmissionsGramsPerPax: {
+                first: 268465,
+                business: 214772,
+                premiumEconomy: 80539,
+                economy: 53693,
               },
-              loadFactor: {
-                dataSource: "T100",
-                dataStrategy: "CARRIER_ROUTE_MONTH",
+              ttwEmissionsGramsPerPax: {
+                first: 1324425,
+                business: 1059540,
+                premiumEconomy: 397327,
+                economy: 264885,
               },
-              cargoMassFraction: {
-                dataSource: "T100",
-                dataStrategy: "DISTANCE_AIRCRAFT_CLASS",
-              },
-              seatsPerClass: {
-                dataSource: "OAG_SEATS_EQUIPMENT_CONFIG",
-              },
+            },
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
+            source: Source.TIM,
+          },
+          emissionsMetadata: {
+            easaLabelMetadata: undefined,
+            emissionsProvenance: {
+              provenanceEntries: [
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
+                  fuelBurnEeaStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR,
+                  provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+                  loadFactorsT100Strategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+                  sourceVersion: "",
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+                  cargoMassFractionT100Strategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_DISTANCE_AIRCRAFT_CLASS,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OAG,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                },
+              ],
             },
           },
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20260213",
       },
     };
 
@@ -245,30 +326,53 @@ describe("DataAttributionTable", () => {
   });
 
   it("should return data attribution level table with expected EASA values", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
             destination: "BOS",
             operatingCarrierCode: "LX",
-            departureDate: { year: 2024, month: 6, day: 1 },
+            departureDate: { year: 2026, month: 11, day: 30 },
             flightNumber: "54",
           },
-          emissionsInputs: {
-            easaLabelData: {
-              safDiscountPercentage: 0.2,
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: {
+              first: 1592890,
+              business: 1274312,
+              premiumEconomy: 477866,
+              economy: 318578,
             },
-            emissionsInputEntries: {},
+            emissionsBreakdown: {
+              wttEmissionsGramsPerPax: {
+                first: 268465,
+                business: 214772,
+                premiumEconomy: 80539,
+                economy: 53693,
+              },
+              ttwEmissionsGramsPerPax: {
+                first: 1324425,
+                business: 1059540,
+                premiumEconomy: 397327,
+                economy: 264885,
+              },
+            },
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_MODERATE,
+            source: Source.EASA,
           },
-          source: Source.EASA,
+          emissionsMetadata: {
+            easaLabelMetadata: {
+              safDiscountPercentage: 0,
+            },
+            emissionsProvenance: undefined,
+          },
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 
@@ -279,8 +383,8 @@ describe("DataAttributionTable", () => {
   });
 
   it("should return invalid data", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -289,17 +393,20 @@ describe("DataAttributionTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          source: Source.SOURCE_UNSPECIFIED,
-          emissionsInputs: {
-            emissionsInputEntries: {},
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: undefined,
+            emissionsBreakdown: undefined,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
+            source: Source.SOURCE_UNSPECIFIED,
           },
+          emissionsMetadata: undefined,
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 
@@ -308,8 +415,8 @@ describe("DataAttributionTable", () => {
   });
 
   it("should return empty JSX element", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -318,14 +425,20 @@ describe("DataAttributionTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          source: Source.SOURCE_UNSPECIFIED,
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: undefined,
+            emissionsBreakdown: undefined,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
+            source: Source.SOURCE_UNSPECIFIED,
+          },
+          emissionsMetadata: undefined,
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 

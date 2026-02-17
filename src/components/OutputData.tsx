@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import {
-  ComputeFlightEmissionsResponse,
+  ComputeDetailedFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsResponse,
 } from "../api/proto/generated/travelImpactModelProto";
 import DataAttributionTable from "./DataAttributionTable";
@@ -23,12 +23,12 @@ import "./OutputData.scss";
 import { Typography } from "@mui/material";
 
 interface OutputDataProps {
-  emissionsData: ComputeFlightEmissionsResponse;
+  emissionsData: ComputeDetailedFlightEmissionsResponse;
   typicalEmissionsData?: ComputeTypicalFlightEmissionsResponse;
 }
 
 function OutputData({ emissionsData, typicalEmissionsData }: OutputDataProps) {
-  if (emissionsData.flightEmissions.length == 0) {
+  if (emissionsData.flightsWithDetailedEmissions.length == 0) {
     return (
       <div className="output-error-container" role="alert" aria-live="polite" aria-atomic="true">
         <div className="output-field-error">
