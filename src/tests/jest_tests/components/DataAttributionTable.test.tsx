@@ -198,8 +198,14 @@ describe("PassengerSeatSource", () => {
 });
 
 describe("SeatAreaRatioSource", () => {
-  it("should return response for EEA data", async () => {
-    render(<SeatAreaRatioSource />);
+  it("should return response for IATA data", async () => {
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
+    };
+    render(<SeatAreaRatioSource value={data} />);
     expect(screen.getByText("IATA RP 1726")).not.toBeEmptyDOMElement();
   });
 });
@@ -283,6 +289,12 @@ describe("DataAttributionTable", () => {
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
+                  provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+                  sourceVersion: "IATA_RP_1726",
                 },
               ],
             },

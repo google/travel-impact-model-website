@@ -147,17 +147,19 @@ export function PassengerSeatSource({ value }: SourceProps): React.JSX.Element |
   if (dataSources) return <ul>{dataSources}</ul>;
 }
 
-export function SeatAreaRatioSource(): React.JSX.Element {
-  return (
-    <ul>
-      <li>
-        <Link
-          text="IATA RP 1726"
-          href="https://www.iata.org/en/programs/environment/passenger-emissions-methodology/"
-        />
-      </li>
-    </ul>
-  );
+export function SeatAreaRatioSource({ value }: SourceProps): React.JSX.Element | undefined {
+  if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA) {
+    return (
+      <ul>
+        <li>
+          <Link
+            text="IATA RP 1726"
+            href="https://www.iata.org/en/programs/environment/passenger-emissions-methodology/"
+          />
+        </li>
+      </ul>
+    );
+  }
 }
 
 export function EasaLabelSource(): React.JSX.Element {
@@ -248,11 +250,18 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         }
         break;
       }
+      case EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS: {
+        const seatAreaRatioSources = SeatAreaRatioSource({ value: value });
+        if (seatAreaRatioSources) {
+          rowsData.push({
+            cells: [formatAttributionName("Seat Area Ratios"), seatAreaRatioSources],
+          });
+        }
+        break;
+      }
     }
   });
 
-  const seatAreaRatioSource = SeatAreaRatioSource();
-  rowsData.push({ cells: [formatAttributionName("Seat Area Ratios"), seatAreaRatioSource] });
   return rowsData;
 }
 
