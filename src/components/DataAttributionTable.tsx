@@ -17,6 +17,7 @@ import {
   ComputeDetailedFlightEmissionsResponse,
   EmissionsProvenance_EmissionsProvenanceEntry,
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataType,
   EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
   Source,
@@ -188,6 +189,10 @@ function formatAttributionName(name: string): string | React.JSX.Element {
   );
 }
 
+function toSentenceCase(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
   const easaData =
     emissionsData.flightsWithDetailedEmissions[0].emissionsMetadata?.easaLabelMetadata;
@@ -198,7 +203,7 @@ function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
 
   const easaSource = EasaLabelSource();
   const rowsData: RowData[] = [
-    { cells: [formatAttributionName("Fuel Burn Estimates"), easaSource] },
+    { cells: [formatAttributionName("Fuel Burn Estimates"), "Primary", easaSource] },
   ];
   return rowsData;
 }
@@ -215,11 +220,16 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
   const rowsData: RowData[] = [];
   attributionData.forEach((value) => {
     const type = value.provenanceEntryType;
+    const dataTypeStr = EmissionsProvenance_EmissionsProvenanceEntry_DataType[value.dataType];
+    const dataType = value.dataType && dataTypeStr ? toSentenceCase(dataTypeStr) : "Unspecified";
+
     switch (type) {
       case EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN: {
         const fuelBurnSources = FuelBurnSource({ value: value });
         if (fuelBurnSources) {
-          rowsData.push({ cells: [formatAttributionName("Fuel Burn Estimates"), fuelBurnSources] });
+          rowsData.push({
+            cells: [formatAttributionName("Fuel Burn Estimates"), dataType, fuelBurnSources],
+          });
         }
         break;
       }
@@ -227,7 +237,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         const loadFactorSources = LoadFactorSource({ value: value });
         if (loadFactorSources) {
           rowsData.push({
-            cells: [formatAttributionName("Passenger Load Factor"), loadFactorSources],
+            cells: [formatAttributionName("Passenger Load Factor"), dataType, loadFactorSources],
           });
         }
         break;
@@ -236,7 +246,11 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         const cargoMassFractionSources = CargoMassFractionSource({ value: value });
         if (cargoMassFractionSources) {
           rowsData.push({
-            cells: [formatAttributionName("Cargo Mass Fraction"), cargoMassFractionSources],
+            cells: [
+              formatAttributionName("Cargo Mass Fraction"),
+              dataType,
+              cargoMassFractionSources,
+            ],
           });
         }
         break;
@@ -245,7 +259,11 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         const passengerSeatSources = PassengerSeatSource({ value: value });
         if (passengerSeatSources) {
           rowsData.push({
-            cells: [formatAttributionName("Passenger Seat Configuration"), passengerSeatSources],
+            cells: [
+              formatAttributionName("Passenger Seat Configuration"),
+              dataType,
+              passengerSeatSources,
+            ],
           });
         }
         break;
@@ -254,7 +272,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         const seatAreaRatioSources = SeatAreaRatioSource({ value: value });
         if (seatAreaRatioSources) {
           rowsData.push({
-            cells: [formatAttributionName("Seat Area Ratios"), seatAreaRatioSources],
+            cells: [formatAttributionName("Seat Area Ratios"), dataType, seatAreaRatioSources],
           });
         }
         break;
@@ -277,7 +295,7 @@ function DataAttributionTable({ emissionsData }: Props): React.JSX.Element {
     return <></>;
   }
 
-  const tableData = { headers: ["Data Type", "Source"], rows: rowsData };
+  const tableData = { headers: ["Provenance Type", "Data Type", "Source"], rows: rowsData };
 
   return (
     <div className={isEasaLabel ? "data-attribution-table easa" : "data-attribution-table"}>

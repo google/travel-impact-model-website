@@ -36,18 +36,17 @@
     }
   }
 
-.data-attribution-table .MuiTableCell-root:first-child {
-  padding-left: 0;
-  width: 280px;
-}
+  .MuiTableCell-root:first-child {
+    width: 240px;
+  }
 
-.data-attribution-table .row-without-subrows {
-  .MuiTableCell-root {
-    padding: 8px 16px 8px 16px;
+  .MuiTableCell-root:nth-child(2) {
+    white-space: nowrap;
+  }
 
-    &:first-child {
-      padding-left: 0px;
+  .row-without-subrows {
+    .MuiTableCell-root {
+      padding: 8px;
     }
   }
-}
 }

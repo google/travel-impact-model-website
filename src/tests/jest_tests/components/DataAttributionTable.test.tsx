@@ -292,7 +292,8 @@ describe("DataAttributionTable", () => {
                 },
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
-                  provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "IATA_RP_1726",
                 },
@@ -310,6 +311,9 @@ describe("DataAttributionTable", () => {
     };
 
     render(<DataAttributionTable emissionsData={emissionsData} />);
+
+    // Headers
+    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
 
     // Fuel Burn Source
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
@@ -335,6 +339,10 @@ describe("DataAttributionTable", () => {
     // Passenger Seat Source
     expect(screen.getByText("Fleet-level aircraft configuration", { exact: false }));
     expect(screen.getByText("OAG")).not.toBeEmptyDOMElement();
+
+    // Data Types
+    expect(screen.getAllByText("Modeled")).toHaveLength(3);
+    expect(screen.getAllByText("Default")).toHaveLength(2);
   });
 
   it("should return data attribution level table with expected EASA values", async () => {
@@ -391,6 +399,7 @@ describe("DataAttributionTable", () => {
     render(<DataAttributionTable emissionsData={emissionsData} />);
 
     // Fuel Burn Source
+    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
   });
 
