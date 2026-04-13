@@ -19,7 +19,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "sass": "^1.94.2",
-    "ts-proto": "^1.181.2",
+    "ts-proto": "^2.11.6",
     "typescript": "^5.9.3",
     "web-vitals": "^5.1.0"
   },
