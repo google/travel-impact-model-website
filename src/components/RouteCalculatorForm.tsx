@@ -37,7 +37,7 @@ function RouteCalculatorForm({ request, onSubmit }: RouteCalculatorFormProp) {
   }, []);
 
   return (
-    <Box className="input-box" component="fieldset" borderRadius={3}>
+    <Box className="input-box" component="fieldset" sx={{ borderRadius: 3 }}>
       {request.markets.length > 0 ? (
         <RouteInput
           market={request.markets?.[0]}

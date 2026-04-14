@@ -40,7 +40,7 @@ function MultiFlightForm({ request }: MultiFlightFormProps) {
   return (
     <div className="readonly-input-fields-container">
       {request.flights.map((leg, index) => (
-        <Box className="readonly-flight-container" borderRadius={3} key={index}>
+        <Box className="readonly-flight-container" sx={{ borderRadius: 3 }} key={index}>
           <div>
             <Typography variant="body1" sx={{ fontWeight: 500 }}>
               {leg.origin} to {leg.destination}

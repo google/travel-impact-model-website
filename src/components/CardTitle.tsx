@@ -25,7 +25,7 @@ type CardProps = {
 
 function CardTitle(props: CardProps) {
   return (
-    <Box className="basic-card" borderRadius={3} sx={{ backgroundColor: "secondary.main" }}>
+    <Box className="basic-card" sx={{ backgroundColor: "secondary.main", borderRadius: 3 }}>
       <Typography variant="h6" component="h3" color="primary">
         {props.title}
       </Typography>

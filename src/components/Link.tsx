@@ -25,7 +25,7 @@ function Link(props: LinkProps) {
     return (
       <MuiLink
         href={props.href}
-        target={props.target || '_blank'}
+        target={props.target || "_blank"}
         rel="noopener noreferrer"
         color="#0000EE"
         sx={{ margin: "-8px", padding: "8px" }}

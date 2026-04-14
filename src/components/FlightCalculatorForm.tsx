@@ -43,7 +43,7 @@ function FlightCalculatorForm({ request, onSubmit }: FlightCalculatorFormProp) {
   }, []);
 
   return (
-    <Box className="input-box" component="fieldset" borderRadius={3}>
+    <Box className="input-box" component="fieldset" sx={{ borderRadius: 3 }}>
       {request.flights.length > 0 ? (
         request.flights.map((leg, index) => (
           <FlightInput

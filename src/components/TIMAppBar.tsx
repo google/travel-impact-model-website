@@ -168,7 +168,7 @@ function TIMAppBar({ variant }: Props) {
             href="/"
             aria-label="Travel Impact Model (TIM) Home Page"
             aria-current={selectedIndex === -1 ? "page" : undefined}>
-            <Typography variant="h6" component="div" color="text.primary">
+            <Typography variant="h6" component="div" sx={{ color: "text.primary" }}>
               TIM
             </Typography>
           </IconButton>
