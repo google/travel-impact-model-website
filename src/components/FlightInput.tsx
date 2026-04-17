@@ -30,6 +30,7 @@ import {
   isFlightNumberTextErrorMessage,
   isOriginDestinationTextErrorMessage,
 } from "../data/flightInputValidation";
+import LiveFormHelperText from "./LiveFormHelperText";
 
 interface FlightInputFieldsProps {
   flightLeg?: Flight;
@@ -123,17 +124,22 @@ function FlightInput(props: FlightInputFieldsProps) {
         }
         error={inputs.origin.isError}
         helperText={inputs.origin.helperText}
-        FormHelperTextProps={{ "aria-live": "assertive", key: inputs.origin.helperTextKey }}
-        InputLabelProps={{ "aria-hidden": true }}
-        InputProps={{
-          inputProps: { "aria-label": "Origin" },
-          endAdornment: inputs.origin.isError ? (
-            <InputAdornment position="end">
-              <ErrorIcon color="error" />
-            </InputAdornment>
-          ) : (
-            <></>
-          ),
+        slots={{
+          formHelperText: LiveFormHelperText,
+        }}
+        slotProps={{
+          formHelperText: { "aria-live": "assertive", helperTextKey: inputs.origin.helperTextKey },
+          inputLabel: { "aria-hidden": true },
+          input: {
+            inputProps: { "aria-label": "Origin" },
+            endAdornment: inputs.origin.isError ? (
+              <InputAdornment position="end">
+                <ErrorIcon color="error" />
+              </InputAdornment>
+            ) : (
+              <></>
+            ),
+          },
         }}
       />
       <TextField
@@ -156,20 +162,25 @@ function FlightInput(props: FlightInputFieldsProps) {
         }
         error={inputs.destination.isError}
         helperText={inputs.destination.helperText}
-        FormHelperTextProps={{
-          "aria-live": "assertive",
-          key: inputs.destination.helperTextKey,
+        slots={{
+          formHelperText: LiveFormHelperText,
         }}
-        InputLabelProps={{ "aria-hidden": true }}
-        InputProps={{
-          inputProps: { "aria-label": "Destination" },
-          endAdornment: inputs.destination.isError ? (
-            <InputAdornment position="end">
-              <ErrorIcon color="error" />
-            </InputAdornment>
-          ) : (
-            <></>
-          ),
+        slotProps={{
+          formHelperText: {
+            "aria-live": "assertive",
+            helperTextKey: inputs.destination.helperTextKey,
+          },
+          inputLabel: { "aria-hidden": true },
+          input: {
+            inputProps: { "aria-label": "Destination" },
+            endAdornment: inputs.destination.isError ? (
+              <InputAdornment position="end">
+                <ErrorIcon color="error" />
+              </InputAdornment>
+            ) : (
+              <></>
+            ),
+          },
         }}
       />
       <TextField
@@ -191,20 +202,27 @@ function FlightInput(props: FlightInputFieldsProps) {
         }
         error={inputs.carrierCode.isError}
         helperText={inputs.carrierCode.helperText}
-        FormHelperTextProps={{
-          "aria-live": "assertive",
-          key: inputs.carrierCode.helperTextKey,
+        slots={{
+          formHelperText: LiveFormHelperText,
         }}
-        InputLabelProps={{ "aria-hidden": true }}
-        InputProps={{
-          inputProps: { "aria-label": "Carrier Code" },
-          endAdornment: inputs.carrierCode.isError ? (
-            <InputAdornment position="end">
-              <ErrorIcon color="error" />
-            </InputAdornment>
-          ) : (
-            <></>
-          ),
+        slotProps={{
+          formHelperText: {
+            "aria-live": "assertive",
+            helperTextKey: inputs.carrierCode.helperTextKey,
+          },
+          inputLabel: {
+            "aria-hidden": true,
+          },
+          input: {
+            inputProps: { "aria-label": "Carrier Code" },
+            endAdornment: inputs.carrierCode.isError ? (
+              <InputAdornment position="end">
+                <ErrorIcon color="error" />
+              </InputAdornment>
+            ) : (
+              <></>
+            ),
+          },
         }}
       />
       <TextField
@@ -226,20 +244,27 @@ function FlightInput(props: FlightInputFieldsProps) {
         }
         error={!!inputs.flightNumber.isError}
         helperText={inputs.flightNumber.helperText}
-        FormHelperTextProps={{
-          "aria-live": "assertive",
-          key: inputs.flightNumber.helperTextKey,
+        slots={{
+          formHelperText: LiveFormHelperText,
         }}
-        InputLabelProps={{ "aria-hidden": true }}
-        InputProps={{
-          inputProps: { "aria-label": "Flight Number" },
-          endAdornment: inputs.flightNumber.isError ? (
-            <InputAdornment position="end">
-              <ErrorIcon color="error" />
-            </InputAdornment>
-          ) : (
-            <></>
-          ),
+        slotProps={{
+          formHelperText: {
+            "aria-live": "assertive",
+            helperTextKey: inputs.flightNumber.helperTextKey,
+          },
+          inputLabel: {
+            "aria-hidden": true,
+          },
+          input: {
+            inputProps: { "aria-label": "Flight Number" },
+            endAdornment: inputs.flightNumber.isError ? (
+              <InputAdornment position="end">
+                <ErrorIcon color="error" />
+              </InputAdornment>
+            ) : (
+              <></>
+            ),
+          },
         }}
       />
       <DesktopDatePicker
@@ -262,11 +287,21 @@ function FlightInput(props: FlightInputFieldsProps) {
         maxDate={dayjs().add(NUMBER_OF_DAYS_IN_YEAR, "day")} // Don't allow dates > 365 days in the future
         slotProps={{
           textField: {
+            slots: {
+              formHelperText: LiveFormHelperText,
+            },
+            slotProps: {
+              /* eslint-disable  @typescript-eslint/no-explicit-any */
+              formHelperText: {
+                "aria-live": "assertive",
+                helperTextKey: inputs.date.helperTextKey,
+              } as any,
+              /* eslint-enable  @typescript-eslint/no-explicit-any */
+              inputLabel: { "aria-hidden": true },
+              input: { "aria-label": "Departure Date" },
+            },
             helperText: inputs.date.helperText,
             required: true,
-            FormHelperTextProps: { "aria-live": "assertive", key: inputs.date.helperTextKey },
-            InputLabelProps: { "aria-hidden": true },
-            InputProps: { "aria-label": "Departure Date" },
           },
           openPickerButton: {
             "aria-label": `Departure date, selected date is ${inputs.date.value.format(

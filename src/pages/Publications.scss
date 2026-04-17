@@ -1,0 +1,78 @@
+// Copyright 2026 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+@use "/src/pages/styles";
+
+.publications-container {
+  @include styles.content-container;
+
+  .title {
+    @include styles.title;
+  }
+
+  .MuiTypography-h4,
+  .MuiTypography-h5 {
+    @include styles.subheader;
+  }
+
+  .section, .end-section {
+    @include styles.section;
+  }
+
+  .end-section {
+    margin-bottom: 50px;
+  }
+
+  .MuiButton-outlinedPrimary {
+    margin-top: 20px;
+  }
+
+  .memo {
+    margin: 8px 0 24px;
+  }
+
+  .memo-description {
+    margin: 8px 0;
+  }
+
+  .footnote {
+    margin-top: 25px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .publications-container {
+    color: #000; // Ensure all text is black
+
+    // Enhance cards
+    .card.MuiPaper-root {
+      border: 2px solid #000;
+      box-shadow: none;
+    }
+
+    // Enhance buttons
+    .MuiButton-outlinedPrimary {
+      border-width: 2px;
+      font-weight: bold;
+    }
+
+    // Enhance links
+    .MuiLink-root {
+      color: #000;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+    }
+  }
+}

@@ -18,6 +18,7 @@ import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
 import SchoolIcon from "@mui/icons-material/School";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import Button from "@mui/material/Button";
 import {
   Divider,
@@ -67,6 +68,7 @@ const pages = [
     label: "About the Travel Impact Model.",
   },
   { link: "/governance", text: "Governance", icon: <SchoolIcon />, label: "Governance." },
+  { link: "/publications", text: "Publications", icon: <MenuBookIcon />, label: "Publications." },
 ];
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -166,7 +168,7 @@ function TIMAppBar({ variant }: Props) {
             href="/"
             aria-label="Travel Impact Model (TIM) Home Page"
             aria-current={selectedIndex === -1 ? "page" : undefined}>
-            <Typography variant="h6" component="div" color="text.primary">
+            <Typography variant="h6" component="div" sx={{ color: "text.primary" }}>
               TIM
             </Typography>
           </IconButton>

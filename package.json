@@ -6,9 +6,9 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.2.9",
-    "@mui/icons-material": "^7.3.5",
-    "@mui/material": "^7.3.5",
-    "@mui/x-date-pickers": "^7.29.4",
+    "@mui/icons-material": "^9.0.0",
+    "@mui/material": "^9.0.0",
+    "@mui/x-date-pickers": "^9.0.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
@@ -19,7 +19,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "sass": "^1.94.2",
-    "ts-proto": "^1.181.2",
+    "ts-proto": "^2.11.6",
     "typescript": "^5.9.3",
     "web-vitals": "^5.1.0"
   },
@@ -68,9 +68,8 @@
     "@types/jest": "^30.0.0",
     "@types/react-test-renderer": "^19.1.0",
     "@typescript-eslint/eslint-plugin": "^8.48.1",
-    "@vitejs/plugin-react": "^4.7.0",
+    "@vitejs/plugin-react": "^6.0.1",
     "babel-jest": "^30.2.0",
-    "baseline-browser-mapping": "^2.9.19",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
@@ -85,6 +84,6 @@
     "react-router-dom": "^7.9.6",
     "react-test-renderer": "^19.2.0",
     "ts-jest": "^29.4.6",
-    "vite": "^6.4.1"
+    "vite": "^8.0.8"
   }
 }

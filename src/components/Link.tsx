@@ -17,6 +17,7 @@ import { Link as MuiLink } from "@mui/material";
 type LinkProps = {
   text: string;
   href: string | undefined;
+  target?: string | undefined;
 };
 
 function Link(props: LinkProps) {
@@ -24,7 +25,7 @@ function Link(props: LinkProps) {
     return (
       <MuiLink
         href={props.href}
-        target="_blank"
+        target={props.target || "_blank"}
         rel="noopener noreferrer"
         color="#0000EE"
         sx={{ margin: "-8px", padding: "8px" }}

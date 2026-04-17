@@ -12,15 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import * as React from "react";
 import ErrorIcon from "@mui/icons-material/Error";
 import { InputAdornment, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Market } from "../api/proto/generated/travelImpactModelProto";
+
 import {
   getDestinationHelperText,
   getOriginHelperText,
   isOriginDestinationTextErrorMessage,
 } from "../data/flightInputValidation";
+import LiveFormHelperText from "./LiveFormHelperText";
 
 interface RouteInputFieldsProps {
   market?: Market;
@@ -84,17 +87,22 @@ function RouteInput(props: RouteInputFieldsProps) {
         }
         error={inputs.origin.isError}
         helperText={inputs.origin.helperText}
-        FormHelperTextProps={{ "aria-live": "assertive", key: inputs.origin.helperTextKey }}
-        InputLabelProps={{ "aria-hidden": true }}
-        InputProps={{
-          inputProps: { "aria-label": "Origin" },
-          endAdornment: inputs.origin.isError ? (
-            <InputAdornment position="end">
-              <ErrorIcon color="error" />
-            </InputAdornment>
-          ) : (
-            <></>
-          ),
+        slots={{
+          formHelperText: LiveFormHelperText,
+        }}
+        slotProps={{
+          formHelperText: { "aria-live": "assertive", helperTextKey: inputs.origin.helperTextKey },
+          inputLabel: { "aria-hidden": true },
+          input: {
+            inputProps: { "aria-label": "Origin" },
+            endAdornment: inputs.origin.isError ? (
+              <InputAdornment position="end">
+                <ErrorIcon color="error" />
+              </InputAdornment>
+            ) : (
+              <></>
+            ),
+          },
         }}
       />
       <TextField
@@ -117,20 +125,25 @@ function RouteInput(props: RouteInputFieldsProps) {
         }
         error={inputs.destination.isError}
         helperText={inputs.destination.helperText}
-        FormHelperTextProps={{
-          "aria-live": "assertive",
-          key: inputs.destination.helperTextKey,
+        slots={{
+          formHelperText: LiveFormHelperText,
         }}
-        InputLabelProps={{ "aria-hidden": true }}
-        InputProps={{
-          inputProps: { "aria-label": "Destination" },
-          endAdornment: inputs.destination.isError ? (
-            <InputAdornment position="end">
-              <ErrorIcon color="error" />
-            </InputAdornment>
-          ) : (
-            <></>
-          ),
+        slotProps={{
+          formHelperText: {
+            "aria-live": "assertive",
+            helperTextKey: inputs.destination.helperTextKey,
+          },
+          inputLabel: { "aria-hidden": true },
+          input: {
+            inputProps: { "aria-label": "Destination" },
+            endAdornment: inputs.destination.isError ? (
+              <InputAdornment position="end">
+                <ErrorIcon color="error" />
+              </InputAdornment>
+            ) : (
+              <></>
+            ),
+          },
         }}
       />
     </div>
