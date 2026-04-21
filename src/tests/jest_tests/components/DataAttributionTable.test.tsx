@@ -29,6 +29,7 @@ import {
   EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
+  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
   Source,
   ContrailsImpactBucket,
 } from "../../../api/proto/generated/travelImpactModelProto";
@@ -298,6 +299,8 @@ describe("DataAttributionTable", () => {
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "IATA_RP_1726",
+                  seatAreaRatioIataStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY,
                   seatAreaRatioData: {
                     first: 5,
                     business: 4,
@@ -323,6 +326,7 @@ describe("DataAttributionTable", () => {
     // Headers
     expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
 
     // Fuel Burn Source
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
@@ -359,6 +363,12 @@ describe("DataAttributionTable", () => {
     expect(
       screen.getByText(/First: 5\s+Business: 4\s+Premium: 1\.5\s+Economy: 1/)
     ).not.toBeEmptyDOMElement();
+
+    // Strategies
+    expect(screen.getByText("EEA2023 based correction factor")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("By carrier, route, and month of travel")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("By distance band and aircraft class")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Wide body aircraft")).not.toBeEmptyDOMElement();
   });
 
   it("should return data attribution level table with expected EASA values", async () => {
@@ -417,7 +427,9 @@ describe("DataAttributionTable", () => {
     // Fuel Burn Source
     expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
-    expect(screen.getAllByText("Not Available")[0]).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Not Applicable")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
   });
 

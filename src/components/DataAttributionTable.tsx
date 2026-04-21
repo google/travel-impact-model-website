@@ -19,6 +19,10 @@ import {
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
   EmissionsProvenance_EmissionsProvenanceEntry_DataType,
   EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
   Source,
 } from "../api/proto/generated/travelImpactModelProto";
@@ -219,6 +223,46 @@ function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.El
   return "Not Available";
 }
 
+function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry): string {
+  switch (entry.fuelBurnEeaStrategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_STATIC_CORRECTION_FACTOR:
+      return "Static correction factor";
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR:
+      return "EEA2023 based correction factor";
+  }
+  switch (entry.loadFactorsT100Strategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH:
+      return "By carrier, route, and month of travel";
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH:
+      return "By carrier and month of travel";
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH:
+      return "Historical data matching carrier, route, year, and month";
+  }
+  switch (entry.loadFactorsChAviationStrategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy.LOAD_FACTORS_CH_AVIATION_STRATEGY_CARRIER_MONTH:
+      return "By carrier and month of travel";
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy.LOAD_FACTORS_CH_AVIATION_STRATEGY_ACTUAL_CARRIER_YEAR_MONTH:
+      return "Historical data matching carrier, year, and month";
+  }
+  switch (entry.cargoMassFractionT100Strategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS:
+      return "By carrier, route, and aircraft class";
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_ROUTE_AIRCRAFT_CLASS:
+      return "By route and aircraft class";
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_DISTANCE_AIRCRAFT_CLASS:
+      return "By distance band and aircraft class";
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS:
+      return "Historical data matching carrier, route, year, month, and aircraft class";
+  }
+  switch (entry.seatAreaRatioIataStrategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_NARROW_AIRCRAFT_BODY:
+      return "Narrow body aircraft";
+    case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY:
+      return "Wide body aircraft";
+  }
+  return "Not Applicable";
+}
+
 function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
   const easaData =
     emissionsData.flightsWithDetailedEmissions[0].emissionsMetadata?.easaLabelMetadata;
@@ -230,7 +274,13 @@ function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
   const easaSource = EasaLabelSource();
   const rowsData: RowData[] = [
     {
-      cells: [formatAttributionName("Fuel Burn Estimates"), "Primary", "Not Available", easaSource],
+      cells: [
+        formatAttributionName("Fuel Burn Estimates"),
+        "Primary",
+        "Not Available",
+        easaSource,
+        "Not Applicable",
+      ],
     },
   ];
   return rowsData;
@@ -261,6 +311,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
               dataType,
               formatDataValue(value as ProvenanceEntryWithValue),
               fuelBurnSources,
+              formatDataStrategy(value),
             ],
           });
         }
@@ -275,6 +326,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
               dataType,
               formatDataValue(value as ProvenanceEntryWithValue),
               loadFactorSources,
+              formatDataStrategy(value),
             ],
           });
         }
@@ -289,6 +341,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
               dataType,
               formatDataValue(value as ProvenanceEntryWithValue),
               cargoMassFractionSources,
+              formatDataStrategy(value),
             ],
           });
         }
@@ -303,6 +356,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
               dataType,
               formatDataValue(value as ProvenanceEntryWithValue),
               passengerSeatSources,
+              formatDataStrategy(value),
             ],
           });
         }
@@ -317,6 +371,7 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
               dataType,
               formatDataValue(value as ProvenanceEntryWithValue),
               seatAreaRatioSources,
+              formatDataStrategy(value),
             ],
           });
         }
@@ -341,7 +396,7 @@ function DataAttributionTable({ emissionsData }: Props): React.JSX.Element {
   }
 
   const tableData = {
-    headers: ["Provenance Type", "Data Type", "Value", "Source"],
+    headers: ["Provenance Type", "Data Type", "Value", "Source", "Strategy"],
     rows: rowsData,
   };
 
