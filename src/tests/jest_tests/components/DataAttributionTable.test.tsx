@@ -273,6 +273,7 @@ describe("DataAttributionTable", () => {
                     EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "",
+                  loadFactorsData: 0.808520211655448,
                 },
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
@@ -282,6 +283,7 @@ describe("DataAttributionTable", () => {
                     EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
+                  cargoMassFractionData: 0.29636906672461827,
                 },
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OAG,
@@ -296,6 +298,12 @@ describe("DataAttributionTable", () => {
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "IATA_RP_1726",
+                  seatAreaRatioData: {
+                    first: 5,
+                    business: 4,
+                    premiumEconomy: 1.5,
+                    economy: 1,
+                  },
                 },
               ],
             },
@@ -314,6 +322,7 @@ describe("DataAttributionTable", () => {
 
     // Headers
     expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
 
     // Fuel Burn Source
     expect(screen.getByText("CORSIA")).not.toBeEmptyDOMElement();
@@ -343,6 +352,13 @@ describe("DataAttributionTable", () => {
     // Data Types
     expect(screen.getAllByText("Modeled")).toHaveLength(3);
     expect(screen.getAllByText("Default")).toHaveLength(2);
+
+    // Values
+    expect(screen.getByText("80.9%")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("29.6%")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText(/First: 5\s+Business: 4\s+Premium: 1\.5\s+Economy: 1/)
+    ).not.toBeEmptyDOMElement();
   });
 
   it("should return data attribution level table with expected EASA values", async () => {
@@ -400,6 +416,8 @@ describe("DataAttributionTable", () => {
 
     // Fuel Burn Source
     expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
+    expect(screen.getAllByText("Not Available")[0]).not.toBeEmptyDOMElement();
     expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
   });
 

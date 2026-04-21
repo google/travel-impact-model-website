@@ -44,6 +44,10 @@
     white-space: nowrap;
   }
 
+  .MuiTableCell-root:nth-child(3) {
+    min-width: 100px;
+  }
+
   .row-without-subrows {
     .MuiTableCell-root {
       padding: 8px;

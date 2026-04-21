@@ -465,6 +465,35 @@ message EmissionsProvenance {
 
     // The type of the provenance entry.
     EmissionsProvenanceEntryType provenance_entry_type = 9;
+
+    // Seat area ratio data values.
+    // Economy is always 1.0 and serves as the reference point; other class
+    // values are relative to economy. All 4 fields are always set whether the
+    // seating class exists on the aircraft or not.
+    message SeatAreaRatioData {
+      // First seating class data value.
+      double first = 1;
+      // Business seating class data value.
+      double business = 2;
+      // Premium economy seating class data value.
+      double premium_economy = 3;
+      // Economy seating class data value.
+      double economy = 4;
+    }
+
+    // The data value for the given data source.
+    // The field set will correspond to the provenance_entry_type.
+    oneof data_value {
+      // The load factors data value. If not set, the load factors value is
+      // not available.
+      double load_factors_data = 10;
+      // The cargo mass fraction value. If not set, the cargo mass fraction
+      // value is not available.
+      double cargo_mass_fraction_data = 11;
+      // The seat area ratio value for each seating class. If not set, the
+      // seat area ratio value is not available.
+      SeatAreaRatioData seat_area_ratio_data = 12;
+    }
   }
 
   // All contributing factors used to calculate emissions.

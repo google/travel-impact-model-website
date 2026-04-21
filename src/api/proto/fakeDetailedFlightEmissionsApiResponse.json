@@ -14,27 +14,27 @@
       },
       "flightEmissionsDetails": {
         "emissionsGramsPerPax": {
-          "first": 1592890,
-          "business": 1274312,
-          "premiumEconomy": 477866,
-          "economy": 318578
+          "first": 1596125,
+          "business": 1276900,
+          "premiumEconomy": 478837,
+          "economy": 319225
         },
         "emissionsBreakdown": {
           "wttEmissionsGramsPerPax": {
-            "first": 268465,
-            "business": 214772,
-            "premiumEconomy": 80539,
-            "economy": 53693
+            "first": 269010,
+            "business": 215208,
+            "premiumEconomy": 80703,
+            "economy": 53802
           },
           "ttwEmissionsGramsPerPax": {
-            "first": 1324425,
-            "business": 1059540,
-            "premiumEconomy": 397327,
-            "economy": 264885
+            "first": 1327115,
+            "business": 1061692,
+            "premiumEconomy": 398134,
+            "economy": 265423
           }
         },
-        "source": "TIM",
-        "contrailsImpactBucket": "CONTRAILS_IMPACT_MODERATE"
+        "contrailsImpactBucket": "CONTRAILS_IMPACT_MODERATE",
+        "source": "TIM"
       },
       "emissionsMetadata": {
         "emissionsProvenance": {
@@ -47,17 +47,19 @@
             },
             {
               "source": "T100",
-              "sourceVersion": "2025-10",
+              "sourceVersion": "2025-12",
               "loadFactorsT100Strategy": "LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH",
               "dataType": "MODELED",
-              "provenanceEntryType": "LOAD_FACTORS"
+              "provenanceEntryType": "LOAD_FACTORS",
+              "loadFactorsData": 0.808520211655448
             },
             {
               "source": "T100",
-              "sourceVersion": "2025-10",
+              "sourceVersion": "2025-12",
               "cargoMassFractionT100Strategy": "CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS",
               "dataType": "MODELED",
-              "provenanceEntryType": "CARGO_MASS_FRACTION"
+              "provenanceEntryType": "CARGO_MASS_FRACTION",
+              "cargoMassFractionData": 0.29636906672461827
             },
             {
               "source": "OPERATING_CARRIER",
@@ -69,10 +71,17 @@
               "sourceVersion": "IATA_RP_1726",
               "dataType": "DEFAULT",
               "seatAreaRatioIataStrategy": "SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY",
-              "provenanceEntryType": "SEAT_AREA_RATIOS"
+              "provenanceEntryType": "SEAT_AREA_RATIOS",
+              "seatAreaRatioData": {
+                "first": 5,
+                "business": 4,
+                "premiumEconomy": 1.5,
+                "economy": 1
+              }
             }
           ]
-        }
+        },
+        "timWebsiteEmissionsCalculatorUrl": "https://travelimpactmodel.org/lookup/flight?itinerary=ZRH-BOS-LX-52-20261130"
       }
     }
   ],
@@ -80,6 +89,6 @@
     "major": 3,
     "minor": 0,
     "patch": 0,
-    "dated": "20260213"
+    "dated": "20260420"
   }
 }
