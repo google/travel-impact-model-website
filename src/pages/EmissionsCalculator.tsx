@@ -35,6 +35,7 @@ import {
   generateFlightItineraryUrlParam,
   parseFlightItineraryUrlParam,
   generateRouteItineraryUrlParam,
+  flightEmissionsRequestToDetailedFlightEmissionsRequest,
   flightEmissionsRequestToTypicalFlightEmissionsRequest,
 } from "../data/flightItinerary";
 import travelImpactModelApi from "../api/travelImpactModelApi";
@@ -99,7 +100,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
     };
 
     const emissionsData = travelImpactModelApi.getComputeDetailedFlightEmissions(
-      updatedRequest,
+      flightEmissionsRequestToDetailedFlightEmissionsRequest(updatedRequest),
       app
     );
     emissionsData.then((response) => {
