@@ -23,6 +23,7 @@ import {
   EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy,
   EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
   Source,
 } from "../api/proto/generated/travelImpactModelProto";
@@ -167,6 +168,21 @@ export function SeatAreaRatioSource({ value }: SourceProps): React.JSX.Element |
   }
 }
 
+export function DistanceAdjustmentSource({ value }: SourceProps): React.JSX.Element | undefined {
+  if (value.source === EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL) {
+    return (
+      <ul>
+        <li>
+          <Link
+            text="ICL"
+            href="https://www.imperial.ac.uk/transport-engineering/transport-and-environment/"
+          />
+        </li>
+      </ul>
+    );
+  }
+}
+
 export function EasaLabelSource(): React.JSX.Element {
   return (
     <ul>
@@ -206,6 +222,7 @@ interface ProvenanceEntryWithValue extends EmissionsProvenance_EmissionsProvenan
     premiumEconomy: number;
     economy: number;
   };
+  distanceAfterAdjustmentKm?: number;
 }
 
 function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.Element {
@@ -220,6 +237,7 @@ function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.El
       </div>
     );
   }
+  if (value.distanceAfterAdjustmentKm !== undefined) return `${value.distanceAfterAdjustmentKm} km`;
   return "Not Available";
 }
 
@@ -260,6 +278,15 @@ function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry)
     case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY:
       return "Wide body aircraft";
   }
+  switch (entry.distanceAdjustmentStrategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION:
+      return "Calculated using route-specific distance adjustment data";
+    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_COUNTRY_PAIR:
+      return "Calculated using country-specific distance adjustment data";
+    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_DEFAULT:
+      return "Calculated using global distance adjustment data";
+  }
+
   return "Not Applicable";
 }
 
@@ -371,6 +398,21 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
               dataType,
               formatDataValue(value as ProvenanceEntryWithValue),
               seatAreaRatioSources,
+              formatDataStrategy(value),
+            ],
+          });
+        }
+        break;
+      }
+      case EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT: {
+        const distanceAdjustmentSources = DistanceAdjustmentSource({ value: value });
+        if (distanceAdjustmentSources) {
+          rowsData.push({
+            cells: [
+              formatAttributionName("Estimated Flight Distance"),
+              dataType,
+              formatDataValue(value as ProvenanceEntryWithValue),
+              distanceAdjustmentSources,
               formatDataStrategy(value),
             ],
           });

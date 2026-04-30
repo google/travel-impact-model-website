@@ -78,6 +78,13 @@
                 "premiumEconomy": 1.5,
                 "economy": 1
               }
+            },
+            {
+              "source": "ICL",
+              "dataType": "MODELED",
+              "provenanceEntryType": "DISTANCE_ADJUSTMENT",
+              "distanceAdjustmentStrategy": "DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION",
+              "distanceAfterAdjustmentKm": 6119
             }
           ]
         },
@@ -89,6 +96,6 @@
     "major": 3,
     "minor": 0,
     "patch": 0,
-    "dated": "20260420"
+    "dated": "20260430"
   }
 }

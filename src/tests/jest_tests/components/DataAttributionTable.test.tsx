@@ -19,6 +19,7 @@ import DataAttributionTable, {
   PassengerSeatSource,
   SeatAreaRatioSource,
   EasaLabelSource,
+  DistanceAdjustmentSource,
 } from "../../../components/DataAttributionTable";
 import {
   ComputeDetailedFlightEmissionsResponse,
@@ -28,6 +29,7 @@ import {
   EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
   EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
   EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
   Source,
@@ -211,6 +213,29 @@ describe("SeatAreaRatioSource", () => {
   });
 });
 
+describe("DistanceAdjustmentSource", () => {
+  it("should return undefined", async () => {
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
+    };
+    const response = DistanceAdjustmentSource({ value: data });
+    expect(response).toEqual(undefined);
+  });
+  it("should return response for ICL data", async () => {
+    const data: EmissionsProvenance_EmissionsProvenanceEntry = {
+      source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
+      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      sourceVersion: "",
+      provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
+    };
+    render(<DistanceAdjustmentSource value={data} />);
+    expect(screen.getByText("ICL")).not.toBeEmptyDOMElement();
+  });
+});
+
 describe("EasaLabelSource", () => {
   it("should return response for EASA data", async () => {
     render(<EasaLabelSource />);
@@ -308,6 +333,16 @@ describe("DataAttributionTable", () => {
                     economy: 1,
                   },
                 },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                  distanceAdjustmentStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION,
+                  distanceAfterAdjustmentKm: 6003,
+                },
               ],
             },
           },
@@ -353,8 +388,11 @@ describe("DataAttributionTable", () => {
     expect(screen.getByText("Fleet-level aircraft configuration", { exact: false }));
     expect(screen.getByText("OAG")).not.toBeEmptyDOMElement();
 
+    // Distance Adjustment Source
+    expect(screen.getByText("ICL")).not.toBeEmptyDOMElement();
+
     // Data Types
-    expect(screen.getAllByText("Modeled")).toHaveLength(3);
+    expect(screen.getAllByText("Modeled")).toHaveLength(4);
     expect(screen.getAllByText("Default")).toHaveLength(2);
 
     // Values
@@ -363,12 +401,16 @@ describe("DataAttributionTable", () => {
     expect(
       screen.getByText(/First: 5\s+Business: 4\s+Premium: 1\.5\s+Economy: 1/)
     ).not.toBeEmptyDOMElement();
+    expect(screen.getByText("6003 km")).not.toBeEmptyDOMElement();
 
     // Strategies
     expect(screen.getByText("EEA2023 based correction factor")).not.toBeEmptyDOMElement();
     expect(screen.getByText("By carrier, route, and month of travel")).not.toBeEmptyDOMElement();
     expect(screen.getByText("By distance band and aircraft class")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Wide body aircraft")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("Calculated using route-specific distance adjustment data")
+    ).not.toBeEmptyDOMElement();
   });
 
   it("should return data attribution level table with expected EASA values", async () => {
@@ -431,6 +473,101 @@ describe("DataAttributionTable", () => {
     expect(screen.getByText("Not Applicable")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
+  });
+
+  it("should return data attribution table with all distance adjustment strategies", async () => {
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
+        {
+          flight: {
+            origin: "ZRH",
+            destination: "BOS",
+            operatingCarrierCode: "LX",
+            departureDate: { year: 2026, month: 11, day: 30 },
+            flightNumber: "54",
+          },
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: {
+              first: 1592890,
+              business: 1274312,
+              premiumEconomy: 477866,
+              economy: 318578,
+            },
+            emissionsBreakdown: {
+              wttEmissionsGramsPerPax: {
+                first: 268465,
+                business: 214772,
+                premiumEconomy: 80539,
+                economy: 53693,
+              },
+              ttwEmissionsGramsPerPax: {
+                first: 1324425,
+                business: 1059540,
+                premiumEconomy: 397327,
+                economy: 264885,
+              },
+            },
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
+            source: Source.TIM,
+          },
+          emissionsMetadata: {
+            easaLabelMetadata: undefined,
+            emissionsProvenance: {
+              provenanceEntries: [
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                  distanceAdjustmentStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_COUNTRY_PAIR,
+                  distanceAfterAdjustmentKm: 6004,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                  distanceAdjustmentStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_DEFAULT,
+                  distanceAfterAdjustmentKm: 6005,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
+                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  sourceVersion: "",
+                },
+              ],
+            },
+          },
+        },
+      ],
+      modelVersion: {
+        major: 3,
+        minor: 0,
+        patch: 0,
+        dated: "20261130",
+      },
+    };
+
+    render(<DataAttributionTable emissionsData={emissionsData} />);
+
+    expect(screen.getByText("6004 km")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("Calculated using country-specific distance adjustment data")
+    ).not.toBeEmptyDOMElement();
+
+    expect(screen.getByText("6005 km")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("Calculated using global distance adjustment data")
+    ).not.toBeEmptyDOMElement();
+
+    expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Not Applicable")).not.toBeEmptyDOMElement();
   });
 
   it("should return invalid data", async () => {

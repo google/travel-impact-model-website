@@ -329,6 +329,8 @@ message EmissionsProvenance {
     SEATING_CONFIG = 4;
     // Seat area ratios data.
     SEAT_AREA_RATIOS = 5;
+    // Distance adjustment data.
+    DISTANCE_ADJUSTMENT = 6;
   }
 
   // Details about a single contributing factor in emissions calculations.
@@ -356,6 +358,8 @@ message EmissionsProvenance {
       GLOBAL_DEFAULT = 7;
       // Data provided by the International Air Transport Association (IATA).
       IATA = 8;
+      // Data provided by Imperial College London.
+      ICL = 9;
     }
 
     // The source of the data.
@@ -431,6 +435,23 @@ message EmissionsProvenance {
       SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY = 2;
     }
 
+    // Strategy used for distance adjustment.
+    // New values may be added in the future. Clients should be prepared to
+    // handle unknown enum values gracefully.
+    enum DistanceAdjustmentStrategy {
+      // Strategy unspecified.
+      DISTANCE_ADJUSTMENT_STRATEGY_UNSPECIFIED = 0;
+      // Distance adjustment factor determined by origin and destination airport
+      // pair.
+      DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION = 1;
+      // Distance adjustment factor determined by origin and destination country
+      // pair.
+      DISTANCE_ADJUSTMENT_STRATEGY_COUNTRY_PAIR = 2;
+      // The distance adjustment factor is based on the default value because
+      // we did not find an airport- or country-specific adjustment factor.
+      DISTANCE_ADJUSTMENT_STRATEGY_DEFAULT = 3;
+    }
+
     // The strategy used to compute emissions for the given data source.
     // The field set will correspond to the data_source type.
     oneof data_strategy {
@@ -444,6 +465,8 @@ message EmissionsProvenance {
       CargoMassFractionT100Strategy cargo_mass_fraction_t100_strategy = 6;
       // Strategy for IATA seat area ratios.
       SeatAreaRatioIataStrategy seat_area_ratio_iata_strategy = 8;
+      // Strategy for distance adjustment.
+      DistanceAdjustmentStrategy distance_adjustment_strategy = 13;
     }
 
     // The data type of the data source.
@@ -493,6 +516,10 @@ message EmissionsProvenance {
       // The seat area ratio value for each seating class. If not set, the
       // seat area ratio value is not available.
       SeatAreaRatioData seat_area_ratio_data = 12;
+      // The estimated distance flown in CCD flight phase in kilometers value
+      // calculated using the distance adjustment factor (DAF). If not set, the
+      // estimated flight distance value is not available.
+      int32 distance_after_adjustment_km = 14;
     }
   }
 
