@@ -153,7 +153,7 @@ function Governance() {
             nonVotingStar={false}
           />
           <EntityCard
-            name="Sally Davey"
+            name="Julie Cheetham"
             title="Chief Executive Officer"
             institution="Travalyst"
             institutionLink="https://www.travalyst.org/"
