@@ -18,6 +18,7 @@ import App from "./App";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import { initializeApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getPerformance } from "firebase/performance";
 
@@ -30,6 +31,10 @@ const firebaseConfig = {
   appId: "1:979758156159:web:0af79a421e52f55c2b324a",
 };
 const app = initializeApp(firebaseConfig);
+initializeAppCheck(app, {
+  provider: new ReCaptchaEnterpriseProvider("6LfJ-d8oAAAAAM3VSwWJzvtmyhmi8gH9l1GHK2xs"),
+  isTokenAutoRefreshEnabled: true,
+});
 if (import.meta.env.VITE_API_USE_FIREBASE_EMULATOR) {
   const functions = getFunctions(app);
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
