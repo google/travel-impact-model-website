@@ -40,38 +40,38 @@
         "emissionsProvenance": {
           "provenanceEntries": [
             {
+              "provenanceEntryType": "FUEL_BURN",
               "source": "EEA",
-              "fuelBurnEeaStrategy": "FUEL_BURN_EEA_STRATEGY_UNSPECIFIED",
-              "dataType": "MODELED",
-              "provenanceEntryType": "FUEL_BURN"
+              "fuelBurnEeaStrategy": "STRATEGY_UNSPECIFIED",
+              "dataType": "MODELED"
             },
             {
+              "provenanceEntryType": "LOAD_FACTORS",
               "source": "T100",
               "sourceVersion": "2025-12",
-              "loadFactorsT100Strategy": "LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH",
+              "loadFactorsT100Strategy": "CARRIER_ROUTE_MONTH",
               "dataType": "MODELED",
-              "provenanceEntryType": "LOAD_FACTORS",
               "loadFactorsData": 0.808520211655448
             },
             {
+              "provenanceEntryType": "CARGO_MASS_FRACTION",
               "source": "T100",
               "sourceVersion": "2025-12",
-              "cargoMassFractionT100Strategy": "CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS",
+              "cargoMassFractionT100Strategy": "CARRIER_ROUTE_AIRCRAFT_CLASS",
               "dataType": "MODELED",
-              "provenanceEntryType": "CARGO_MASS_FRACTION",
               "cargoMassFractionData": 0.29636906672461827
             },
             {
+              "provenanceEntryType": "SEATING_CONFIG",
               "source": "OPERATING_CARRIER",
-              "dataType": "PRIMARY",
-              "provenanceEntryType": "SEATING_CONFIG"
+              "dataType": "PRIMARY"
             },
             {
+              "provenanceEntryType": "SEAT_AREA_RATIOS",
               "source": "IATA",
               "sourceVersion": "IATA_RP_1726",
               "dataType": "DEFAULT",
-              "seatAreaRatioIataStrategy": "SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY",
-              "provenanceEntryType": "SEAT_AREA_RATIOS",
+              "seatAreaRatioIataStrategy": "WIDE_AIRCRAFT_BODY",
               "seatAreaRatioData": {
                 "first": 5,
                 "business": 4,
@@ -80,11 +80,11 @@
               }
             },
             {
+              "provenanceEntryType": "DISTANCE_ADJUSTMENT",
               "source": "ICL",
               "dataType": "MODELED",
-              "provenanceEntryType": "DISTANCE_ADJUSTMENT",
-              "distanceAdjustmentStrategy": "DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION",
-              "distanceAfterAdjustmentKm": 6119
+              "distanceAdjustmentStrategy": "ORIGIN_DESTINATION",
+              "estimatedFlightDistanceKm": 6119
             }
           ]
         },

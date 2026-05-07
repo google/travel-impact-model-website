@@ -22,12 +22,12 @@ import {
   Source,
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
   EmissionsProvenance_EmissionsProvenanceEntry_DataType,
-  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
   ContrailsImpactBucket,
-  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -75,7 +75,7 @@ describe("PassengerLevelTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
                   fuelBurnEeaStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_UNSPECIFIED,
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
                   provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
@@ -83,7 +83,7 @@ describe("PassengerLevelTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
                   loadFactorsT100Strategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH,
+                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "2025-10",
                   provenanceEntryType:
@@ -92,7 +92,7 @@ describe("PassengerLevelTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
                   cargoMassFractionT100Strategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS,
+                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.CARRIER_ROUTE_AIRCRAFT_CLASS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "2025-10",
                   provenanceEntryType:
@@ -110,7 +110,7 @@ describe("PassengerLevelTable", () => {
                   sourceVersion: "IATA_RP_1726",
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   seatAreaRatioIataStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY,
+                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
                 },
@@ -177,7 +177,7 @@ describe("PassengerLevelTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
                   fuelBurnEeaStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_UNSPECIFIED,
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
                   provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
@@ -185,7 +185,7 @@ describe("PassengerLevelTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
                   loadFactorsT100Strategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH,
+                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "2025-10",
                   provenanceEntryType:
@@ -194,7 +194,7 @@ describe("PassengerLevelTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
                   cargoMassFractionT100Strategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS,
+                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.CARRIER_ROUTE_AIRCRAFT_CLASS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "2025-10",
                   provenanceEntryType:
@@ -212,7 +212,7 @@ describe("PassengerLevelTable", () => {
                   sourceVersion: "IATA_RP_1726",
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   seatAreaRatioIataStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY,
+                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
                 },

@@ -26,12 +26,12 @@ import {
   EmissionsProvenance_EmissionsProvenanceEntry,
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
   EmissionsProvenance_EmissionsProvenanceEntry_DataType,
-  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
-  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy,
   Source,
   ContrailsImpactBucket,
 } from "../../../api/proto/generated/travelImpactModelProto";
@@ -55,7 +55,7 @@ describe("FuelBurnSource", () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
       fuelBurnEeaStrategy:
-        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_UNSPECIFIED,
+        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED,
       dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
@@ -69,7 +69,7 @@ describe("FuelBurnSource", () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
       fuelBurnEeaStrategy:
-        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR,
+        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR,
       dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
@@ -99,7 +99,7 @@ describe("LoadFactorSource", () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
       loadFactorsT100Strategy:
-        EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH,
+        EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH,
       dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
@@ -286,7 +286,7 @@ describe("DataAttributionTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
                   fuelBurnEeaStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR,
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR,
                   provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
@@ -294,7 +294,7 @@ describe("DataAttributionTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
                   loadFactorsT100Strategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH,
+                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_ROUTE_MONTH,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
@@ -304,7 +304,7 @@ describe("DataAttributionTable", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
                   cargoMassFractionT100Strategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_DISTANCE_AIRCRAFT_CLASS,
+                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.DISTANCE_AIRCRAFT_CLASS,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
@@ -325,7 +325,7 @@ describe("DataAttributionTable", () => {
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
                   sourceVersion: "IATA_RP_1726",
                   seatAreaRatioIataStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY,
+                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY,
                   seatAreaRatioData: {
                     first: 5,
                     business: 4,
@@ -340,8 +340,8 @@ describe("DataAttributionTable", () => {
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
                   distanceAdjustmentStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION,
-                  distanceAfterAdjustmentKm: 6003,
+                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.ORIGIN_DESTINATION,
+                  estimatedFlightDistanceKm: 6003,
                 },
               ],
             },
@@ -521,8 +521,8 @@ describe("DataAttributionTable", () => {
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
                   distanceAdjustmentStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_COUNTRY_PAIR,
-                  distanceAfterAdjustmentKm: 6004,
+                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.COUNTRY_PAIR,
+                  estimatedFlightDistanceKm: 6004,
                 },
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
@@ -531,8 +531,8 @@ describe("DataAttributionTable", () => {
                   dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
                   sourceVersion: "",
                   distanceAdjustmentStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_DEFAULT,
-                  distanceAfterAdjustmentKm: 6005,
+                    EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.DEFAULT,
+                  estimatedFlightDistanceKm: 6005,
                 },
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,

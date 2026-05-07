@@ -368,105 +368,122 @@ message EmissionsProvenance {
     string source_version = 2;
 
     // Strategy used for EEA fuel burn estimates.
-    // New values may be added in the future. Clients should be prepared to
-    // handle unknown enum values gracefully.
-    enum FuelBurnEeaStrategy {
-      // Strategy unspecified.
-      FUEL_BURN_EEA_STRATEGY_UNSPECIFIED = 0;
-      // A static correction factor was applied.
-      FUEL_BURN_EEA_STRATEGY_STATIC_CORRECTION_FACTOR = 1;
-      // An EEA2023 based correction factor was applied.
-      FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR = 2;
+    message FuelBurnEea {
+      // Strategy for EEA fuel burn.
+      // New values may be added in the future. Clients should be prepared to
+      // handle unknown enum values gracefully.
+      enum Strategy {
+        // Strategy unspecified.
+        STRATEGY_UNSPECIFIED = 0;
+        // A static correction factor was applied.
+        STATIC_CORRECTION_FACTOR = 1;
+        // An EEA2023 based correction factor was applied.
+        EEA2023_CORRECTION_FACTOR = 2;
+      }
     }
 
     // Strategy used for T100 load factors.
-    // New values may be added in the future. Clients should be prepared to
-    // handle unknown enum values gracefully.
-    enum LoadFactorsT100Strategy {
-      // Strategy unspecified.
-      LOAD_FACTORS_T100_STRATEGY_UNSPECIFIED = 0;
-      // Data by carrier, route, and month of travel.
-      LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH = 1;
-      // Data by carrier and month of travel.
-      LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH = 2;
-      // Historical data matching carrier, route, year, and month.
-      LOAD_FACTORS_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH = 3;
+    message LoadFactorsT100 {
+      // Strategy for T100 load factors.
+      // New values may be added in the future. Clients should be prepared to
+      // handle unknown enum values gracefully.
+      enum Strategy {
+        // Strategy unspecified.
+        STRATEGY_UNSPECIFIED = 0;
+        // Data by carrier, route, and month of travel.
+        CARRIER_ROUTE_MONTH = 1;
+        // Data by carrier and month of travel.
+        CARRIER_MONTH = 2;
+        // Historical data matching carrier, route, year, and month.
+        ACTUAL_CARRIER_ROUTE_YEAR_MONTH = 3;
+      }
     }
 
     // Strategy used for CH-Aviation load factors.
-    // New values may be added in the future. Clients should be prepared to
-    // handle unknown enum values gracefully.
-    enum LoadFactorsChAviationStrategy {
-      // Strategy unspecified.
-      LOAD_FACTORS_CH_AVIATION_STRATEGY_UNSPECIFIED = 0;
-      // Data by carrier and month of travel.
-      LOAD_FACTORS_CH_AVIATION_STRATEGY_CARRIER_MONTH = 1;
-      // Historical data matching carrier, year, and month.
-      LOAD_FACTORS_CH_AVIATION_STRATEGY_ACTUAL_CARRIER_YEAR_MONTH = 2;
+    message LoadFactorsChAviation {
+      // Strategy for CH-Aviation load factors.
+      // New values may be added in the future. Clients should be prepared to
+      // handle unknown enum values gracefully.
+      enum Strategy {
+        // Strategy unspecified.
+        STRATEGY_UNSPECIFIED = 0;
+        // Data by carrier and month of travel.
+        CARRIER_MONTH = 1;
+        // Historical data matching carrier, year, and month.
+        ACTUAL_CARRIER_YEAR_MONTH = 2;
+      }
     }
 
     // Strategy used for T100 cargo mass fraction.
-    // New values may be added in the future. Clients should be prepared to
-    // handle unknown enum values gracefully.
-    enum CargoMassFractionT100Strategy {
-      // Strategy unspecified.
-      CARGO_MASS_FRACTION_T100_STRATEGY_UNSPECIFIED = 0;
-      // Data by carrier, route, and aircraft class.
-      CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS = 1;
-      // Data by route and aircraft class.
-      CARGO_MASS_FRACTION_T100_STRATEGY_ROUTE_AIRCRAFT_CLASS = 2;
-      // Data by distance band and aircraft class.
-      CARGO_MASS_FRACTION_T100_STRATEGY_DISTANCE_AIRCRAFT_CLASS = 3;
-      // Historical data matching carrier, route, year, month, and aircraft
-      // class.
-      CARGO_MASS_FRACTION_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS =
-          4;
+    message CargoMassFractionT100 {
+      // Strategy for T100 cargo mass fraction.
+      // New values may be added in the future. Clients should be prepared to
+      // handle unknown enum values gracefully.
+      enum Strategy {
+        // Strategy unspecified.
+        STRATEGY_UNSPECIFIED = 0;
+        // Data by carrier, route, and aircraft class.
+        CARRIER_ROUTE_AIRCRAFT_CLASS = 1;
+        // Data by route and aircraft class.
+        ROUTE_AIRCRAFT_CLASS = 2;
+        // Data by distance band and aircraft class.
+        DISTANCE_AIRCRAFT_CLASS = 3;
+        // Historical data matching carrier, route, year, month, and aircraft
+        // class.
+        ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS = 4;
+      }
     }
 
     // Strategy used for IATA seat area ratios.
-    // New values may be added in the future. Clients should be prepared to
-    // handle unknown enum values gracefully.
-    enum SeatAreaRatioIataStrategy {
-      // Strategy unspecified.
-      SEAT_AREA_RATIO_IATA_STRATEGY_UNSPECIFIED = 0;
-      // Seat area ratios for narrow body aircraft were used.
-      SEAT_AREA_RATIO_IATA_STRATEGY_NARROW_AIRCRAFT_BODY = 1;
-      // Seat area ratios for wide body aircraft were used.
-      SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY = 2;
+    message SeatAreaRatioIata {
+      // Strategy for IATA seat area ratios.
+      // New values may be added in the future. Clients should be prepared to
+      // handle unknown enum values gracefully.
+      enum Strategy {
+        // Strategy unspecified.
+        STRATEGY_UNSPECIFIED = 0;
+        // Seat area ratios for narrow body aircraft were used.
+        NARROW_AIRCRAFT_BODY = 1;
+        // Seat area ratios for wide body aircraft were used.
+        WIDE_AIRCRAFT_BODY = 2;
+      }
     }
 
     // Strategy used for distance adjustment.
-    // New values may be added in the future. Clients should be prepared to
-    // handle unknown enum values gracefully.
-    enum DistanceAdjustmentStrategy {
-      // Strategy unspecified.
-      DISTANCE_ADJUSTMENT_STRATEGY_UNSPECIFIED = 0;
-      // Distance adjustment factor determined by origin and destination airport
-      // pair.
-      DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION = 1;
-      // Distance adjustment factor determined by origin and destination country
-      // pair.
-      DISTANCE_ADJUSTMENT_STRATEGY_COUNTRY_PAIR = 2;
-      // The distance adjustment factor is based on the default value because
-      // we did not find an airport- or country-specific adjustment factor.
-      DISTANCE_ADJUSTMENT_STRATEGY_DEFAULT = 3;
+    message DistanceAdjustment {
+      // Strategy for distance adjustment.
+      // New values may be added in the future. Clients should be prepared to
+      // handle unknown enum values gracefully.
+      enum Strategy {
+        // Strategy unspecified.
+        STRATEGY_UNSPECIFIED = 0;
+        // Distance adjustment factor determined by origin and destination
+        // airport pair.
+        ORIGIN_DESTINATION = 1;
+        // Distance adjustment factor determined by origin and destination
+        // country pair.
+        COUNTRY_PAIR = 2;
+        // The distance adjustment factor is based on the default value because
+        // we did not find an airport- or country-specific adjustment factor.
+        DEFAULT = 3;
+      }
     }
 
     // The strategy used to compute emissions for the given data source.
     // The field set will correspond to the data_source type.
     oneof data_strategy {
       // Strategy for EEA fuel burn.
-      FuelBurnEeaStrategy fuel_burn_eea_strategy = 3;
+      FuelBurnEea.Strategy fuel_burn_eea_strategy = 3;
       // Strategy for T100 load factors.
-      LoadFactorsT100Strategy load_factors_t100_strategy = 4;
+      LoadFactorsT100.Strategy load_factors_t100_strategy = 4;
       // Strategy for CH Aviation load factors.
-      LoadFactorsChAviationStrategy load_factors_ch_aviation_strategy = 5;
+      LoadFactorsChAviation.Strategy load_factors_ch_aviation_strategy = 5;
       // Strategy for T100 cargo mass fraction.
-      CargoMassFractionT100Strategy cargo_mass_fraction_t100_strategy = 6;
+      CargoMassFractionT100.Strategy cargo_mass_fraction_t100_strategy = 6;
       // Strategy for IATA seat area ratios.
-      SeatAreaRatioIataStrategy seat_area_ratio_iata_strategy = 8;
+      SeatAreaRatioIata.Strategy seat_area_ratio_iata_strategy = 8;
       // Strategy for distance adjustment.
-      DistanceAdjustmentStrategy distance_adjustment_strategy = 13;
+      DistanceAdjustment.Strategy distance_adjustment_strategy = 13;
     }
 
     // The data type of the data source.
@@ -519,7 +536,7 @@ message EmissionsProvenance {
       // The estimated distance flown in CCD flight phase in kilometers value
       // calculated using the distance adjustment factor (DAF). If not set, the
       // estimated flight distance value is not available.
-      int32 distance_after_adjustment_km = 14;
+      int32 estimated_flight_distance_km = 14;
     }
   }
 

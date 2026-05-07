@@ -18,12 +18,12 @@ import {
   EmissionsProvenance_EmissionsProvenanceEntry,
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
   EmissionsProvenance_EmissionsProvenanceEntry_DataType,
-  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy,
-  EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviation_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntryType,
   Source,
 } from "../api/proto/generated/travelImpactModelProto";
@@ -47,7 +47,7 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
           No 13/2019 1.A.3.a Aviation 1 Master emissions calculator 2019
         </li>
         {value.fuelBurnEeaStrategy ===
-          EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR && (
+          EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR && (
           <li>
             <Link
               text="EMEP/EEA air pollutant emission inventory guidebook"
@@ -222,7 +222,7 @@ interface ProvenanceEntryWithValue extends EmissionsProvenance_EmissionsProvenan
     premiumEconomy: number;
     economy: number;
   };
-  distanceAfterAdjustmentKm?: number;
+  estimatedFlightDistanceKm?: number;
 }
 
 function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.Element {
@@ -237,53 +237,53 @@ function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.El
       </div>
     );
   }
-  if (value.distanceAfterAdjustmentKm !== undefined) return `${value.distanceAfterAdjustmentKm} km`;
+  if (value.estimatedFlightDistanceKm !== undefined) return `${value.estimatedFlightDistanceKm} km`;
   return "Not Available";
 }
 
 function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry): string {
   switch (entry.fuelBurnEeaStrategy) {
-    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_STATIC_CORRECTION_FACTOR:
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STATIC_CORRECTION_FACTOR:
       return "Static correction factor";
-    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEeaStrategy.FUEL_BURN_EEA_STRATEGY_EEA2023_CORRECTION_FACTOR:
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR:
       return "EEA2023 based correction factor";
   }
   switch (entry.loadFactorsT100Strategy) {
-    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_ROUTE_MONTH:
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_ROUTE_MONTH:
       return "By carrier, route, and month of travel";
-    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_CARRIER_MONTH:
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH:
       return "By carrier and month of travel";
-    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100Strategy.LOAD_FACTORS_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH:
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.ACTUAL_CARRIER_ROUTE_YEAR_MONTH:
       return "Historical data matching carrier, route, year, and month";
   }
   switch (entry.loadFactorsChAviationStrategy) {
-    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy.LOAD_FACTORS_CH_AVIATION_STRATEGY_CARRIER_MONTH:
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviation_Strategy.CARRIER_MONTH:
       return "By carrier and month of travel";
-    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviationStrategy.LOAD_FACTORS_CH_AVIATION_STRATEGY_ACTUAL_CARRIER_YEAR_MONTH:
+    case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviation_Strategy.ACTUAL_CARRIER_YEAR_MONTH:
       return "Historical data matching carrier, year, and month";
   }
   switch (entry.cargoMassFractionT100Strategy) {
-    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_CARRIER_ROUTE_AIRCRAFT_CLASS:
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.CARRIER_ROUTE_AIRCRAFT_CLASS:
       return "By carrier, route, and aircraft class";
-    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_ROUTE_AIRCRAFT_CLASS:
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.ROUTE_AIRCRAFT_CLASS:
       return "By route and aircraft class";
-    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_DISTANCE_AIRCRAFT_CLASS:
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.DISTANCE_AIRCRAFT_CLASS:
       return "By distance band and aircraft class";
-    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100Strategy.CARGO_MASS_FRACTION_T100_STRATEGY_ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS:
+    case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS:
       return "Historical data matching carrier, route, year, month, and aircraft class";
   }
   switch (entry.seatAreaRatioIataStrategy) {
-    case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_NARROW_AIRCRAFT_BODY:
+    case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.NARROW_AIRCRAFT_BODY:
       return "Narrow body aircraft";
-    case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIataStrategy.SEAT_AREA_RATIO_IATA_STRATEGY_WIDE_AIRCRAFT_BODY:
+    case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY:
       return "Wide body aircraft";
   }
   switch (entry.distanceAdjustmentStrategy) {
-    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_ORIGIN_DESTINATION:
+    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.ORIGIN_DESTINATION:
       return "Calculated using route-specific distance adjustment data";
-    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_COUNTRY_PAIR:
+    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.COUNTRY_PAIR:
       return "Calculated using country-specific distance adjustment data";
-    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustmentStrategy.DISTANCE_ADJUSTMENT_STRATEGY_DEFAULT:
+    case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.DEFAULT:
       return "Calculated using global distance adjustment data";
   }
 
