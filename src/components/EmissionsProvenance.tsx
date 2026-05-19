@@ -29,7 +29,7 @@ import {
 } from "../api/proto/generated/travelImpactModelProto";
 import Link from "./Link";
 import Table, { RowData } from "./Table";
-import "./DataAttributionTable.scss";
+import "./EmissionsProvenance.scss";
 
 interface SourceProps {
   value: EmissionsProvenance_EmissionsProvenanceEntry;
@@ -194,18 +194,25 @@ export function EasaLabelSource(): React.JSX.Element {
 }
 
 /******************************************
- * Data attribution table
+ * Emissions provenance table
  ******************************************/
 
 type Props = {
   emissionsData: ComputeDetailedFlightEmissionsResponse;
 };
 
-function formatAttributionName(name: string): string | React.JSX.Element {
+function formatProvenanceType(name: string, description?: string): string | React.JSX.Element {
   return (
-    <Typography variant="subtitle1" component="div">
-      {name}
-    </Typography>
+    <div>
+      <Typography className="emission-name" variant="subtitle1" component="div">
+        {name}
+      </Typography>
+      {description && (
+        <Typography className="emission-description" variant="caption" component="div">
+          {description}
+        </Typography>
+      )}
+    </div>
   );
 }
 
@@ -250,25 +257,25 @@ function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry)
   }
   switch (entry.loadFactorsT100Strategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_ROUTE_MONTH:
-      return "By carrier, route, and month of travel";
+      return "Calculated using carrier, route, and month of travel";
     case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH:
-      return "By carrier and month of travel";
+      return "Calculated using carrier and month of travel";
     case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.ACTUAL_CARRIER_ROUTE_YEAR_MONTH:
       return "Historical data matching carrier, route, year, and month";
   }
   switch (entry.loadFactorsChAviationStrategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviation_Strategy.CARRIER_MONTH:
-      return "By carrier and month of travel";
+      return "Calculated using carrier and month of travel";
     case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviation_Strategy.ACTUAL_CARRIER_YEAR_MONTH:
       return "Historical data matching carrier, year, and month";
   }
   switch (entry.cargoMassFractionT100Strategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.CARRIER_ROUTE_AIRCRAFT_CLASS:
-      return "By carrier, route, and aircraft class";
+      return "Calculated using carrier, route, and aircraft class";
     case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.ROUTE_AIRCRAFT_CLASS:
-      return "By route and aircraft class";
+      return "Calculated using route and aircraft class";
     case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.DISTANCE_AIRCRAFT_CLASS:
-      return "By distance band and aircraft class";
+      return "Calculated using distance band and aircraft class";
     case EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.ACTUAL_CARRIER_ROUTE_YEAR_MONTH_AIRCRAFT_CLASS:
       return "Historical data matching carrier, route, year, month, and aircraft class";
   }
@@ -302,28 +309,31 @@ function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
   const rowsData: RowData[] = [
     {
       cells: [
-        formatAttributionName("Fuel Burn Estimates"),
-        "Primary",
+        formatProvenanceType(
+          "Fuel Burn Estimates",
+          "Estimated fuel consumed by the aircraft during the flight."
+        ),
         "Not Available",
         easaSource,
         "Not Applicable",
+        "Primary",
       ],
     },
   ];
   return rowsData;
 }
 
-function getAttributionRowData({ emissionsData }: Props): RowData[] {
-  const attributionData =
+function getProvenanceRowData({ emissionsData }: Props): RowData[] {
+  const provenanceData =
     emissionsData.flightsWithDetailedEmissions[0].emissionsMetadata?.emissionsProvenance
       ?.provenanceEntries;
-  // If attribution data is undefined, return nothing.
-  if (attributionData === undefined || attributionData.length === 0) {
+  // If provenance data is undefined, return nothing.
+  if (provenanceData === undefined || provenanceData.length === 0) {
     return [];
   }
 
   const rowsData: RowData[] = [];
-  attributionData.forEach((value) => {
+  provenanceData.forEach((value) => {
     const type = value.provenanceEntryType;
     const dataTypeStr = EmissionsProvenance_EmissionsProvenanceEntry_DataType[value.dataType];
     const dataType = value.dataType && dataTypeStr ? toSentenceCase(dataTypeStr) : "Unspecified";
@@ -334,11 +344,14 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         if (fuelBurnSources) {
           rowsData.push({
             cells: [
-              formatAttributionName("Fuel Burn Estimates"),
-              dataType,
+              formatProvenanceType(
+                "Fuel Burn Estimates",
+                "Estimated fuel consumed by the aircraft during the flight."
+              ),
               formatDataValue(value as ProvenanceEntryWithValue),
               fuelBurnSources,
               formatDataStrategy(value),
+              dataType,
             ],
           });
         }
@@ -349,11 +362,14 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         if (loadFactorSources) {
           rowsData.push({
             cells: [
-              formatAttributionName("Passenger Load Factor"),
-              dataType,
+              formatProvenanceType(
+                "Passenger Load Factor",
+                "The percentage of available seats occupied by passengers."
+              ),
               formatDataValue(value as ProvenanceEntryWithValue),
               loadFactorSources,
               formatDataStrategy(value),
+              dataType,
             ],
           });
         }
@@ -364,11 +380,14 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         if (cargoMassFractionSources) {
           rowsData.push({
             cells: [
-              formatAttributionName("Cargo Mass Fraction"),
-              dataType,
+              formatProvenanceType(
+                "Cargo Mass Fraction",
+                "The proportion of total payload weight attributed to cargo."
+              ),
               formatDataValue(value as ProvenanceEntryWithValue),
               cargoMassFractionSources,
               formatDataStrategy(value),
+              dataType,
             ],
           });
         }
@@ -379,11 +398,14 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         if (passengerSeatSources) {
           rowsData.push({
             cells: [
-              formatAttributionName("Passenger Seat Configuration"),
-              dataType,
+              formatProvenanceType(
+                "Passenger Seat Configuration",
+                "The total number of seats and layout of the aircraft."
+              ),
               formatDataValue(value as ProvenanceEntryWithValue),
               passengerSeatSources,
               formatDataStrategy(value),
+              dataType,
             ],
           });
         }
@@ -394,11 +416,14 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         if (seatAreaRatioSources) {
           rowsData.push({
             cells: [
-              formatAttributionName("Seat Area Ratios"),
-              dataType,
+              formatProvenanceType(
+                "Seat Area Ratios",
+                "The relative floor area occupied by seats in each cabin class."
+              ),
               formatDataValue(value as ProvenanceEntryWithValue),
               seatAreaRatioSources,
               formatDataStrategy(value),
+              dataType,
             ],
           });
         }
@@ -409,11 +434,14 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
         if (distanceAdjustmentSources) {
           rowsData.push({
             cells: [
-              formatAttributionName("Estimated Flight Distance"),
-              dataType,
+              formatProvenanceType(
+                "Estimated Flight Distance",
+                "The calculated flight distance adjusted for real-world routing."
+              ),
               formatDataValue(value as ProvenanceEntryWithValue),
               distanceAdjustmentSources,
               formatDataStrategy(value),
+              dataType,
             ],
           });
         }
@@ -425,31 +453,40 @@ function getAttributionRowData({ emissionsData }: Props): RowData[] {
   return rowsData;
 }
 
-function DataAttributionTable({ emissionsData }: Props): React.JSX.Element {
+function EmissionsProvenance({ emissionsData }: Props): React.JSX.Element {
   const isEasaLabel =
     emissionsData.flightsWithDetailedEmissions[0].flightEmissionsDetails?.source == Source.EASA;
 
   const rowsData = isEasaLabel
     ? getEasaLabelRowData({ emissionsData })
-    : getAttributionRowData({ emissionsData });
+    : getProvenanceRowData({ emissionsData });
 
   if (rowsData.length == 0) {
     return <></>;
   }
 
   const tableData = {
-    headers: ["Provenance Type", "Data Type", "Value", "Source", "Strategy"],
+    headers: ["Provenance Type", "Value", "Source", "Strategy", "Data Type"],
     rows: rowsData,
   };
 
   return (
-    <div className={isEasaLabel ? "data-attribution-table easa" : "data-attribution-table"}>
+    <div className={isEasaLabel ? "emissions-provenance-table easa" : "emissions-provenance-table"}>
       <Typography variant="h4" component="h2">
-        Data Attribution
+        How emissions are calculated
       </Typography>
-      <Table ariaLabel="Data Attribution table" data={tableData} />
+      <br />
+      <Typography variant="body1" component="div">
+        Our full methodology is detailed on{" "}
+        <Link text="GitHub" href="https://github.com/google/travel-impact-model" />. The table below
+        details the provenance of our emissions data, showing for each factor: its value, source,
+        the strategy used to calculate it, and the data type (per{" "}
+        <Link text="ISO 14083" href="https://www.iso.org/standard/78864.html" />
+        ).
+      </Typography>
+      <Table ariaLabel="Emissions Provenance table" data={tableData} />
     </div>
   );
 }
 
-export default DataAttributionTable;
+export default EmissionsProvenance;

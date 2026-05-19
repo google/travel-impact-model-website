@@ -16,7 +16,7 @@ import {
   ComputeDetailedFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsResponse,
 } from "../api/proto/generated/travelImpactModelProto";
-import DataAttributionTable from "./DataAttributionTable";
+import EmissionsProvenance from "./EmissionsProvenance";
 import PassengerLevelTable from "./PassengerLevelTable";
 import Link from "./Link";
 import "./OutputData.scss";
@@ -62,19 +62,9 @@ function OutputData({ emissionsData, typicalEmissionsData }: OutputDataProps) {
         </div>
         {emissionsData && (
           <div className="output-field-section">
-            <DataAttributionTable emissionsData={emissionsData} />
+            <EmissionsProvenance emissionsData={emissionsData} />
           </div>
         )}
-        <div className="output-field-section">
-          <Typography component="div" variant="body2" color="black">
-            Learn more about{" "}
-            <Link
-              text="how these values are calculated"
-              href="https://github.com/google/travel-impact-model"
-            />
-            .
-          </Typography>
-        </div>
       </div>
     );
   }

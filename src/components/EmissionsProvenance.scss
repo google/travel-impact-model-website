@@ -14,42 +14,55 @@
  * limitations under the License.
  */
 
-.data-attribution-table {
-  ul {
-    margin: 0;
-    padding-left: inherit;
-  }
-
-  &.easa {
-    ul {
-      padding-left: 0;
-    }
-
-    li {
-      list-style-type: none;
-    }
+.emissions-provenance-table {
+  .MuiTableContainer-root {
+    overflow-x: hidden;
   }
 
   .MuiTableCell-root {
-    &:first-child {
-      min-width: 100px;
+    vertical-align: top;
+    overflow-wrap: break-word;
+
+    ul {
+      margin: 0;
+      padding-left: 16px;
     }
   }
 
-  .MuiTableCell-root:first-child {
-    width: 240px;
+  .MuiTableCell-root:nth-child(1) {
+    width: 25%;
+    min-width: 150px;
   }
 
   .MuiTableCell-root:nth-child(2) {
-    white-space: nowrap;
+    width: 15%;
+    min-width: 120px;
   }
 
   .MuiTableCell-root:nth-child(3) {
-    min-width: 100px;
+    width: 25%;
+    min-width: 150px;
+  }
+
+  .MuiTableCell-root:nth-child(4) {
+    width: 20%;
+    min-width: 120px;
   }
 
   .MuiTableCell-root:nth-child(5) {
-    min-width: 100px;
+    width: 15%;
+    min-width: 120px;
+  }
+
+  &.easa {
+    .MuiTableCell-root {
+      ul {
+        padding-left: 0;
+      }
+      li {
+        list-style-type: none;
+      }
+    }
   }
 
   .row-without-subrows {

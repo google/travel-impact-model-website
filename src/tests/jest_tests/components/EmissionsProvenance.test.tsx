@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import DataAttributionTable, {
+import EmissionsProvenance, {
   FuelBurnSource,
   LoadFactorSource,
   CargoMassFractionSource,
@@ -20,7 +20,7 @@ import DataAttributionTable, {
   SeatAreaRatioSource,
   EasaLabelSource,
   DistanceAdjustmentSource,
-} from "../../../components/DataAttributionTable";
+} from "../../../components/EmissionsProvenance";
 import {
   ComputeDetailedFlightEmissionsResponse,
   EmissionsProvenance_EmissionsProvenanceEntry,
@@ -243,8 +243,8 @@ describe("EasaLabelSource", () => {
   });
 });
 
-describe("DataAttributionTable", () => {
-  it("should return data attribution level table with expected values", async () => {
+describe("EmissionsProvenance", () => {
+  it("should return emissions provenance level table with expected values", async () => {
     const emissionsData: ComputeDetailedFlightEmissionsResponse = {
       flightsWithDetailedEmissions: [
         {
@@ -356,11 +356,11 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    render(<DataAttributionTable emissionsData={emissionsData} />);
+    render(<EmissionsProvenance emissionsData={emissionsData} />);
 
     // Headers
-    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
 
     // Fuel Burn Source
@@ -391,7 +391,7 @@ describe("DataAttributionTable", () => {
     // Distance Adjustment Source
     expect(screen.getByText("ICL")).not.toBeEmptyDOMElement();
 
-    // Data Types
+    // Data Categories
     expect(screen.getAllByText("Modeled")).toHaveLength(4);
     expect(screen.getAllByText("Default")).toHaveLength(2);
 
@@ -405,15 +405,19 @@ describe("DataAttributionTable", () => {
 
     // Strategies
     expect(screen.getByText("EEA2023 based correction factor")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("By carrier, route, and month of travel")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("By distance band and aircraft class")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("Calculated using carrier, route, and month of travel")
+    ).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText("Calculated using distance band and aircraft class")
+    ).not.toBeEmptyDOMElement();
     expect(screen.getByText("Wide body aircraft")).not.toBeEmptyDOMElement();
     expect(
       screen.getByText("Calculated using route-specific distance adjustment data")
     ).not.toBeEmptyDOMElement();
   });
 
-  it("should return data attribution level table with expected EASA values", async () => {
+  it("should return data provenance level table with expected EASA values", async () => {
     const emissionsData: ComputeDetailedFlightEmissionsResponse = {
       flightsWithDetailedEmissions: [
         {
@@ -464,18 +468,18 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    render(<DataAttributionTable emissionsData={emissionsData} />);
+    render(<EmissionsProvenance emissionsData={emissionsData} />);
 
     // Fuel Burn Source
-    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Not Applicable")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
   });
 
-  it("should return data attribution table with all distance adjustment strategies", async () => {
+  it("should return emissions provenance table with all distance adjustment strategies", async () => {
     const emissionsData: ComputeDetailedFlightEmissionsResponse = {
       flightsWithDetailedEmissions: [
         {
@@ -554,7 +558,7 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    render(<DataAttributionTable emissionsData={emissionsData} />);
+    render(<EmissionsProvenance emissionsData={emissionsData} />);
 
     expect(screen.getByText("6004 km")).not.toBeEmptyDOMElement();
     expect(
@@ -598,7 +602,7 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    const response = DataAttributionTable({ emissionsData: emissionsData });
+    const response = EmissionsProvenance({ emissionsData: emissionsData });
     expect(response).toEqual(<React.Fragment />);
   });
 
@@ -630,7 +634,7 @@ describe("DataAttributionTable", () => {
       },
     };
 
-    const response = DataAttributionTable({ emissionsData: emissionsData });
+    const response = EmissionsProvenance({ emissionsData: emissionsData });
     expect(response).toEqual(<React.Fragment />);
   });
 });
