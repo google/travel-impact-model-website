@@ -382,7 +382,7 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
             cells: [
               formatProvenanceType(
                 "Cargo Mass Fraction",
-                "The proportion of total payload weight attributed to cargo."
+                "The percentage of total payload weight attributed to cargo."
               ),
               formatDataValue(value as ProvenanceEntryWithValue),
               cargoMassFractionSources,
