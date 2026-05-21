@@ -25,7 +25,7 @@ import {
   ComputeDetailedFlightEmissionsResponse,
   EmissionsProvenance_EmissionsProvenanceEntry,
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
-  EmissionsProvenance_EmissionsProvenanceEntry_DataType,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataCategory,
   EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy,
@@ -43,7 +43,7 @@ describe("FuelBurnSource", () => {
   it("should return undefined", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.UNRECOGNIZED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.UNRECOGNIZED,
     };
@@ -56,7 +56,7 @@ describe("FuelBurnSource", () => {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
       fuelBurnEeaStrategy:
         EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
     };
@@ -70,7 +70,7 @@ describe("FuelBurnSource", () => {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
       fuelBurnEeaStrategy:
         EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
     };
@@ -87,7 +87,7 @@ describe("LoadFactorSource", () => {
   it("should return undefined", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.UNRECOGNIZED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.UNRECOGNIZED,
     };
@@ -100,7 +100,7 @@ describe("LoadFactorSource", () => {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
       loadFactorsT100Strategy:
         EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
     };
@@ -113,7 +113,7 @@ describe("LoadFactorSource", () => {
   it("should return response for GLOBAL_DEFAULT data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.GLOBAL_DEFAULT,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
     };
@@ -126,7 +126,7 @@ describe("CargoMassFractionSource", () => {
   it("should return undefined", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.UNRECOGNIZED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.UNRECOGNIZED,
     };
@@ -137,7 +137,7 @@ describe("CargoMassFractionSource", () => {
   it("should return response for T100 data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
     };
@@ -152,7 +152,7 @@ describe("PassengerSeatSource", () => {
   it("should return undefined", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.UNRECOGNIZED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
@@ -163,7 +163,7 @@ describe("PassengerSeatSource", () => {
   it("should return response for OPERATING_CARRIER_CONFIG data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OPERATING_CARRIER,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.PRIMARY,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.PRIMARY,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
@@ -176,7 +176,7 @@ describe("PassengerSeatSource", () => {
   it("should return response for OAG_SEATS_EQUIPMENT_CONFIG  data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OAG,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
@@ -188,7 +188,7 @@ describe("PassengerSeatSource", () => {
   it("should return response for REFERENCE_CONFIG data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.AIRCRAFT_MODEL_TYPICAL,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
     };
@@ -204,7 +204,7 @@ describe("SeatAreaRatioSource", () => {
   it("should return response for IATA data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
     };
@@ -217,7 +217,7 @@ describe("DistanceAdjustmentSource", () => {
   it("should return undefined", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.UNRECOGNIZED,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.UNRECOGNIZED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.UNRECOGNIZED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
     };
@@ -227,7 +227,7 @@ describe("DistanceAdjustmentSource", () => {
   it("should return response for ICL data", async () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
-      dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+      dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
     };
@@ -288,7 +288,7 @@ describe("EmissionsProvenance", () => {
                   fuelBurnEeaStrategy:
                     EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR,
                   provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                 },
                 {
@@ -297,7 +297,7 @@ describe("EmissionsProvenance", () => {
                     EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_ROUTE_MONTH,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
                   sourceVersion: "",
                   loadFactorsData: 0.808520211655448,
                 },
@@ -307,7 +307,7 @@ describe("EmissionsProvenance", () => {
                     EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.DISTANCE_AIRCRAFT_CLASS,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                   cargoMassFractionData: 0.29636906672461827,
                 },
@@ -315,14 +315,14 @@ describe("EmissionsProvenance", () => {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OAG,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                 },
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.DEFAULT,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
                   sourceVersion: "IATA_RP_1726",
                   seatAreaRatioIataStrategy:
                     EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY,
@@ -337,7 +337,7 @@ describe("EmissionsProvenance", () => {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                   distanceAdjustmentStrategy:
                     EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.ORIGIN_DESTINATION,
@@ -360,7 +360,7 @@ describe("EmissionsProvenance", () => {
 
     // Headers
     expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Data Category")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
 
     // Fuel Burn Source
@@ -411,7 +411,7 @@ describe("EmissionsProvenance", () => {
     expect(
       screen.getByText("Calculated using distance band and aircraft class")
     ).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Wide body aircraft")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Default values for wide body aircraft")).not.toBeEmptyDOMElement();
     expect(
       screen.getByText("Calculated using route-specific distance adjustment data")
     ).not.toBeEmptyDOMElement();
@@ -472,9 +472,9 @@ describe("EmissionsProvenance", () => {
 
     // Fuel Burn Source
     expect(screen.getByText("Value")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Data Type")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Data Category")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Not Applicable")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
     expect(screen.getByText("Strategy")).not.toBeEmptyDOMElement();
     expect(screen.getByText("EASA Environmental Label")).not.toBeEmptyDOMElement();
   });
@@ -522,7 +522,7 @@ describe("EmissionsProvenance", () => {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                   distanceAdjustmentStrategy:
                     EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.COUNTRY_PAIR,
@@ -532,7 +532,7 @@ describe("EmissionsProvenance", () => {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                   distanceAdjustmentStrategy:
                     EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.DEFAULT,
@@ -542,7 +542,7 @@ describe("EmissionsProvenance", () => {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.ICL,
                   provenanceEntryType:
                     EmissionsProvenance_EmissionsProvenanceEntryType.DISTANCE_ADJUSTMENT,
-                  dataType: EmissionsProvenance_EmissionsProvenanceEntry_DataType.MODELED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
                 },
               ],
@@ -571,7 +571,7 @@ describe("EmissionsProvenance", () => {
     ).not.toBeEmptyDOMElement();
 
     expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
-    expect(screen.getByText("Not Applicable")).not.toBeEmptyDOMElement();
+    expect(screen.getByText("Not Available")).not.toBeEmptyDOMElement();
   });
 
   it("should return invalid data", async () => {

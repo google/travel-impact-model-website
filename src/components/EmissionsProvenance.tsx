@@ -17,7 +17,7 @@ import {
   ComputeDetailedFlightEmissionsResponse,
   EmissionsProvenance_EmissionsProvenanceEntry,
   EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
-  EmissionsProvenance_EmissionsProvenanceEntry_DataType,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataCategory,
   EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy,
   EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsChAviation_Strategy,
@@ -30,6 +30,31 @@ import {
 import Link from "./Link";
 import Table, { RowData } from "./Table";
 import "./EmissionsProvenance.scss";
+import { useState, ReactNode } from "react";
+import { ClickAwayListener, IconButton, Tooltip } from "@mui/material";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+
+interface InfoTooltipProps {
+  title: ReactNode;
+  ariaLabel?: string;
+}
+
+export function InfoTooltip({ title, ariaLabel = "Click to show tooltip." }: InfoTooltipProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <ClickAwayListener onClickAway={() => setOpen(false)}>
+      <Tooltip className="info-icon" title={title} onClose={() => setOpen(false)} open={open}>
+        <IconButton
+          aria-label={ariaLabel}
+          onClick={() => setOpen(!open)}
+          sx={{ margin: "-8px 0", padding: "16px" }}>
+          <InfoOutlinedIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    </ClickAwayListener>
+  );
+}
 
 interface SourceProps {
   value: EmissionsProvenance_EmissionsProvenanceEntry;
@@ -250,6 +275,8 @@ function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.El
 
 function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry): string {
   switch (entry.fuelBurnEeaStrategy) {
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED:
+      return "No correction factor used";
     case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STATIC_CORRECTION_FACTOR:
       return "Static correction factor";
     case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR:
@@ -281,9 +308,9 @@ function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry)
   }
   switch (entry.seatAreaRatioIataStrategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.NARROW_AIRCRAFT_BODY:
-      return "Narrow body aircraft";
+      return "Default values for narrow body aircraft";
     case EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY:
-      return "Wide body aircraft";
+      return "Default values for wide body aircraft";
   }
   switch (entry.distanceAdjustmentStrategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.ORIGIN_DESTINATION:
@@ -293,8 +320,8 @@ function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry)
     case EmissionsProvenance_EmissionsProvenanceEntry_DistanceAdjustment_Strategy.DEFAULT:
       return "Calculated using global distance adjustment data";
   }
-
-  return "Not Applicable";
+  if (entry.seatAreaRatioData == undefined) return "Derived from aircraft configuration"; //return entry.seatAreaRatioData.business.toString();
+  return "Not Available";
 }
 
 function getEasaLabelRowData({ emissionsData }: Props): RowData[] {
@@ -335,8 +362,10 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
   const rowsData: RowData[] = [];
   provenanceData.forEach((value) => {
     const type = value.provenanceEntryType;
-    const dataTypeStr = EmissionsProvenance_EmissionsProvenanceEntry_DataType[value.dataType];
-    const dataType = value.dataType && dataTypeStr ? toSentenceCase(dataTypeStr) : "Unspecified";
+    const dataCategoryStr =
+      EmissionsProvenance_EmissionsProvenanceEntry_DataCategory[value.dataCategory];
+    const dataCategory =
+      value.dataCategory && dataCategoryStr ? toSentenceCase(dataCategoryStr) : "Unspecified";
 
     switch (type) {
       case EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN: {
@@ -351,7 +380,7 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
               formatDataValue(value as ProvenanceEntryWithValue),
               fuelBurnSources,
               formatDataStrategy(value),
-              dataType,
+              dataCategory,
             ],
           });
         }
@@ -369,7 +398,7 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
               formatDataValue(value as ProvenanceEntryWithValue),
               loadFactorSources,
               formatDataStrategy(value),
-              dataType,
+              dataCategory,
             ],
           });
         }
@@ -387,7 +416,7 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
               formatDataValue(value as ProvenanceEntryWithValue),
               cargoMassFractionSources,
               formatDataStrategy(value),
-              dataType,
+              dataCategory,
             ],
           });
         }
@@ -404,8 +433,8 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
               ),
               formatDataValue(value as ProvenanceEntryWithValue),
               passengerSeatSources,
-              formatDataStrategy(value),
-              dataType,
+              "Derived from aircraft configuration",
+              dataCategory,
             ],
           });
         }
@@ -423,7 +452,7 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
               formatDataValue(value as ProvenanceEntryWithValue),
               seatAreaRatioSources,
               formatDataStrategy(value),
-              dataType,
+              dataCategory,
             ],
           });
         }
@@ -441,7 +470,7 @@ function getProvenanceRowData({ emissionsData }: Props): RowData[] {
               formatDataValue(value as ProvenanceEntryWithValue),
               distanceAdjustmentSources,
               formatDataStrategy(value),
-              dataType,
+              dataCategory,
             ],
           });
         }
@@ -466,7 +495,36 @@ function EmissionsProvenance({ emissionsData }: Props): React.JSX.Element {
   }
 
   const tableData = {
-    headers: ["Provenance Type", "Value", "Source", "Strategy", "Data Type"],
+    headers: [
+      "Provenance Type",
+      "Value",
+      "Source",
+      <div style={{ display: "flex", alignItems: "center" }} key="strategy-header">
+        Strategy
+        <InfoTooltip title="The methodology used to derive the value." />
+      </div>,
+      <div style={{ display: "flex", alignItems: "center" }} key="data-category-header">
+        Data Category
+        <InfoTooltip
+          title={
+            <>
+              The official ISO 14083 categories.
+              <p>
+                <strong>Primary:</strong> A value obtained from a direct measurement or a
+                calculation based on direct measurements.
+              </p>
+              <p>
+                <strong>Modeled:</strong> Data established by use of a model that takes into account
+                primary data and/or greenhouse gas emission-relevant parameters.
+              </p>
+              <p>
+                <strong>Default:</strong> An undirect data value drawn from a published source.
+              </p>
+            </>
+          }
+        />{" "}
+      </div>,
+    ],
     rows: rowsData,
   };
 
@@ -480,7 +538,7 @@ function EmissionsProvenance({ emissionsData }: Props): React.JSX.Element {
         Our full methodology is detailed on{" "}
         <Link text="GitHub" href="https://github.com/google/travel-impact-model" />. The table below
         details the provenance of our emissions data, showing for each factor: its value, source,
-        the strategy used to calculate it, and the data type (per{" "}
+        the strategy used to calculate it, and the data category (per{" "}
         <Link text="ISO 14083" href="https://www.iso.org/standard/78864.html" />
         ).
       </Typography>

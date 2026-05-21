@@ -30,7 +30,7 @@ export interface RowData {
 }
 
 export interface TableData {
-  headers: string[];
+  headers: string[] | React.JSX.Element[];
   rows: RowData[];
 }
 

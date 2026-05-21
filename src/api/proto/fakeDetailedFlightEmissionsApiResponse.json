@@ -43,14 +43,14 @@
               "provenanceEntryType": "FUEL_BURN",
               "source": "EEA",
               "fuelBurnEeaStrategy": "STRATEGY_UNSPECIFIED",
-              "dataType": "MODELED"
+              "dataCategory": "MODELED"
             },
             {
               "provenanceEntryType": "LOAD_FACTORS",
               "source": "T100",
               "sourceVersion": "2025-12",
               "loadFactorsT100Strategy": "CARRIER_ROUTE_MONTH",
-              "dataType": "MODELED",
+              "dataCategory": "MODELED",
               "loadFactorsData": 0.808520211655448
             },
             {
@@ -58,19 +58,19 @@
               "source": "T100",
               "sourceVersion": "2025-12",
               "cargoMassFractionT100Strategy": "CARRIER_ROUTE_AIRCRAFT_CLASS",
-              "dataType": "MODELED",
+              "dataCategory": "MODELED",
               "cargoMassFractionData": 0.29636906672461827
             },
             {
               "provenanceEntryType": "SEATING_CONFIG",
               "source": "OPERATING_CARRIER",
-              "dataType": "PRIMARY"
+              "dataCategory": "PRIMARY"
             },
             {
               "provenanceEntryType": "SEAT_AREA_RATIOS",
               "source": "IATA",
               "sourceVersion": "IATA_RP_1726",
-              "dataType": "DEFAULT",
+              "dataCategory": "DEFAULT",
               "seatAreaRatioIataStrategy": "WIDE_AIRCRAFT_BODY",
               "seatAreaRatioData": {
                 "first": 5,
@@ -82,7 +82,7 @@
             {
               "provenanceEntryType": "DISTANCE_ADJUSTMENT",
               "source": "ICL",
-              "dataType": "MODELED",
+              "dataCategory": "MODELED",
               "distanceAdjustmentStrategy": "ORIGIN_DESTINATION",
               "estimatedFlightDistanceKm": 6119
             }

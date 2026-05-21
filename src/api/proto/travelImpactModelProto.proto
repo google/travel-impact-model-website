@@ -489,7 +489,7 @@ message EmissionsProvenance {
     // The data type of the data source.
     // New values may be added in the future. Clients should be prepared to
     // handle unknown enum values gracefully.
-    enum DataType {
+    enum DataCategory {
       // Data type unspecified.
       DATA_TYPE_UNSPECIFIED = 0;
       // Primary data, as defined in ISO 14083.
@@ -501,7 +501,7 @@ message EmissionsProvenance {
     }
 
     // Data type of the data source.
-    DataType data_type = 7;
+    DataCategory data_category = 7;
 
     // The type of the provenance entry.
     EmissionsProvenanceEntryType provenance_entry_type = 9;
