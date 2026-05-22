@@ -67,7 +67,7 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
         <li>
           <Link
             text="EEA Report"
-            href="https://www.eea.europa.eu/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-a-aviation/view"
+            href="https://www.eea.europa.eu/en/analysis/publications/emep-eea-guidebook-2019/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-a-aviation"
           />{" "}
           No 13/2019 1.A.3.a Aviation 1 Master emissions calculator 2019
         </li>
@@ -76,7 +76,7 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
           <li>
             <Link
               text="EMEP/EEA air pollutant emission inventory guidebook"
-              href="https://www.eea.europa.eu/publications/emep-eea-guidebook-2023/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-a-aviation.3/view"
+              href="https://www.eea.europa.eu/en/analysis/publications/emep-eea-guidebook-2023/part-b-sectoral-guidance-chapters/1-energy/1-a-combustion/1-a-3-a-aviation.3"
             />{" "}
             2023 Annex 1
           </li>
@@ -84,7 +84,7 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
         <li>
           <Link
             text="CORSIA"
-            href="https://www.icao.int/environmental-protection/CORSIA/Documents/CORSIA_Eligible_Fuels/CORSIA_Supporting_Document_CORSIA%20Eligible%20Fuels_LCA_Methodology_V5.pdf"
+            href="https://www.icao.int/sites/default/files/environmental-protection/CORSIA/Documents/CORSIA%20Eligible%20Fuels/CORSIA_Supporting_Document_CORSIA-Eligible-Fuels_LCA_Methodology_V8.pdf"
           />{" "}
           Eligible Fuels Life Cycle Assessment Methodology
         </li>
@@ -153,7 +153,7 @@ export function PassengerSeatSource({ value }: SourceProps): React.JSX.Element |
     <li key="schedulesSources">
       Aircraft Configuration/Version (ACV) from published flight schedules (from{" "}
       <Link text="OAG" href="https://oag.com/" />,{" "}
-      <Link text="Innovata" href="https://www.cirium.com/thoughtcloud/cirium-is/" /> and Individual
+      <Link text="Innovata" href="https://www.cirium.com/data/flight-schedules/" /> and Individual
       airlines)
     </li>
   );
