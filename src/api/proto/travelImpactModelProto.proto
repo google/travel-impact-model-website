@@ -376,9 +376,11 @@ message EmissionsProvenance {
         // Strategy unspecified.
         STRATEGY_UNSPECIFIED = 0;
         // A static correction factor was applied.
-        STATIC_CORRECTION_FACTOR = 1;
-        // An EEA2023 based correction factor was applied.
-        EEA2023_CORRECTION_FACTOR = 2;
+        AIRCRAFT_MAPPING_FALLBACK_WITH_CORRECTION_FACTOR = 1;
+        // Exact aircraft mapping was used.
+        AIRCRAFT_MAPPING_EXACT = 2;
+        // Fallback aircraft mapping was used.
+        AIRCRAFT_MAPPING_FALLBACK = 3;
       }
     }
 

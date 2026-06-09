@@ -72,7 +72,7 @@ export function FuelBurnSource({ value }: SourceProps): React.JSX.Element | unde
           No 13/2019 1.A.3.a Aviation 1 Master emissions calculator 2019
         </li>
         {value.fuelBurnEeaStrategy ===
-          EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR && (
+          EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.AIRCRAFT_MAPPING_FALLBACK_WITH_CORRECTION_FACTOR && (
           <li>
             <Link
               text="EMEP/EEA air pollutant emission inventory guidebook"
@@ -276,11 +276,18 @@ function formatDataValue(value: ProvenanceEntryWithValue): string | React.JSX.El
 function formatDataStrategy(entry: EmissionsProvenance_EmissionsProvenanceEntry): string {
   switch (entry.fuelBurnEeaStrategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED:
-      return "No correction factor used";
-    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STATIC_CORRECTION_FACTOR:
-      return "Static correction factor";
-    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR:
-      return "EEA2023 based correction factor";
+      return "Not Available";
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.AIRCRAFT_MAPPING_EXACT:
+      return "Calculated using the exact aircraft model";
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.AIRCRAFT_MAPPING_FALLBACK:
+      return "Calculated using a fallback aircraft model";
+    case EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.AIRCRAFT_MAPPING_FALLBACK_WITH_CORRECTION_FACTOR:
+      return `Calculated using a fallback aircraft model with a ${(
+        <Link
+          text="winglet/sharklet correction factor"
+          href="https://github.com/google/travel-impact-model#flight-level-coe-estimates"
+        />
+      )}`;
   }
   switch (entry.loadFactorsT100Strategy) {
     case EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_ROUTE_MONTH:

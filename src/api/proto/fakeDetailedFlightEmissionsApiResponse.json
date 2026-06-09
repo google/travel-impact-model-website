@@ -42,7 +42,7 @@
             {
               "provenanceEntryType": "FUEL_BURN",
               "source": "EEA",
-              "fuelBurnEeaStrategy": "STRATEGY_UNSPECIFIED",
+              "fuelBurnEeaStrategy": "AIRCRAFT_MAPPING_EXACT",
               "dataCategory": "MODELED"
             },
             {

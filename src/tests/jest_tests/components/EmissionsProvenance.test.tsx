@@ -36,6 +36,7 @@ import {
   ContrailsImpactBucket,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
+import Link from "../../../components/Link";
 import "@testing-library/jest-dom";
 import React from "react";
 
@@ -69,7 +70,7 @@ describe("FuelBurnSource", () => {
     const data: EmissionsProvenance_EmissionsProvenanceEntry = {
       source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
       fuelBurnEeaStrategy:
-        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR,
+        EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.AIRCRAFT_MAPPING_FALLBACK_WITH_CORRECTION_FACTOR,
       dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
       sourceVersion: "",
       provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
@@ -286,7 +287,7 @@ describe("EmissionsProvenance", () => {
                 {
                   source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
                   fuelBurnEeaStrategy:
-                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.EEA2023_CORRECTION_FACTOR,
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.AIRCRAFT_MAPPING_FALLBACK_WITH_CORRECTION_FACTOR,
                   provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
                   dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
                   sourceVersion: "",
@@ -404,7 +405,16 @@ describe("EmissionsProvenance", () => {
     expect(screen.getByText("6003 km")).not.toBeEmptyDOMElement();
 
     // Strategies
-    expect(screen.getByText("EEA2023 based correction factor")).not.toBeEmptyDOMElement();
+    expect(
+      screen.getByText(
+        `Calculated using a fallback aircraft model with a ${(
+          <Link
+            text="winglet/sharklet correction factor"
+            href="https://github.com/google/travel-impact-model#flight-level-coe-estimates"
+          />
+        )}`
+      )
+    ).not.toBeEmptyDOMElement();
     expect(
       screen.getByText("Calculated using carrier, route, and month of travel")
     ).not.toBeEmptyDOMElement();
