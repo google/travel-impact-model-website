@@ -91,14 +91,14 @@ test("transition to valid state", async ({ page }) => {
 test("show past dates tooltip", async ({ page }) => {
   await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20250827");
-  await page.getByLabel("Click to show tooltip.").click();
+  await page.getByLabel("Click to show tooltip.").first().click();
   await expect(page.getByText("Emissions data is only available for future flights")).toBeVisible();
 });
 
 test("show 1 plus year future dates tooltip", async ({ page }) => {
   await mockCurrentTime(page, new Date("April 2 2025").valueOf());
   await page.goto("/lookup/flight?itinerary=ZRH-BOS-LX-54-20500827");
-  await page.getByLabel("Click to show tooltip.").click();
+  await page.getByLabel("Click to show tooltip.").first().click();
   await expect(page.getByText("Emissions data is only available for future flights")).toBeVisible();
   await expect(
     page.getByText("Departure date cannot be more than a year in the future")

@@ -14,6 +14,7 @@
 
 import { convertDateMessageToString, convertStringToDateMessage } from "./flightDate";
 import {
+  ComputeDetailedFlightEmissionsRequest,
   ComputeFlightEmissionsRequest,
   ComputeTypicalFlightEmissionsRequest,
   Flight,
@@ -45,6 +46,14 @@ export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFligh
       : [],
     includeEmissionsInputs: true,
     includeEmissionsBreakdown: true,
+  };
+}
+
+export function flightEmissionsRequestToDetailedFlightEmissionsRequest(
+  flightRequest: ComputeFlightEmissionsRequest
+): ComputeDetailedFlightEmissionsRequest {
+  return {
+    flights: flightRequest?.flights || [],
   };
 }
 

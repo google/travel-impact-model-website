@@ -1,0 +1,101 @@
+{
+  "flightsWithDetailedEmissions": [
+    {
+      "flight": {
+        "origin": "ZRH",
+        "destination": "BOS",
+        "operatingCarrierCode": "LX",
+        "flightNumber": 52,
+        "departureDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 30
+        }
+      },
+      "flightEmissionsDetails": {
+        "emissionsGramsPerPax": {
+          "first": 1596125,
+          "business": 1276900,
+          "premiumEconomy": 478837,
+          "economy": 319225
+        },
+        "emissionsBreakdown": {
+          "wttEmissionsGramsPerPax": {
+            "first": 269010,
+            "business": 215208,
+            "premiumEconomy": 80703,
+            "economy": 53802
+          },
+          "ttwEmissionsGramsPerPax": {
+            "first": 1327115,
+            "business": 1061692,
+            "premiumEconomy": 398134,
+            "economy": 265423
+          }
+        },
+        "contrailsImpactBucket": "CONTRAILS_IMPACT_MODERATE",
+        "source": "TIM"
+      },
+      "emissionsMetadata": {
+        "emissionsProvenance": {
+          "provenanceEntries": [
+            {
+              "provenanceEntryType": "FUEL_BURN",
+              "source": "EEA",
+              "fuelBurnEeaStrategy": "AIRCRAFT_MAPPING_EXACT",
+              "dataCategory": "MODELED"
+            },
+            {
+              "provenanceEntryType": "LOAD_FACTORS",
+              "source": "T100",
+              "sourceVersion": "2025-12",
+              "loadFactorsT100Strategy": "CARRIER_ROUTE_MONTH",
+              "dataCategory": "MODELED",
+              "loadFactorsData": 0.808520211655448
+            },
+            {
+              "provenanceEntryType": "CARGO_MASS_FRACTION",
+              "source": "T100",
+              "sourceVersion": "2025-12",
+              "cargoMassFractionT100Strategy": "CARRIER_ROUTE_AIRCRAFT_CLASS",
+              "dataCategory": "MODELED",
+              "cargoMassFractionData": 0.29636906672461827
+            },
+            {
+              "provenanceEntryType": "SEATING_CONFIG",
+              "source": "OPERATING_CARRIER",
+              "dataCategory": "PRIMARY"
+            },
+            {
+              "provenanceEntryType": "SEAT_AREA_RATIOS",
+              "source": "IATA",
+              "sourceVersion": "IATA_RP_1726",
+              "dataCategory": "DEFAULT",
+              "seatAreaRatioIataStrategy": "WIDE_AIRCRAFT_BODY",
+              "seatAreaRatioData": {
+                "first": 5,
+                "business": 4,
+                "premiumEconomy": 1.5,
+                "economy": 1
+              }
+            },
+            {
+              "provenanceEntryType": "DISTANCE_ADJUSTMENT",
+              "source": "ICL",
+              "dataCategory": "MODELED",
+              "distanceAdjustmentStrategy": "ORIGIN_DESTINATION",
+              "estimatedFlightDistanceKm": 6119
+            }
+          ]
+        },
+        "timWebsiteEmissionsCalculatorUrl": "https://travelimpactmodel.org/lookup/flight?itinerary=ZRH-BOS-LX-52-20261130"
+      }
+    }
+  ],
+  "modelVersion": {
+    "major": 3,
+    "minor": 0,
+    "patch": 0,
+    "dated": "20260430"
+  }
+}

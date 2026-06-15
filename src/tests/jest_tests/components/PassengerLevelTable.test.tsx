@@ -16,18 +16,26 @@ import PassengerLevelTable, {
   formatEmissionsPerPassengerRow,
 } from "../../../components/PassengerLevelTable";
 import {
-  ComputeFlightEmissionsResponse,
+  ComputeDetailedFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsResponse,
   EmissionsGramsPerPax,
   Source,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataSource,
+  EmissionsProvenance_EmissionsProvenanceEntry_DataCategory,
+  EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy,
+  EmissionsProvenance_EmissionsProvenanceEntryType,
+  ContrailsImpactBucket,
+  EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy,
 } from "../../../api/proto/generated/travelImpactModelProto";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 describe("PassengerLevelTable", () => {
   it("should return passenger level table with expected values", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -36,37 +44,86 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          source: Source.TIM,
-          emissionsGramsPerPax: {
-            first: 1745475,
-            business: 139638,
-            premiumEconomy: 523642,
-            economy: 349095,
-          },
-          emissionsInputs: {
-            emissionsInputEntries: {},
-          },
-          emissionsBreakdown: {
-            wttEmissionsGramsPerPax: {
-              first: 4004,
-              business: 3003,
-              premiumEconomy: 2002,
-              economy: 1001,
-            },
-            ttwEmissionsGramsPerPax: {
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: {
               first: 1745475,
               business: 139638,
               premiumEconomy: 523642,
               economy: 349095,
             },
+            emissionsBreakdown: {
+              wttEmissionsGramsPerPax: {
+                first: 4004,
+                business: 3003,
+                premiumEconomy: 2002,
+                economy: 1001,
+              },
+              ttwEmissionsGramsPerPax: {
+                first: 1745475,
+                business: 139638,
+                premiumEconomy: 523642,
+                economy: 349095,
+              },
+            },
+            source: Source.TIM,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
+          },
+          emissionsMetadata: {
+            easaLabelMetadata: undefined,
+            emissionsProvenance: {
+              provenanceEntries: [
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
+                  fuelBurnEeaStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
+                  sourceVersion: "",
+                  provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+                  loadFactorsT100Strategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
+                  sourceVersion: "2025-10",
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+                  cargoMassFractionT100Strategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.CARRIER_ROUTE_AIRCRAFT_CLASS,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
+                  sourceVersion: "2025-10",
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OPERATING_CARRIER,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.PRIMARY,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
+                  sourceVersion: "",
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
+                  sourceVersion: "IATA_RP_1726",
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
+                  seatAreaRatioIataStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
+                },
+              ],
+            },
           },
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 
@@ -79,8 +136,8 @@ describe("PassengerLevelTable", () => {
   });
 
   it("should return passenger level table with typical emissions", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -89,37 +146,86 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          source: Source.TIM,
-          emissionsGramsPerPax: {
-            first: 1745475,
-            business: 139638,
-            premiumEconomy: 523642,
-            economy: 349095,
-          },
-          emissionsInputs: {
-            emissionsInputEntries: {},
-          },
-          emissionsBreakdown: {
-            wttEmissionsGramsPerPax: {
-              first: 4004,
-              business: 3003,
-              premiumEconomy: 2002,
-              economy: 1001,
-            },
-            ttwEmissionsGramsPerPax: {
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: {
               first: 1745475,
               business: 139638,
               premiumEconomy: 523642,
               economy: 349095,
             },
+            emissionsBreakdown: {
+              wttEmissionsGramsPerPax: {
+                first: 4004,
+                business: 3003,
+                premiumEconomy: 2002,
+                economy: 1001,
+              },
+              ttwEmissionsGramsPerPax: {
+                first: 1745475,
+                business: 139638,
+                premiumEconomy: 523642,
+                economy: 349095,
+              },
+            },
+            source: Source.TIM,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
+          },
+          emissionsMetadata: {
+            easaLabelMetadata: undefined,
+            emissionsProvenance: {
+              provenanceEntries: [
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.EEA,
+                  fuelBurnEeaStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_FuelBurnEea_Strategy.STRATEGY_UNSPECIFIED,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
+                  sourceVersion: "",
+                  provenanceEntryType: EmissionsProvenance_EmissionsProvenanceEntryType.FUEL_BURN,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+                  loadFactorsT100Strategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_LoadFactorsT100_Strategy.CARRIER_MONTH,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
+                  sourceVersion: "2025-10",
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.LOAD_FACTORS,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.T100,
+                  cargoMassFractionT100Strategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_CargoMassFractionT100_Strategy.CARRIER_ROUTE_AIRCRAFT_CLASS,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.MODELED,
+                  sourceVersion: "2025-10",
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.CARGO_MASS_FRACTION,
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.OPERATING_CARRIER,
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.PRIMARY,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.SEATING_CONFIG,
+                  sourceVersion: "",
+                },
+                {
+                  source: EmissionsProvenance_EmissionsProvenanceEntry_DataSource.IATA,
+                  sourceVersion: "IATA_RP_1726",
+                  dataCategory: EmissionsProvenance_EmissionsProvenanceEntry_DataCategory.DEFAULT,
+                  seatAreaRatioIataStrategy:
+                    EmissionsProvenance_EmissionsProvenanceEntry_SeatAreaRatioIata_Strategy.WIDE_AIRCRAFT_BODY,
+                  provenanceEntryType:
+                    EmissionsProvenance_EmissionsProvenanceEntryType.SEAT_AREA_RATIOS,
+                },
+              ],
+            },
           },
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 
@@ -158,8 +264,8 @@ describe("PassengerLevelTable", () => {
   });
 
   it("should return passenger level table with emissionsGramsPerPax empty", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -168,11 +274,13 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          source: Source.SOURCE_UNSPECIFIED,
-          emissionsGramsPerPax: {},
-          emissionsInputs: {
-            emissionsInputEntries: {},
+          flightEmissionsDetails: {
+            source: Source.SOURCE_UNSPECIFIED,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_UNSPECIFIED,
+            emissionsBreakdown: undefined,
+            emissionsGramsPerPax: undefined,
           },
+          emissionsMetadata: undefined,
         },
       ],
       modelVersion: {
@@ -188,8 +296,8 @@ describe("PassengerLevelTable", () => {
   });
 
   it("should return passenger level table with no emissionsGramsPerPax", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -198,14 +306,20 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          source: Source.SOURCE_UNSPECIFIED,
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: undefined,
+            emissionsBreakdown: undefined,
+            source: Source.SOURCE_UNSPECIFIED,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_UNSPECIFIED,
+          },
+          emissionsMetadata: undefined,
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 
@@ -309,8 +423,8 @@ describe("PassengerLevelTable", () => {
   });
 
   it("should return passenger level table with SAF discount", async () => {
-    const emissionsData: ComputeFlightEmissionsResponse = {
-      flightEmissions: [
+    const emissionsData: ComputeDetailedFlightEmissionsResponse = {
+      flightsWithDetailedEmissions: [
         {
           flight: {
             origin: "ZRH",
@@ -319,41 +433,46 @@ describe("PassengerLevelTable", () => {
             departureDate: { year: 2024, month: 6, day: 1 },
             flightNumber: "54",
           },
-          emissionsGramsPerPax: {
-            first: 1745475,
-            business: 139638,
-            premiumEconomy: 523642,
-            economy: 349095,
-          },
-          emissionsInputs: {
-            easaLabelData: {
-              safDiscountPercentage: 0.03,
-            },
-            emissionsInputEntries: {},
-          },
-          emissionsBreakdown: {
-            wttEmissionsGramsPerPax: {
-              first: 4004,
-              business: 3003,
-              premiumEconomy: 2002,
-              economy: 1001,
-            },
-            ttwEmissionsGramsPerPax: {
+          flightEmissionsDetails: {
+            emissionsGramsPerPax: {
               first: 1745475,
               business: 139638,
               premiumEconomy: 523642,
               economy: 349095,
             },
+            emissionsBreakdown: {
+              wttEmissionsGramsPerPax: {
+                first: 4004,
+                business: 3003,
+                premiumEconomy: 2002,
+                economy: 1001,
+              },
+              ttwEmissionsGramsPerPax: {
+                first: 1745475,
+                business: 139638,
+                premiumEconomy: 523642,
+                economy: 349095,
+              },
+            },
+            source: Source.EASA,
+            contrailsImpactBucket: ContrailsImpactBucket.CONTRAILS_IMPACT_NEGLIGIBLE,
           },
-          source: 2,
-          contrailsImpactBucket: 1,
+          emissionsMetadata: {
+            easaLabelMetadata: {
+              safDiscountPercentage: 0.03,
+              labelExpiryDate: undefined,
+              labelIssueDate: undefined,
+              labelVersion: "",
+            },
+            emissionsProvenance: undefined,
+          },
         },
       ],
       modelVersion: {
-        major: 1,
-        minor: 5,
+        major: 3,
+        minor: 0,
         patch: 0,
-        dated: "20220914",
+        dated: "20261130",
       },
     };
 
