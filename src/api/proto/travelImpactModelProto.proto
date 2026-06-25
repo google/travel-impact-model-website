@@ -64,19 +64,6 @@ enum ContrailsImpactBucket {
   CONTRAILS_IMPACT_SEVERE = 3;
 }
 
-message ComputeFlightEmissionsRequest {
-  // Direct flights to return emission estimates for.
-  repeated Flight flights = 1;
-
-  // If true, the response will contain the details about the inputs used to
-  // calculate the emissions data.
-  bool include_emissions_inputs = 2;
-
-  // If true, the response will contain the details about the breakdown of the
-  // emissions data.
-  bool include_emissions_breakdown = 3;
-}
-
 // All details related to a single request item for a direct flight emission
 // estimates.
 message Flight {
@@ -91,47 +78,6 @@ message Flight {
   // Date of the flight in the time zone of the origin airport. Must be a date
   // in the present or future.
   Date departure_date = 5;
-}
-
-message ComputeFlightEmissionsResponse {
-  // List of flight legs with emission estimates.
-  repeated FlightWithEmissions flight_emissions = 1;
-
-  // The model version under which emission estimates for all flights in this
-  // response were computed.
-  ModelVersion model_version = 2;
-}
-
-// Direct flight with emission estimates.
-message FlightWithEmissions {
-  // Matches the flight identifiers in the request.
-  // Note: all IATA codes are capitalized.
-  Flight flight = 1;
-
-  // The source of the emissions data.
-  Source source = 6;
-
-  // Per-passenger emission estimate numbers. Will not be present if emissions
-  // could not be computed.
-  optional EmissionsGramsPerPax emissions_grams_per_pax = 2;
-
-  // Details about the inputs used to calculate the emissions data, including
-  // the contributing factors with their data sources.
-  // Populated when `include_emissions_inputs` in the request is set.
-  optional EmissionsInputs emissions_inputs = 4;
-
-  // Details about the various emissions portions of the total
-  // emissions_grams_per_pax value. The value of the summed breakdowns should
-  // always equal emissions_grams_per_pax. Populated when
-  // 'include_emissions_breakdown' in the request is set to true and applies to
-  // all flights returned.
-  optional EmissionsBreakdown emissions_breakdown = 5;
-
-  // The significance of contrails warming impact compared to the total CO2e
-  // emissions impact.
-  optional ContrailsImpactBucket contrails_impact_bucket = 7;
-
-  reserved 3;
 }
 
 // Travel Impact Model version. For more information about the model
@@ -176,35 +122,6 @@ message EmissionsGramsPerPax {
   optional int32 economy = 4;
 }
 
-// Details about the inputs used to calculate the emissions data, specifically
-// the contributing factors along with their data sources.
-message EmissionsInputs {
-  // Details about a single contributing factor to compute the flight emissions.
-  message EmissionsInputEntry {
-    // The source this data came from.
-    optional string data_source = 1;
-    // The data strategy used to compute the value.
-    optional string data_strategy = 2;
-  }
-
-  // All contributing factors to compute the flight emissions, mapped by the
-  // alphanumeric name of the contributing factor.
-  map<string, EmissionsInputEntry> emissions_input_entries = 1;
-
-  // Details about the EASA label data.
-  message EasaLabelData {
-    // Sustainable Aviation Fuel (SAF) emissions discount percentage for the
-    // label. It is a percentage as a decimal. The values are in the interval
-    // [0,1]. For example, 0.0021 means 0.21%.
-    // This discount is currently not applied to the emissions_grams_per_pax.
-    double saf_discount_percentage = 1;
-  }
-
-  // Details about the EASA label data. Only set if the flight has an EASA
-  // label.
-  optional EasaLabelData easa_label_data = 2;
-}
-
 // Details about the various emissions portions of the total
 // emissions_grams_per_pax value. The value of the summed breakdowns should
 // always equal emissions_grams_per_pax.
@@ -212,13 +129,13 @@ message EmissionsBreakdown {
   // Per-passenger well-to-tank emission estimate numbers. Will not be present
   // if emissions could not be computed. For the list of reasons why emissions
   // could not be computed, see
-  // [ComputeFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeFlightEmissions].
+  // [ComputeDetailedFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeDetailedFlightEmissions].
   EmissionsGramsPerPax wtt_emissions_grams_per_pax = 1;
 
   // Per-passenger tank-to-wake emission estimate numbers. Will not be present
   // if emissions could not be computed. For the list of reasons why emissions
   // could not be computed, see
-  // [ComputeFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeFlightEmissions].
+  // [ComputeDetailedFlightEmissions][google.travel.sustainability.travelimpactmodel.v1.ComputeDetailedFlightEmissions].
   EmissionsGramsPerPax ttw_emissions_grams_per_pax = 2;
 }
 

@@ -15,14 +15,14 @@
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
-  ComputeFlightEmissionsRequest,
+  ComputeDetailedFlightEmissionsRequest,
   Flight,
 } from "../api/proto/generated/travelImpactModelProto";
 import "./FlightCalculatorForm.scss";
 import FlightInput from "./FlightInput";
 
 interface FlightCalculatorFormProp {
-  request: ComputeFlightEmissionsRequest;
+  request: ComputeDetailedFlightEmissionsRequest;
   onSubmit: (arg: Map<number, Flight>) => void;
 }
 

@@ -35,8 +35,7 @@ import {
   generateFlightItineraryUrlParam,
   parseFlightItineraryUrlParam,
   generateRouteItineraryUrlParam,
-  flightEmissionsRequestToDetailedFlightEmissionsRequest,
-  flightEmissionsRequestToTypicalFlightEmissionsRequest,
+  detailedFlightEmissionsRequestToTypicalFlightEmissionsRequest,
 } from "../data/flightItinerary";
 import travelImpactModelApi from "../api/travelImpactModelApi";
 import {
@@ -63,7 +62,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
   const modelVersion = searchParams.get("v");
   const param = searchParams.get(FLIGHT_ITINERARY_URL_PARAM) ?? "";
   const flightRequest = parseFlightItineraryUrlParam(param);
-  const routeRequest = flightEmissionsRequestToTypicalFlightEmissionsRequest(flightRequest);
+  const routeRequest = detailedFlightEmissionsRequestToTypicalFlightEmissionsRequest(flightRequest);
   const url = new URL(document.location.toString());
   const [selectedTab, setSelectedTab] = useState(
     url.pathname == "/lookup/route" ? "route" : "flight"
@@ -100,7 +99,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
     };
 
     const emissionsData = travelImpactModelApi.getComputeDetailedFlightEmissions(
-      flightEmissionsRequestToDetailedFlightEmissionsRequest(updatedRequest),
+      updatedRequest,
       app
     );
     emissionsData.then((response) => {
@@ -108,7 +107,7 @@ function EmissionsCalculator({ app }: EmissionsCalculatorProps) {
     });
 
     const typicalEmissionsData = travelImpactModelApi.getComputeTypicalFlightEmissions(
-      flightEmissionsRequestToTypicalFlightEmissionsRequest(updatedRequest),
+      detailedFlightEmissionsRequestToTypicalFlightEmissionsRequest(updatedRequest),
       app
     );
     typicalEmissionsData.then((response) => {

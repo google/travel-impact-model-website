@@ -15,14 +15,11 @@
 import {
   ComputeDetailedFlightEmissionsRequest,
   ComputeDetailedFlightEmissionsResponse,
-  ComputeFlightEmissionsRequest,
-  ComputeFlightEmissionsResponse,
   ComputeTypicalFlightEmissionsRequest,
   ComputeTypicalFlightEmissionsResponse,
   EmissionsGramsPerPax,
 } from "./proto/generated/travelImpactModelProto";
 import { FirebaseApp } from "firebase/app";
-import getFlightEmissionsData from "./getFlightEmissionsData";
 import getTypicalFlightEmissionsData from "./getTypicalFlightEmissionsData";
 import getDetailedFlightEmissionsData from "./getDetailedFlightEmissionsData";
 
@@ -47,29 +44,6 @@ function emissionsGramsToKilograms(emissionsGramsPerPax: EmissionsGramsPerPax | 
 }
 
 const travelImpactModelApi = {
-  async getComputeFlightEmissions(
-    request: ComputeFlightEmissionsRequest,
-    app: FirebaseApp
-  ): Promise<ComputeFlightEmissionsResponse> {
-    const response = await getFlightEmissionsData(request, app);
-    const data = ComputeFlightEmissionsResponse.fromJSON(response);
-
-    // Convert emissions values from grams to kilograms
-    if (data.flightEmissions !== undefined) {
-      data.flightEmissions.forEach((emissions) => {
-        emissions.emissionsGramsPerPax = emissionsGramsToKilograms(emissions.emissionsGramsPerPax);
-        if (emissions.emissionsBreakdown !== undefined) {
-          emissions.emissionsBreakdown.ttwEmissionsGramsPerPax = emissionsGramsToKilograms(
-            emissions.emissionsBreakdown.ttwEmissionsGramsPerPax
-          );
-          emissions.emissionsBreakdown.wttEmissionsGramsPerPax = emissionsGramsToKilograms(
-            emissions.emissionsBreakdown.wttEmissionsGramsPerPax
-          );
-        }
-      });
-    }
-    return data;
-  },
   async getComputeTypicalFlightEmissions(
     request: ComputeTypicalFlightEmissionsRequest,
     app: FirebaseApp

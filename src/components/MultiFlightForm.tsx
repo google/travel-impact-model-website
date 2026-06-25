@@ -16,7 +16,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import dayjs from "dayjs";
 import {
-  ComputeFlightEmissionsRequest,
+  ComputeDetailedFlightEmissionsRequest,
   Flight,
 } from "../api/proto/generated/travelImpactModelProto";
 import { convertDateMessageToString } from "../data/flightDate";
@@ -27,7 +27,7 @@ import {
 } from "../data/flightItinerary";
 
 interface MultiFlightFormProps {
-  request: ComputeFlightEmissionsRequest;
+  request: ComputeDetailedFlightEmissionsRequest;
 }
 
 function getUrl(flights: Flight[]) {

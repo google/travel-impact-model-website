@@ -15,7 +15,6 @@
 import { convertDateMessageToString, convertStringToDateMessage } from "./flightDate";
 import {
   ComputeDetailedFlightEmissionsRequest,
-  ComputeFlightEmissionsRequest,
   ComputeTypicalFlightEmissionsRequest,
   Flight,
   Market,
@@ -30,7 +29,9 @@ export const FLIGHT_ITINERARY_URL_PARAM = "itinerary";
  * The route format "ZRH-LON" is also supported.
  * Both "," and "/" are supported separators between flights and are treated equally.
  */
-export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFlightEmissionsRequest {
+export function parseFlightItineraryUrlParam(
+  itineraryStr: string
+): ComputeDetailedFlightEmissionsRequest {
   return {
     flights: itineraryStr
       ? itineraryStr.split(/[//,]+/).map((leg) => {
@@ -44,21 +45,11 @@ export function parseFlightItineraryUrlParam(itineraryStr: string): ComputeFligh
           } as Flight;
         })
       : [],
-    includeEmissionsInputs: true,
-    includeEmissionsBreakdown: true,
   };
 }
 
-export function flightEmissionsRequestToDetailedFlightEmissionsRequest(
-  flightRequest: ComputeFlightEmissionsRequest
-): ComputeDetailedFlightEmissionsRequest {
-  return {
-    flights: flightRequest?.flights || [],
-  };
-}
-
-export function flightEmissionsRequestToTypicalFlightEmissionsRequest(
-  flightRequest: ComputeFlightEmissionsRequest
+export function detailedFlightEmissionsRequestToTypicalFlightEmissionsRequest(
+  flightRequest: ComputeDetailedFlightEmissionsRequest
 ): ComputeTypicalFlightEmissionsRequest {
   return {
     markets: flightRequest?.flights.map((flight) => {
