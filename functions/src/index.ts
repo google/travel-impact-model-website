@@ -33,7 +33,7 @@ initializeApp();
  * @return {AxiosResponse} Returns API response
  */
 export const computeTypicalFlightEmissions = onCall(
-  { cors: true, secrets: ["TIM_API_KEY"] },
+  { cors: true, secrets: ["TIM_API_KEY"], enforceAppCheck: true },
   async (request: CallableRequest) => {
     const apiResponse = await axios.post(
       "https://travelimpactmodel.googleapis.com/v1/flights:computeTypicalFlightEmissions",
